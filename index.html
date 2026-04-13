@@ -1,0 +1,3158 @@
+<!DOCTYPE html>
+
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SPRINT OS — Elite Performance System</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════ THEME VARS ═══════════════════ */
+:root[data-theme="dark"] {
+  --bg: #0c0c0e;
+  --bg2: #141418;
+  --panel: #1a1a20;
+  --panel2: #222228;
+  --border: #2a2a35;
+  --border2: #333340;
+  --text: #f0f0f5;
+  --text2: #a0a0b0;
+  --text3: #606070;
+  --gold: #f0c040;
+  --gold2: #c89820;
+  --gold-bg: rgba(240,192,64,0.08);
+  --red: #ff4444;
+  --red2: #cc2222;
+  --red-bg: rgba(255,68,68,0.08);
+  --green: #44dd88;
+  --green2: #22aa55;
+  --green-bg: rgba(68,221,136,0.08);
+  --blue: #4488ff;
+  --blue2: #2255cc;
+  --blue-bg: rgba(68,136,255,0.08);
+  --orange: #ff8844;
+  --purple: #bb88ff;
+  --shadow: 0 4px 24px rgba(0,0,0,0.6);
+  --shadow2: 0 2px 12px rgba(0,0,0,0.4);
+  --hero-grad: linear-gradient(135deg, #0c0c0e 0%, #1a1020 50%, #0c1218 100%);
+}
+:root[data-theme="light"] {
+  --bg: #f5f4f0;
+  --bg2: #ede9e2;
+  --panel: #ffffff;
+  --panel2: #f8f6f2;
+  --border: #ddd9d0;
+  --border2: #c8c4ba;
+  --text: #1a1810;
+  --text2: #5a5650;
+  --text3: #9a9890;
+  --gold: #b07800;
+  --gold2: #d09820;
+  --gold-bg: rgba(176,120,0,0.08);
+  --red: #cc2222;
+  --red2: #ff4444;
+  --red-bg: rgba(204,34,34,0.08);
+  --green: #1a7a44;
+  --green2: #44dd88;
+  --green-bg: rgba(26,122,68,0.08);
+  --blue: #1a44cc;
+  --blue2: #4488ff;
+  --blue-bg: rgba(26,68,204,0.08);
+  --orange: #cc5500;
+  --purple: #7744bb;
+  --shadow: 0 4px 24px rgba(0,0,0,0.12);
+  --shadow2: 0 2px 12px rgba(0,0,0,0.08);
+  --hero-grad: linear-gradient(135deg, #e8e4dc 0%, #f0e8d8 50%, #e4ecf0 100%);
+}
+
+/* ═══════════════════ RESET & BASE ═══════════════════ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+background:var(–bg);
+color:var(–text);
+font-family:‘Barlow’,sans-serif;
+font-weight:400;
+line-height:1.6;
+min-height:100vh;
+transition:background 0.3s,color 0.3s;
+}
+button{cursor:pointer;border:none;background:none;font-family:inherit;}
+input,textarea{font-family:inherit;outline:none;}
+a{text-decoration:none;color:inherit;}
+
+/* ═══════════════════ HERO / HEADER ═══════════════════ */
+.hero{
+background:var(–hero-grad);
+border-bottom:1px solid var(–border);
+padding:0;
+position:relative;
+overflow:hidden;
+}
+.hero::before{
+content:’’;
+position:absolute;inset:0;
+background:repeating-linear-gradient(90deg,transparent,transparent 60px,rgba(240,192,64,0.025) 60px,rgba(240,192,64,0.025) 61px);
+pointer-events:none;
+}
+.hero-inner{
+max-width:1200px;
+margin:0 auto;
+padding:40px 24px 32px;
+display:grid;
+grid-template-columns:1fr auto;
+gap:32px;
+align-items:start;
+}
+.hero-brand{
+font-family:‘Bebas Neue’,sans-serif;
+font-size:clamp(52px,10vw,100px);
+line-height:0.9;
+letter-spacing:2px;
+color:var(–text);
+}
+.hero-brand span{color:var(–gold);}
+.hero-sub{
+font-family:‘DM Mono’,monospace;
+font-size:11px;
+letter-spacing:3px;
+color:var(–text3);
+text-transform:uppercase;
+margin-top:8px;
+}
+.hero-stats{
+display:flex;
+flex-direction:column;
+gap:0;
+border:1px solid var(–border);
+background:var(–panel);
+min-width:200px;
+}
+.hstat{
+padding:12px 16px;
+border-bottom:1px solid var(–border);
+}
+.hstat:last-child{border-bottom:none;}
+.hstat-val{
+font-family:‘Bebas Neue’,sans-serif;
+font-size:28px;
+color:var(–gold);
+line-height:1;
+}
+.hstat-lbl{
+font-family:‘DM Mono’,monospace;
+font-size:9px;
+color:var(–text3);
+letter-spacing:2px;
+text-transform:uppercase;
+}
+.theme-btn{
+display:flex;
+align-items:center;
+gap:8px;
+font-family:‘DM Mono’,monospace;
+font-size:11px;
+letter-spacing:2px;
+text-transform:uppercase;
+color:var(–text2);
+border:1px solid var(–border);
+padding:8px 14px;
+background:var(–panel);
+transition:all 0.2s;
+margin-top:8px;
+width:100%;
+justify-content:center;
+}
+.theme-btn:hover{color:var(–gold);border-color:var(–gold);}
+
+/* ═══════════════════ NAV ═══════════════════ */
+.main-nav{
+background:var(–bg2);
+border-bottom:1px solid var(–border);
+display:flex;
+overflow-x:auto;
+position:sticky;
+top:0;
+z-index:200;
+scrollbar-width:none;
+}
+.main-nav::-webkit-scrollbar{display:none;}
+.nav-btn{
+font-family:‘Syne’,sans-serif;
+font-size:12px;
+font-weight:700;
+letter-spacing:1.5px;
+text-transform:uppercase;
+color:var(–text3);
+padding:16px 20px;
+border-bottom:2px solid transparent;
+white-space:nowrap;
+transition:all 0.18s;
+flex-shrink:0;
+}
+.nav-btn:hover{color:var(–text2);}
+.nav-btn.active{color:var(–gold);border-bottom-color:var(–gold);}
+
+/* ═══════════════════ PAGE LAYOUT ═══════════════════ */
+.page{max-width:1200px;margin:0 auto;padding:0 20px 80px;}
+.tab-panel{display:none;}
+.tab-panel.active{display:block;animation:fadeUp 0.25s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+
+/* ═══════════════════ TYPOGRAPHY HELPERS ═══════════════════ */
+.section-eyebrow{
+font-family:‘DM Mono’,monospace;
+font-size:10px;
+letter-spacing:3px;
+color:var(–gold);
+text-transform:uppercase;
+opacity:0.8;
+margin-bottom:6px;
+}
+.section-title{
+font-family:‘Bebas Neue’,sans-serif;
+font-size:clamp(32px,6vw,52px);
+line-height:1;
+color:var(–text);
+margin-bottom:8px;
+}
+.section-head{
+padding:40px 0 24px;
+border-bottom:1px solid var(–border);
+margin-bottom:28px;
+}
+
+/* ═══════════════════ CARDS & PANELS ═══════════════════ */
+.card{
+background:var(–panel);
+border:1px solid var(–border);
+border-radius:2px;
+padding:20px;
+}
+.card-title{
+font-family:‘Syne’,sans-serif;
+font-size:15px;
+font-weight:700;
+color:var(–text);
+margin-bottom:12px;
+}
+
+/* ═══════════════════ TRACKER TAB ═══════════════════ */
+.tracker-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:16px;
+margin-top:28px;
+}
+@media(max-width:700px){.tracker-grid{grid-template-columns:1fr;}}
+
+/* Water tracker */
+.water-tracker{
+background:var(–panel);
+border:1px solid var(–border);
+padding:20px;
+grid-column:1/-1;
+}
+.water-glasses{
+display:flex;
+gap:8px;
+flex-wrap:wrap;
+margin-top:14px;
+}
+.glass-btn{
+width:44px;height:52px;
+border:2px solid var(–border2);
+border-radius:2px 2px 6px 6px;
+display:flex;align-items:center;justify-content:center;
+font-size:20px;
+transition:all 0.2s;
+position:relative;
+overflow:hidden;
+background:var(–panel2);
+}
+.glass-btn.filled{
+background:var(–blue-bg);
+border-color:var(–blue);
+}
+.glass-btn:hover{transform:translateY(-2px);box-shadow:var(–shadow2);}
+.water-label{
+font-family:‘DM Mono’,monospace;
+font-size:11px;
+color:var(–text3);
+letter-spacing:2px;
+margin-top:10px;
+}
+
+/* Macro tracker */
+.macro-track{background:var(–panel);border:1px solid var(–border);padding:20px;}
+.macro-bars{display:flex;flex-direction:column;gap:12px;margin-top:14px;}
+.macro-row{display:flex;flex-direction:column;gap:4px;}
+.macro-row-top{display:flex;justify-content:space-between;align-items:baseline;}
+.macro-name{font-family:‘Syne’,sans-serif;font-size:13px;font-weight:700;color:var(–text);}
+.macro-val{font-family:‘DM Mono’,monospace;font-size:11px;color:var(–text2);}
+.macro-bar-bg{height:6px;background:var(–border);border-radius:3px;overflow:hidden;}
+.macro-bar-fill{height:100%;border-radius:3px;transition:width 0.5s ease;}
+.macro-input-row{display:flex;gap:6px;margin-top:6px;}
+.macro-add-btn{
+font-family:‘DM Mono’,monospace;font-size:10px;letter-spacing:1px;
+background:var(–border);color:var(–text2);padding:4px 10px;
+border:1px solid var(–border2);transition:all 0.2s;
+}
+.macro-add-btn:hover{background:var(–gold-bg);color:var(–gold);border-color:var(–gold);}
+.macro-num-input{
+width:60px;
+background:var(–bg2);
+border:1px solid var(–border2);
+color:var(–text);
+padding:4px 8px;
+font-family:‘DM Mono’,monospace;
+font-size:11px;
+}
+
+/* Steps / mood */
+.mood-grid{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+.mood-btn{
+padding:8px 14px;
+border:1px solid var(–border2);
+background:var(–panel2);
+color:var(–text2);
+font-family:‘DM Mono’,monospace;
+font-size:11px;
+letter-spacing:1px;
+transition:all 0.2s;
+}
+.mood-btn:hover,.mood-btn.active{background:var(–gold-bg);color:var(–gold);border-color:var(–gold);}
+.sleep-input-row{display:flex;align-items:center;gap:10px;margin-top:10px;}
+.sleep-slider{width:100%;accent-color:var(–gold);}
+.sleep-val{font-family:‘Bebas Neue’,sans-serif;font-size:24px;color:var(–gold);min-width:40px;}
+
+/* ═══════════════════ GYM WORKOUT TRACKER ═══════════════════ */
+.day-select-row{
+display:flex;gap:8px;flex-wrap:wrap;
+margin-bottom:24px;
+padding-top:28px;
+}
+.day-sel-btn{
+font-family:‘Syne’,sans-serif;font-size:11px;font-weight:700;
+letter-spacing:1.5px;text-transform:uppercase;
+padding:10px 16px;
+border:1px solid var(–border2);
+background:var(–panel);
+color:var(–text3);
+transition:all 0.2s;
+}
+.day-sel-btn:hover{color:var(–text2);}
+.day-sel-btn.active{background:var(–gold-bg);color:var(–gold);border-color:var(–gold);}
+
+.workout-day-panel{display:none;}
+.workout-day-panel.active{display:block;}
+
+.exercise-tracker{
+background:var(–panel);
+border:1px solid var(–border);
+margin-bottom:12px;
+overflow:hidden;
+}
+.ex-header{
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:14px 16px;
+cursor:pointer;
+transition:background 0.15s;
+}
+.ex-header:hover{background:var(–panel2);}
+.ex-header-left{display:flex;align-items:center;gap:12px;}
+.ex-emoji{font-size:20px;}
+.ex-title-block{}
+.ex-name{
+font-family:‘Syne’,sans-serif;font-size:15px;font-weight:700;
+color:var(–text);
+}
+.ex-sub{font-family:‘DM Mono’,monospace;font-size:10px;color:var(–text3);letter-spacing:1px;}
+.ex-header-right{display:flex;align-items:center;gap:10px;}
+.ex-sets-done{
+font-family:‘Bebas Neue’,sans-serif;font-size:22px;color:var(–green);
+}
+.ex-chevron{color:var(–text3);transition:transform 0.2s;font-size:12px;}
+.ex-header.open .ex-chevron{transform:rotate(180deg);}
+
+.ex-body{
+display:none;
+padding:0 16px 16px;
+border-top:1px solid var(–border);
+}
+.ex-body.open{display:block;}
+
+.sets-grid{display:flex;flex-direction:column;gap:8px;margin-top:12px;}
+.set-row{
+display:grid;
+grid-template-columns:32px 1fr 1fr auto auto;
+gap:8px;
+align-items:center;
+}
+.set-num{
+font-family:‘Bebas Neue’,sans-serif;font-size:20px;color:var(–text3);text-align:center;
+}
+.set-input{
+background:var(–bg2);
+border:1px solid var(–border2);
+color:var(–text);
+padding:8px 10px;
+font-family:‘DM Mono’,monospace;
+font-size:12px;
+width:100%;
+transition:border 0.2s;
+}
+.set-input:focus{border-color:var(–gold);}
+.set-input::placeholder{color:var(–text3);}
+.set-complete-btn{
+width:36px;height:36px;
+border:2px solid var(–border2);
+background:var(–panel2);
+color:var(–text3);
+font-size:16px;
+transition:all 0.2s;
+display:flex;align-items:center;justify-content:center;
+}
+.set-complete-btn.done{
+background:var(–green-bg);
+border-color:var(–green);
+color:var(–green);
+}
+.set-label{
+font-family:‘DM Mono’,monospace;font-size:9px;color:var(–text3);
+letter-spacing:1px;text-align:center;
+}
+
+/* Rest timer */
+.rest-timer{
+background:var(–gold-bg);
+border:1px solid var(–gold);
+padding:14px 16px;
+margin-top:12px;
+display:none;
+align-items:center;
+gap:16px;
+}
+.rest-timer.active{display:flex;}
+.rest-timer-time{
+font-family:‘Bebas Neue’,sans-serif;font-size:40px;color:var(–gold);line-height:1;
+}
+.rest-timer-label{font-family:‘DM Mono’,monospace;font-size:10px;color:var(–text2);letter-spacing:2px;}
+.rest-skip{
+margin-left:auto;
+font-family:‘DM Mono’,monospace;font-size:10px;letter-spacing:1px;
+color:var(–text3);border:1px solid var(–border2);padding:6px 12px;
+transition:all 0.2s;
+}
+.rest-skip:hover{color:var(–gold);border-color:var(–gold);}
+
+/* PR section in workout */
+.pr-in-workout{
+background:var(–panel2);
+border:1px solid var(–border2);
+padding:12px 14px;
+margin-top:12px;
+display:flex;align-items:center;gap:12px;
+}
+.pr-in-workout-label{font-family:‘DM Mono’,monospace;font-size:10px;color:var(–text3);letter-spacing:1px;}
+.pr-current{font-family:‘Bebas Neue’,sans-serif;font-size:24px;color:var(–gold);}
+.pr-set-btn{
+font-family:‘DM Mono’,monospace;font-size:10px;letter-spacing:1px;
+background:var(–gold-bg);color:var(–gold);border:1px solid var(–gold);
+padding:6px 12px;transition:all 0.2s;margin-left:auto;
+}
+.pr-set-btn:hover{background:var(–gold);color:var(–bg);}
+
+/* ═══════════════════ PR TRACKER ═══════════════════ */
+.sprint-pr-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:16px;
+margin-top:28px;
+}
+@media(max-width:600px){.sprint-pr-grid{grid-template-columns:1fr;}}
+
+.pr-card{
+background:var(–panel);
+border:1px solid var(–border);
+padding:0;
+overflow:hidden;
+}
+.pr-card-head{
+background:var(–gold-bg);
+border-bottom:1px solid var(–border);
+padding:16px 20px;
+display:flex;align-items:center;gap:12px;
+}
+.pr-distance{
+font-family:‘Bebas Neue’,sans-serif;
+font-size:36px;color:var(–gold);line-height:1;
+}
+.pr-current-time{
+font-family:‘Bebas Neue’,sans-serif;
+font-size:28px;color:var(–text);
+}
+.pr-current-lbl{font-family:‘DM Mono’,monospace;font-size:9px;color:var(–text3);letter-spacing:2px;}
+
+.pr-log-form{padding:16px 20px;border-bottom:1px solid var(–border);}
+.pr-form-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px;}
+.pr-input{
+flex:1;min-width:80px;
+background:var(–bg2);border:1px solid var(–border2);
+color:var(–text);padding:10px 12px;
+font-family:‘DM Mono’,monospace;font-size:13px;
+}
+.pr-input:focus{border-color:var(–gold);}
+.pr-input::placeholder{color:var(–text3);}
+.pr-submit{
+background:var(–gold);color:var(–bg);
+font-family:‘Syne’,sans-serif;font-size:12px;font-weight:700;
+letter-spacing:1px;text-transform:uppercase;
+padding:10px 18px;transition:all 0.2s;
+}
+.pr-submit:hover{background:var(–gold2);}
+
+.pr-history{padding:16px 20px;}
+.pr-history-title{font-family:‘DM Mono’,monospace;font-size:10px;color:var(–text3);letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;}
+.pr-entry{
+display:flex;align-items:center;justify-content:space-between;
+padding:8px 0;border-bottom:1px solid var(–border);
+}
+.pr-entry:last-child{border-bottom:none;}
+.pr-entry-time{font-family:‘Bebas Neue’,sans-serif;font-size:22px;color:var(–text);}
+.pr-entry-meta{font-family:‘DM Mono’,monospace;font-size:10px;color:var(–text3);}
+.pr-entry-best{color:var(–gold);font-weight:500;}
+.pr-del{
+font-size:12px;color:var(–text3);padding:4px;transition:color 0.2s;
+}
+.pr-del:hover{color:var(–red);}
+
+/* PR improvement chip */
+.pr-chip{
+font-family:‘DM Mono’,monospace;font-size:10px;
+padding:2px 8px;letter-spacing:1px;
+border-radius:2px;
+}
+.pr-chip.better{background:var(–green-bg);color:var(–green);}
+.pr-chip.same{background:var(–border);color:var(–text3);}
+
+/* Gym PR tracker */
+.gym-pr-grid{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+gap:12px;
+margin-top:20px;
+}
+.gym-pr-card{
+background:var(–panel);border:1px solid var(–border);padding:16px;
+}
+.gym-pr-ex{font-family:‘Syne’,sans-serif;font-size:14px;font-weight:700;color:var(–text);margin-bottom:4px;}
+.gym-pr-val{font-family:‘Bebas Neue’,sans-serif;font-size:32px;color:var(–gold);line-height:1;}
+.gym-pr-unit{font-family:‘DM Mono’,monospace;font-size:10px;color:var(–text3);letter-spacing:1px;}
+.gym-pr-input-row{display:flex;gap:6px;margin-top:10px;}
+.gym-pr-num{
+flex:1;background:var(–bg2);border:1px solid var(–border2);
+color:var(–text);padding:6px 8px;
+font-family:‘DM Mono’,monospace;font-size:12px;
+}
+.gym-pr-num:focus{border-color:var(–gold);}
+.gym-pr-save{
+font-family:‘DM Mono’,monospace;font-size:10px;letter-spacing:1px;
+background:var(–gold-bg);color:var(–gold);border:1px solid var(–gold);
+padding:6px 10px;transition:all 0.2s;
+}
+.gym-pr-save:hover{background:var(–gold);color:var(–bg);}
+
+/* ═══════════════════ NUTRITION ═══════════════════ */
+.day-nav-strip{
+display:flex;gap:6px;flex-wrap:wrap;
+margin:24px 0 20px;
+}
+.day-nav-btn{
+font-family:‘Syne’,sans-serif;font-size:11px;font-weight:700;
+letter-spacing:1px;text-transform:uppercase;
+padding:8px 14px;border:1px solid var(–border2);
+background:var(–panel);color:var(–text3);transition:all 0.2s;
+}
+.day-nav-btn.active{background:var(–gold-bg);color:var(–gold);border-color:var(–gold);}
+.day-nav-btn:hover{color:var(–text2);}
+
+.meal-card{
+background:var(–panel);border:1px solid var(–border);
+margin-bottom:12px;overflow:hidden;
+}
+.meal-head{
+display:flex;align-items:center;gap:12px;padding:14px 16px;
+border-bottom:1px solid var(–border);
+}
+.meal-icon{font-size:24px;}
+.meal-slot-lbl{font-family:‘DM Mono’,monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(–text3);}
+.meal-name-title{font-family:‘Syne’,sans-serif;font-size:16px;font-weight:700;color:var(–text);}
+.meal-protein-badge{
+margin-left:auto;
+font-family:‘DM Mono’,monospace;font-size:10px;letter-spacing:1px;
+padding:4px 10px;background:var(–green-bg);color:var(–green);
+border:1px solid var(–green2);white-space:nowrap;
+}
+.meal-body{padding:14px 16px;}
+.meal-ingr{list-style:none;}
+.meal-ingr li{
+display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;
+padding:6px 0;border-bottom:1px solid var(–border);
+font-size:13px;color:var(–text2);
+}
+.meal-ingr li:last-child{border-bottom:none;}
+.ingr-p{font-family:‘DM Mono’,monospace;font-size:10px;color:var(–gold);text-align:right;}
+.ingr-amt{font-family:‘DM Mono’,monospace;font-size:10px;color:var(–text3);text-align:right;}
+.meal-why{
+background:var(–gold-bg);border-left:3px solid var(–gold);
+padding:10px 12px;margin-top:10px;font-size:13px;color:var(–text2);line-height:1.5;
+}
+.meal-why strong{color:var(–gold);font-family:‘Syne’,sans-serif;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:4px;}
+.meal-totals{
+display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;
+}
+.mtag{
+font-family:‘DM Mono’,monospace;font-size:10px;letter-spacing:1px;
+padding:3px 8px;background:var(–bg2);color:var(–text2);
+border:1px solid var(–border2);
+}
+
+.day-macro-summary{
+display:grid;grid-template-columns:repeat(4,1fr);
+gap:1px;background:var(–border);border:1px solid var(–border);
+margin-bottom:20px;
+}
+.dms-cell{
+background:var(–panel);padding:14px 10px;text-align:center;
+}
+.dms-val{font-family:‘Bebas Neue’,sans-serif;font-size:30px;color:var(–gold);line-height:1;}
+.dms-lbl{font-family:‘DM Mono’,monospace;font-size:9px;color:var(–text3);letter-spacing:2px;text-transform:uppercase;margin-top:2px;}
+
+/* ═══════════════════ TRAINING PLAN ═══════════════════ */
+.week-overview{
+display:grid;grid-template-columns:repeat(7,1fr);
+gap:1px;background:var(–border);border:1px solid var(–border);
+margin:24px 0;
+}
+@media(max-width:700px){.week-overview{grid-template-columns:repeat(4,1fr);}}
+.week-day-cell{
+background:var(–panel);padding:12px 8px;text-align:center;cursor:pointer;
+transition:background 0.15s;
+}
+.week-day-cell:hover{background:var(–panel2);}
+.week-day-cell.active{background:var(–gold-bg);}
+.wdc-name{font-family:‘Bebas Neue’,sans-serif;font-size:18px;color:var(–text);}
+.wdc-type{font-family:‘DM Mono’,monospace;font-size:8px;color:var(–text3);letter-spacing:1px;margin-top:2px;}
+.wdc-dot{width:6px;height:6px;border-radius:50%;margin:6px auto 0;background:var(–border2);}
+.wdc-dot.strength{background:var(–gold);}
+.wdc-dot.power{background:var(–red);}
+.wdc-dot.rest{background:var(–green);}
+.wdc-dot.double{background:var(–purple);}
+
+.training-day-detail{display:none;}
+.training-day-detail.active{display:block;}
+
+.exercise-plan-card{
+background:var(–panel);border:1px solid var(–border);
+margin-bottom:8px;
+}
+.epc-head{
+display:flex;align-items:center;justify-content:space-between;
+padding:12px 16px;
+}
+.epc-left{display:flex;align-items:center;gap:10px;}
+.epc-emoji{font-size:18px;}
+.epc-name{font-family:‘Syne’,sans-serif;font-size:14px;font-weight:700;color:var(–text);}
+.epc-note{font-family:‘DM Mono’,monospace;font-size:10px;color:var(–text3);letter-spacing:1px;}
+.epc-prescription{font-family:‘Bebas Neue’,sans-serif;font-size:20px;color:var(–gold);}
+.intensity-pill{
+font-family:‘DM Mono’,monospace;font-size:9px;letter-spacing:1px;
+padding:2px 8px;border-radius:2px;
+}
+.pill-high{background:var(–red-bg);color:var(–red);border:1px solid var(–red2);}
+.pill-mod{background:var(–gold-bg);color:var(–gold);border:1px solid var(–gold2);}
+.pill-low{background:var(–green-bg);color:var(–green);border:1px solid var(–green2);}
+
+/* ═══════════════════ TRACK DRILLS ═══════════════════ */
+.drill-grid{
+display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+gap:12px;margin-top:20px;
+}
+.drill-card{
+background:var(–panel);border:1px solid var(–border);padding:20px;
+position:relative;overflow:hidden;
+}
+.drill-num-bg{
+position:absolute;right:-8px;top:-12px;
+font-family:‘Bebas Neue’,sans-serif;font-size:80px;
+color:rgba(240,192,64,0.06);line-height:1;pointer-events:none;
+}
+.drill-title{font-family:‘Syne’,sans-serif;font-size:16px;font-weight:700;color:var(–text);margin-bottom:6px;}
+.drill-desc{font-size:13px;color:var(–text2);line-height:1.5;margin-bottom:12px;}
+.drill-tags{display:flex;gap:6px;flex-wrap:wrap;}
+.drill-tag{
+font-family:‘DM Mono’,monospace;font-size:9px;letter-spacing:1px;
+padding:2px 8px;border:1px solid var(–border2);color:var(–text3);
+}
+
+/* ═══════════════════ SPEED EXERCISES ═══════════════════ */
+.speed-section{margin-top:32px;}
+.speed-grid{
+display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+gap:12px;margin-top:16px;
+}
+.speed-card{
+background:var(–panel);border:1px solid var(–border);
+border-top:3px solid var(–red);padding:18px;
+}
+.speed-card-title{font-family:‘Syne’,sans-serif;font-size:15px;font-weight:700;color:var(–text);margin-bottom:6px;}
+.speed-card-why{font-size:13px;color:var(–text2);line-height:1.5;margin-bottom:10px;}
+.speed-card-rx{font-family:‘DM Mono’,monospace;font-size:11px;color:var(–gold);letter-spacing:1px;}
+
+/* ═══════════════════ RECOVERY ═══════════════════ */
+.recovery-grid{
+display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+gap:12px;margin-top:20px;
+}
+.recovery-card{
+background:var(–panel);border:1px solid var(–border);padding:18px;
+}
+.recovery-icon{font-size:26px;margin-bottom:10px;}
+.recovery-title{font-family:‘Syne’,sans-serif;font-size:14px;font-weight:700;color:var(–text);margin-bottom:6px;}
+.recovery-desc{font-size:13px;color:var(–text2);line-height:1.5;}
+.recovery-time{font-family:‘DM Mono’,monospace;font-size:10px;color:var(–green);margin-top:8px;letter-spacing:1px;}
+
+/* ═══════════════════ LOAD TABLE ═══════════════════ */
+.load-table{width:100%;border-collapse:collapse;margin-bottom:24px;font-size:13px;}
+.load-table th{
+font-family:‘DM Mono’,monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;
+color:var(–text3);padding:10px 14px;text-align:left;
+border-bottom:1px solid var(–border);background:var(–panel2);
+}
+.load-table td{
+padding:10px 14px;border-bottom:1px solid var(–border);color:var(–text2);vertical-align:top;
+}
+.load-table tr:last-child td{border-bottom:none;}
+.load-table td:first-child{font-family:‘Syne’,sans-serif;font-size:15px;font-weight:700;color:var(–text);}
+.load-val{font-family:‘DM Mono’,monospace;color:var(–gold);font-size:13px;}
+
+/* ═══════════════════ COACH NOTE ═══════════════════ */
+.coach-note{
+border-left:3px solid var(–gold);
+background:var(–gold-bg);
+padding:14px 16px;
+margin:20px 0;
+font-size:13px;color:var(–text2);line-height:1.55;
+}
+.coach-note strong{color:var(–gold);}
+
+/* ═══════════════════ WARNING ═══════════════════ */
+.warn-bar{
+background:var(–red-bg);border:1px solid var(–red2);
+padding:12px 16px;margin:16px 0;
+display:flex;gap:10px;align-items:flex-start;
+font-size:13px;color:var(–text2);
+}
+.warn-bar strong{color:var(–red);}
+
+/* ═══════════════════ MISC UTILS ═══════════════════ */
+.badge{display:inline-block;font-family:‘DM Mono’,monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:3px 8px;}
+.badge-track{background:var(–red-bg);color:var(–red);border:1px solid var(–red2);}
+.badge-gym{background:var(–blue-bg);color:var(–blue);border:1px solid var(–blue2);}
+.badge-rest{background:var(–green-bg);color:var(–green);border:1px solid var(–green2);}
+.badge-double{background:rgba(187,136,255,0.1);color:var(–purple);border:1px solid rgba(187,136,255,0.3);}
+
+.divider{height:1px;background:var(–border);margin:24px 0;}
+.flex-row{display:flex;align-items:center;gap:12px;}
+.flex-between{display:flex;align-items:center;justify-content:space-between;}
+
+/* notification toast */
+.toast{
+position:fixed;bottom:24px;right:24px;
+background:var(–green);color:#000;
+font-family:‘Syne’,sans-serif;font-size:13px;font-weight:700;
+padding:12px 20px;
+transform:translateY(80px);opacity:0;
+transition:all 0.3s;z-index:999;
+pointer-events:none;
+}
+.toast.show{transform:translateY(0);opacity:1;}
+
+/* ═══════════════════ RESPONSIVE ═══════════════════ */
+@media(max-width:500px){
+.hero-inner{grid-template-columns:1fr;}
+.hero-stats{display:grid;grid-template-columns:repeat(2,1fr);}
+.hstat{border-right:1px solid var(–border);}
+.week-overview{grid-template-columns:repeat(3,1fr);}
+.set-row{grid-template-columns:28px 1fr 1fr auto;}
+.sprint-pr-grid{grid-template-columns:1fr;}
+.day-macro-summary{grid-template-columns:repeat(2,1fr);}
+}
+
+/* ═══════════════════ FOOD SCANNER MODULE ═══════════════════ */
+.food-scanner-wrap {
+margin-top: 28px;
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 16px;
+}
+@media(max-width:720px){.food-scanner-wrap{grid-template-columns:1fr;}}
+
+/* Upload zone */
+.upload-zone {
+background: var(–panel);
+border: 2px dashed var(–border2);
+padding: 32px 20px;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+gap: 12px;
+cursor: pointer;
+transition: all 0.2s;
+text-align: center;
+min-height: 220px;
+position: relative;
+overflow: hidden;
+}
+.upload-zone:hover { border-color: var(–gold); background: var(–gold-bg); }
+.upload-zone.dragover { border-color: var(–gold); background: var(–gold-bg); transform: scale(1.01); }
+.upload-zone-icon { font-size: 40px; line-height: 1; }
+.upload-zone-title {
+font-family: ‘Syne’, sans-serif; font-size: 15px; font-weight: 700; color: var(–text);
+}
+.upload-zone-sub {
+font-family: ‘DM Mono’, monospace; font-size: 10px; color: var(–text3);
+letter-spacing: 2px; text-transform: uppercase;
+}
+.upload-zone input[type=file] {
+position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+}
+.food-preview-img {
+width: 100%; height: 200px; object-fit: cover;
+border: 1px solid var(–border); display: none;
+}
+
+/* Scan button */
+.scan-btn {
+display: flex; align-items: center; justify-content: center; gap: 10px;
+width: 100%; padding: 14px;
+background: var(–gold); color: var(–bg);
+font-family: ‘Syne’, sans-serif; font-size: 14px; font-weight: 700;
+letter-spacing: 1px; text-transform: uppercase;
+transition: all 0.2s; margin-top: 10px;
+border: none; cursor: pointer;
+}
+.scan-btn:hover { background: var(–gold2); }
+.scan-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.scan-btn.loading { background: var(–panel2); color: var(–text3); border: 1px solid var(–border); }
+
+/* Scanning animation */
+@keyframes scanPulse {
+0%, 100% { opacity: 0.3; transform: scaleX(1); }
+50% { opacity: 1; transform: scaleX(1.02); }
+}
+.scan-line {
+height: 2px; background: var(–gold);
+animation: scanPulse 1.2s ease-in-out infinite;
+margin: 8px 0;
+}
+
+/* Results panel */
+.nutrition-result {
+background: var(–panel);
+border: 1px solid var(–border);
+overflow: hidden;
+}
+.nutrition-result-head {
+padding: 16px 18px;
+border-bottom: 1px solid var(–border);
+display: flex; align-items: center; justify-content: space-between;
+}
+.nutrition-result-title {
+font-family: ‘Syne’, sans-serif; font-size: 17px; font-weight: 700; color: var(–text);
+}
+.nutrition-result-body { padding: 16px 18px; }
+.nutrition-macros-grid {
+display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+background: var(–border); border: 1px solid var(–border); margin-bottom: 16px;
+}
+.nm-cell { background: var(–panel2); padding: 14px 8px; text-align: center; }
+.nm-val { font-family: ‘Bebas Neue’, sans-serif; font-size: 28px; color: var(–gold); line-height: 1; }
+.nm-lbl { font-family: ‘DM Mono’, monospace; font-size: 9px; color: var(–text3); letter-spacing: 2px; text-transform: uppercase; margin-top: 3px; }
+.food-breakdown-list { list-style: none; }
+.fbl-item {
+display: flex; justify-content: space-between; align-items: center;
+padding: 7px 0; border-bottom: 1px solid var(–border); font-size: 13px;
+}
+.fbl-item:last-child { border-bottom: none; }
+.fbl-name { color: var(–text2); }
+.fbl-val { font-family: ‘DM Mono’, monospace; font-size: 11px; color: var(–gold); }
+.food-insight {
+background: var(–gold-bg); border-left: 3px solid var(–gold);
+padding: 10px 12px; margin-top: 12px;
+font-size: 13px; color: var(–text2); line-height: 1.5;
+}
+.food-insight strong { color: var(–gold); font-family: ‘Syne’, sans-serif; font-size: 11px; font-weight: 700; text-transform: uppercase; display: block; margin-bottom: 3px; }
+
+/* Add to log button */
+.add-to-log-btn {
+width: 100%; padding: 11px; margin-top: 12px;
+background: var(–green-bg); color: var(–green);
+border: 1px solid var(–green2);
+font-family: ‘Syne’, sans-serif; font-size: 13px; font-weight: 700;
+letter-spacing: 1px; text-transform: uppercase; transition: all 0.2s; cursor: pointer;
+}
+.add-to-log-btn:hover { background: var(–green); color: var(–bg); }
+
+/* Food log */
+.food-log { margin-top: 20px; }
+.food-log-head {
+display: flex; align-items: center; justify-content: space-between;
+padding: 14px 0; border-bottom: 1px solid var(–border); margin-bottom: 12px;
+}
+.food-log-title {
+font-family: ‘Bebas Neue’, sans-serif; font-size: 24px; color: var(–text);
+}
+.food-log-clear {
+font-family: ‘DM Mono’, monospace; font-size: 10px; color: var(–text3);
+border: 1px solid var(–border2); padding: 5px 10px; letter-spacing: 1px;
+cursor: pointer; transition: all 0.2s;
+}
+.food-log-clear:hover { color: var(–red); border-color: var(–red); }
+.food-log-entry {
+display: flex; align-items: center; gap: 12px;
+padding: 10px 14px; background: var(–panel); border: 1px solid var(–border);
+margin-bottom: 6px;
+}
+.fle-name { font-family: ‘Syne’, sans-serif; font-size: 14px; font-weight: 600; color: var(–text); flex: 1; }
+.fle-cals { font-family: ‘Bebas Neue’, sans-serif; font-size: 20px; color: var(–gold); }
+.fle-prot { font-family: ‘DM Mono’, monospace; font-size: 11px; color: var(–green); }
+.fle-del { color: var(–text3); font-size: 12px; cursor: pointer; padding: 4px; transition: color 0.2s; }
+.fle-del:hover { color: var(–red); }
+.fle-time { font-family: ‘DM Mono’, monospace; font-size: 9px; color: var(–text3); letter-spacing: 1px; }
+
+/* Daily totals bar */
+.daily-totals-bar {
+display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+background: var(–border); border: 1px solid var(–border); margin-bottom: 20px;
+}
+.dtb-cell { background: var(–panel); padding: 12px 10px; text-align: center; }
+.dtb-val { font-family: ‘Bebas Neue’, sans-serif; font-size: 26px; color: var(–gold); line-height: 1; }
+.dtb-lbl { font-family: ‘DM Mono’, monospace; font-size: 9px; color: var(–text3); letter-spacing: 2px; text-transform: uppercase; margin-top: 2px; }
+
+/* ═══════════════════ PROFILE MODULE ═══════════════════ */
+.profile-hero {
+background: var(–panel);
+border: 1px solid var(–border);
+padding: 28px;
+display: grid;
+grid-template-columns: auto 1fr;
+gap: 24px;
+align-items: start;
+margin-top: 28px;
+}
+@media(max-width:600px){.profile-hero{grid-template-columns:1fr;}}
+
+.profile-avatar {
+width: 80px; height: 80px;
+border: 2px solid var(–gold);
+display: flex; align-items: center; justify-content: center;
+font-size: 36px;
+background: var(–gold-bg);
+cursor: pointer;
+transition: all 0.2s;
+position: relative;
+overflow: hidden;
+flex-shrink: 0;
+}
+.profile-avatar:hover { transform: scale(1.05); }
+.profile-avatar input[type=file] {
+position: absolute; inset: 0; opacity: 0; cursor: pointer;
+}
+.profile-avatar img {
+width: 100%; height: 100%; object-fit: cover; display: none;
+}
+.profile-name-block {}
+.profile-name {
+font-family: ‘Bebas Neue’, sans-serif; font-size: 40px; color: var(–text); line-height: 1;
+}
+.profile-name-input {
+font-family: ‘Bebas Neue’, sans-serif; font-size: 40px; color: var(–text); line-height: 1;
+background: transparent; border: none; border-bottom: 2px solid var(–gold);
+width: 100%; outline: none; padding: 0;
+display: none;
+}
+.profile-tag { font-family: ‘DM Mono’, monospace; font-size: 11px; color: var(–text3); letter-spacing: 2px; text-transform: uppercase; margin-top: 6px; }
+.profile-edit-btn {
+font-family: ‘DM Mono’, monospace; font-size: 10px; letter-spacing: 1px;
+color: var(–text3); border: 1px solid var(–border2); padding: 5px 12px;
+transition: all 0.2s; cursor: pointer; margin-top: 10px; display: inline-block;
+}
+.profile-edit-btn:hover { color: var(–gold); border-color: var(–gold); }
+
+/* Stats grid */
+.profile-stats-grid {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+gap: 1px; background: var(–border); border: 1px solid var(–border); margin: 16px 0;
+}
+.pstat-cell { background: var(–panel2); padding: 16px 14px; }
+.pstat-label { font-family: ‘DM Mono’, monospace; font-size: 9px; color: var(–text3); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
+.pstat-input {
+font-family: ‘Bebas Neue’, sans-serif; font-size: 26px; color: var(–gold);
+background: transparent; border: none; border-bottom: 1px solid var(–border2);
+width: 100%; outline: none; padding: 0;
+transition: border-color 0.2s;
+}
+.pstat-input:focus { border-bottom-color: var(–gold); }
+.pstat-unit { font-family: ‘DM Mono’, monospace; font-size: 10px; color: var(–text3); letter-spacing: 1px; margin-top: 2px; }
+
+/* Goals section */
+.goals-grid {
+display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; margin-top: 16px;
+}
+.goal-card {
+background: var(–panel); border: 1px solid var(–border); padding: 16px;
+}
+.goal-card-title { font-family: ‘DM Mono’, monospace; font-size: 9px; color: var(–text3); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+.goal-val-row { display: flex; align-items: baseline; gap: 8px; margin-bottom: 8px; }
+.goal-current { font-family: ‘Bebas Neue’, sans-serif; font-size: 28px; color: var(–text); }
+.goal-arrow { color: var(–text3); font-size: 14px; }
+.goal-target { font-family: ‘Bebas Neue’, sans-serif; font-size: 22px; color: var(–gold); }
+.goal-progress-bg { height: 4px; background: var(–border); border-radius: 2px; overflow: hidden; margin-bottom: 6px; }
+.goal-progress-fill { height: 100%; border-radius: 2px; background: var(–gold); transition: width 0.5s; }
+.goal-pct { font-family: ‘DM Mono’, monospace; font-size: 10px; color: var(–text3); letter-spacing: 1px; }
+
+/* Training log in profile */
+.profile-training-log { margin-top: 24px; }
+.ptl-title { font-family: ‘Bebas Neue’, sans-serif; font-size: 28px; color: var(–text); margin-bottom: 12px; }
+.ptl-week-grid {
+display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px;
+}
+@media(max-width:500px){.ptl-week-grid{grid-template-columns:repeat(4,1fr);}}
+.ptl-day {
+aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+border: 1px solid var(–border); background: var(–panel);
+font-family: ‘DM Mono’, monospace; font-size: 9px; color: var(–text3);
+letter-spacing: 1px; text-transform: uppercase; gap: 4px; cursor: pointer; transition: all 0.2s;
+position: relative;
+}
+.ptl-day:hover { border-color: var(–gold); }
+.ptl-day.logged { background: var(–green-bg); border-color: var(–green2); color: var(–green); }
+.ptl-day.logged::after { content: ‘✓’; font-size: 14px; }
+.ptl-dot { width: 5px; height: 5px; border-radius: 50%; background: var(–border2); }
+.ptl-day.logged .ptl-dot { background: var(–green); }
+
+/* Profile badges */
+.badges-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.athlete-badge {
+display: flex; align-items: center; gap: 8px;
+background: var(–panel); border: 1px solid var(–border); padding: 8px 14px;
+font-family: ‘DM Mono’, monospace; font-size: 11px; color: var(–text2); letter-spacing: 1px;
+transition: all 0.2s;
+}
+.athlete-badge.earned { background: var(–gold-bg); border-color: var(–gold2); color: var(–gold); }
+.badge-icon { font-size: 16px; }
+
+/* Notes */
+.profile-notes-textarea {
+width: 100%; min-height: 100px;
+background: var(–panel2); border: 1px solid var(–border2); color: var(–text);
+padding: 12px; font-family: ‘Barlow’, sans-serif; font-size: 13px; line-height: 1.5;
+resize: vertical; margin-top: 8px; transition: border 0.2s;
+}
+.profile-notes-textarea:focus { border-color: var(–gold); outline: none; }
+
+/* Save profile button */
+.profile-save-btn {
+display: flex; align-items: center; justify-content: center; gap: 8px;
+padding: 12px 24px; background: var(–gold); color: var(–bg);
+font-family: ‘Syne’, sans-serif; font-size: 13px; font-weight: 700;
+letter-spacing: 1px; text-transform: uppercase; cursor: pointer;
+transition: all 0.2s; border: none; margin-top: 16px;
+}
+.profile-save-btn:hover { background: var(–gold2); }
+</style>
+
+</head>
+<body>
+
+<!-- ═══════════ HERO ═══════════ -->
+
+<div class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-brand">SPRINT<span>OS</span></div>
+      <div class="hero-sub">// Elite Performance System · 14U Queensland · Built for Nationals</div>
+    </div>
+    <div>
+      <div class="hero-stats">
+        <div class="hstat">
+          <div class="hstat-val" id="hero-100m">12.50s</div>
+          <div class="hstat-lbl">100m Current PB</div>
+        </div>
+        <div class="hstat">
+          <div class="hstat-val" id="hero-200m">25.99s</div>
+          <div class="hstat-lbl">200m Current PB</div>
+        </div>
+        <div class="hstat">
+          <div class="hstat-val">11.50 / 22.00</div>
+          <div class="hstat-lbl">Nationals Targets</div>
+        </div>
+      </div>
+      <button class="theme-btn" onclick="toggleTheme()">
+        <span id="theme-icon">☀️</span>
+        <span id="theme-label">Light Mode</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ NAV ═══════════ -->
+
+<div class="main-nav">
+  <button class="nav-btn active" onclick="showTab('dashboard')">📊 Dashboard</button>
+  <button class="nav-btn" onclick="showTab('workout')">💪 Workout</button>
+  <button class="nav-btn" onclick="showTab('training')">📋 Training Plan</button>
+  <button class="nav-btn" onclick="showTab('nutrition')">🍽 Nutrition</button>
+  <button class="nav-btn" onclick="showTab('track')">⚡ Track Drills</button>
+  <button class="nav-btn" onclick="showTab('prs')">🏆 PR Tracker</button>
+  <button class="nav-btn" onclick="showTab('loads')">🏋 Load Guide</button>
+  <button class="nav-btn" onclick="showTab('recovery')">🛌 Recovery</button>
+  <button class="nav-btn" onclick="showTab('food')">📸 Food Scan</button>
+  <button class="nav-btn" onclick="showTab('profile')">👤 Profile</button>
+</div>
+
+<div class="page">
+
+<!-- ═══════════════════════════════════
+     TAB: DASHBOARD / TRACKER
+════════════════════════════════════ -->
+
+<div id="tab-dashboard" class="tab-panel active">
+  <div class="section-head">
+    <div class="section-eyebrow">// Daily Tracker</div>
+    <div class="section-title">TODAY'S HUB</div>
+  </div>
+
+  <!-- Water -->
+
+  <div class="water-tracker">
+    <div class="flex-between">
+      <div>
+        <div class="card-title">💧 Hydration Tracker</div>
+        <div class="water-label">Tap each glass as you drink · Target: 8 glasses (3L) · <span id="water-count">0</span>/8 today</div>
+      </div>
+      <button onclick="resetWater()" style="font-family:'DM Mono',monospace;font-size:10px;color:var(--text3);border:1px solid var(--border2);padding:6px 10px;letter-spacing:1px;">Reset</button>
+    </div>
+    <div class="water-glasses" id="water-glasses"></div>
+  </div>
+
+  <div class="tracker-grid">
+    <!-- Macro tracker -->
+    <div class="macro-track">
+      <div class="card-title">🥗 Macro Tracker</div>
+      <div class="macro-bars" id="macro-bars"></div>
+      <div style="margin-top:14px;font-family:'DM Mono',monospace;font-size:10px;color:var(--text3);letter-spacing:1px;">TAP + TO LOG GRAMS</div>
+    </div>
+
+```
+<!-- Sleep & mood -->
+<div class="card">
+  <div class="card-title">😴 Sleep & Mood</div>
+  <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--text3);letter-spacing:1px;margin-bottom:8px;">HOURS SLEPT LAST NIGHT</div>
+  <div class="sleep-input-row">
+    <input type="range" class="sleep-slider" id="sleep-slider" min="4" max="12" step="0.5" value="8" oninput="updateSleep(this.value)">
+    <div class="sleep-val" id="sleep-val">8.0h</div>
+  </div>
+  <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--text3);letter-spacing:1px;margin:14px 0 8px;">TODAY'S ENERGY LEVEL</div>
+  <div class="mood-grid" id="mood-grid">
+    <button class="mood-btn" onclick="setMood(this,'💀 DEAD')">💀 Dead</button>
+    <button class="mood-btn" onclick="setMood(this,'😴 Tired')">😴 Tired</button>
+    <button class="mood-btn" onclick="setMood(this,'😐 OK')">😐 OK</button>
+    <button class="mood-btn" onclick="setMood(this,'⚡ Good')">⚡ Good</button>
+    <button class="mood-btn" onclick="setMood(this,'🔥 Elite')">🔥 Elite</button>
+  </div>
+  <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--text3);letter-spacing:1px;margin:14px 0 8px;">BODY SORENESS</div>
+  <div class="mood-grid">
+    <button class="mood-btn" onclick="setSoreness(this,'Minimal')">🟢 Fine</button>
+    <button class="mood-btn" onclick="setSoreness(this,'Mild')">🟡 Mild</button>
+    <button class="mood-btn" onclick="setSoreness(this,'Sore')">🟠 Sore</button>
+    <button class="mood-btn" onclick="setSoreness(this,'Very Sore')">🔴 Wrecked</button>
+  </div>
+</div>
+
+<!-- Today summary -->
+<div class="card" style="grid-column:1/-1;">
+  <div class="flex-between" style="margin-bottom:14px;">
+    <div class="card-title">📅 Today's Schedule</div>
+    <div id="today-day-badge"></div>
+  </div>
+  <div id="today-schedule" style="font-size:14px;color:var(--text2);line-height:1.7;"></div>
+  <div class="divider"></div>
+  <div class="flex-between">
+    <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--text3);letter-spacing:1px;">WEEK PROGRESS</div>
+    <div id="week-progress-text" style="font-family:'DM Mono',monospace;font-size:10px;color:var(--gold);"></div>
+  </div>
+  <div style="height:6px;background:var(--border);border-radius:3px;margin-top:8px;overflow:hidden;">
+    <div id="week-progress-bar" style="height:100%;background:var(--gold);border-radius:3px;transition:width 0.5s;"></div>
+  </div>
+</div>
+```
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════
+     TAB: INTERACTIVE WORKOUT TRACKER
+════════════════════════════════════ -->
+
+<div id="tab-workout" class="tab-panel">
+  <div class="section-head">
+    <div class="section-eyebrow">// Interactive Gym Tracker · Auto-resets weekly</div>
+    <div class="section-title">WORKOUT TRACKER</div>
+  </div>
+
+  <div class="warn-bar"><span>⚡</span><div>Tick each set as you finish it — a rest timer starts automatically. Sets reset every 7 days. <strong>PR saves permanently.</strong></div></div>
+
+  <div class="day-select-row" id="workout-day-tabs"></div>
+  <div id="workout-days-container"></div>
+</div>
+
+<!-- ═══════════════════════════════════
+     TAB: TRAINING PLAN
+════════════════════════════════════ -->
+
+<div id="tab-training" class="tab-panel">
+  <div class="section-head">
+    <div class="section-eyebrow">// 7-Day Periodised Block</div>
+    <div class="section-title">WEEKLY TRAINING PLAN</div>
+  </div>
+
+  <div class="week-overview" id="week-overview-cells"></div>
+  <div id="training-day-details"></div>
+</div>
+
+<!-- ═══════════════════════════════════
+     TAB: NUTRITION
+════════════════════════════════════ -->
+
+<div id="tab-nutrition" class="tab-panel">
+  <div class="section-head">
+    <div class="section-eyebrow">// 7-Day Meal Plan · No Beef · High Protein</div>
+    <div class="section-title">FUEL PROTOCOL</div>
+  </div>
+  <div class="day-nav-strip" id="nutrition-day-nav"></div>
+  <div id="nutrition-day-container"></div>
+</div>
+
+<!-- ═══════════════════════════════════
+     TAB: TRACK DRILLS
+════════════════════════════════════ -->
+
+<div id="tab-track" class="tab-panel">
+  <div class="section-head">
+    <div class="section-eyebrow">// Drive Phase · Solo Quality Work</div>
+    <div class="section-title">TRACK DRILL LIBRARY</div>
+  </div>
+
+  <div class="coach-note"><strong>Quality Rule:</strong> Never sprint fatigued. Max 5 quality reps per drill. Rest 3–5 min between sprint efforts. Your first 30m decides the race.</div>
+
+  <div class="drill-grid" id="drill-grid"></div>
+
+  <div class="speed-section">
+    <div class="section-eyebrow">// Gym exercises specifically for sprint speed</div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:36px;color:var(--text);margin-bottom:4px;">SPEED-BUILDING GYM WORK</div>
+    <div style="font-size:13px;color:var(--text2);margin-bottom:16px;">These exercises directly transfer to faster 100m and 200m times. Add them to your Saturday session or replace accessory work.</div>
+    <div class="speed-grid" id="speed-grid"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════
+     TAB: PR TRACKER
+════════════════════════════════════ -->
+
+<div id="tab-prs" class="tab-panel">
+  <div class="section-head">
+    <div class="section-eyebrow">// Sprint Times + Gym Lifts</div>
+    <div class="section-title">PERSONAL RECORDS</div>
+  </div>
+
+  <div class="sprint-pr-grid" id="sprint-pr-grid"></div>
+
+  <div class="divider"></div>
+  <div style="font-family:'Bebas Neue',sans-serif;font-size:32px;color:var(--text);margin-bottom:4px;">GYM LIFT PRs</div>
+  <div style="font-size:13px;color:var(--text2);margin-bottom:16px;">Log your working max — the heaviest weight you moved with clean form this session. Updates override previous (history shown in Workout tab).</div>
+  <div class="gym-pr-grid" id="gym-pr-grid"></div>
+</div>
+
+<!-- ═══════════════════════════════════
+     TAB: LOAD GUIDE
+════════════════════════════════════ -->
+
+<div id="tab-loads" class="tab-panel">
+  <div class="section-head">
+    <div class="section-eyebrow">// Starting loads · 52kg bodyweight</div>
+    <div class="section-title">TRAP BAR LOAD GUIDE</div>
+  </div>
+
+  <div class="warn-bar"><span>📋</span><div>Estimated e1RM for trap bar at your level: <strong>70–90kg</strong>. Train at 60–80%. Never test true 1RM before age 16+. Add 2.5kg when all prescribed reps feel clean.</div></div>
+
+  <div style="overflow-x:auto;margin-top:20px;">
+  <table class="load-table">
+    <thead><tr><th>Day / Purpose</th><th>Sets × Reps</th><th>Load (kg)</th><th>% e1RM</th><th>Key Cue</th></tr></thead>
+    <tbody>
+      <tr><td>Monday — Strength</td><td>4 × 5</td><td><span class="load-val">45–55kg</span></td><td>60–65%</td><td>Explosive up, controlled down</td></tr>
+      <tr><td>Friday — Heavy</td><td>5 × 4</td><td><span class="load-val">55–65kg</span></td><td>70–75%</td><td>Hips + shoulders rise together</td></tr>
+      <tr><td>Saturday — Jump Squat</td><td>4 × 5</td><td><span class="load-val">15–20kg</span></td><td>25–30%</td><td>MAX height every rep</td></tr>
+      <tr><td>Deload Week</td><td>3 × 5</td><td><span class="load-val">35–40kg</span></td><td>50%</td><td>Move fast, feel good</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--text);margin:28px 0 16px;">12-WEEK PROGRESSION</div>
+  <div style="overflow-x:auto;">
+  <table class="load-table">
+    <thead><tr><th>Week</th><th>Mon Load</th><th>Fri Load</th><th>Volume</th><th>Phase</th></tr></thead>
+    <tbody>
+      <tr><td>1–2</td><td><span class="load-val">45kg</span></td><td><span class="load-val">55kg</span></td><td>Normal</td><td>Technique baseline</td></tr>
+      <tr><td>3</td><td><span class="load-val">50kg</span></td><td><span class="load-val">60kg</span></td><td>Normal</td><td>Loading</td></tr>
+      <tr><td>4 DELOAD</td><td><span class="load-val">40kg</span></td><td><span class="load-val">45kg</span></td><td>−40%</td><td style="color:var(--green)">Deload</td></tr>
+      <tr><td>5–6</td><td><span class="load-val">52.5kg</span></td><td><span class="load-val">62.5kg</span></td><td>Normal</td><td>Reload + PR push</td></tr>
+      <tr><td>7–8</td><td><span class="load-val">55kg</span></td><td><span class="load-val">67.5kg</span></td><td>Normal</td><td>Strength accumulation</td></tr>
+      <tr><td>8 DELOAD</td><td><span class="load-val">42.5kg</span></td><td><span class="load-val">50kg</span></td><td>−40%</td><td style="color:var(--green)">Deload</td></tr>
+      <tr><td>9–12</td><td><span class="load-val">57.5–65kg</span></td><td><span class="load-val">70–77.5kg</span></td><td>+1 set Fri</td><td>Peak block</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--text);margin:28px 0 16px;">REP RANGE SYSTEM</div>
+  <div class="speed-grid">
+    <div class="speed-card"><div class="speed-card-title">⚡ 3–5 reps @ 70–80%</div><div class="speed-card-why">Neural strength — trains CNS to fire faster. Direct carryover to acceleration. Your power builder.</div><div class="speed-card-rx">// Mon heavy, Fri main sets</div></div>
+    <div class="speed-card"><div class="speed-card-title">💪 6–10 reps @ 55–70%</div><div class="speed-card-why">Hypertrophy — builds lean functional muscle without bulk. Bulgarian splits, DB rows, hip thrusts.</div><div class="speed-card-rx">// All accessory work</div></div>
+    <div class="speed-card"><div class="speed-card-title">🔄 12–20 reps @ 40–55%</div><div class="speed-card-why">Muscular endurance + tendon health. Calf raises, band work, abs. Keeps joints resilient for sprinting.</div><div class="speed-card-rx">// Finisher sets, Saturday</div></div>
+    <div class="speed-card"><div class="speed-card-title">🎯 1–3 reps @ 25–35%</div><div class="speed-card-why">Ballistic power — jump squats, cleans, med balls. Light load, 100% intent. Bridges gym to track.</div><div class="speed-card-rx">// Pre-track AM sessions</div></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════
+     TAB: RECOVERY
+════════════════════════════════════ -->
+
+<div id="tab-recovery" class="tab-panel">
+  <div class="section-head">
+    <div class="section-eyebrow">// Wednesday Protocol + Daily System</div>
+    <div class="section-title">RECOVERY SYSTEM</div>
+  </div>
+  <div class="coach-note"><strong>Golden Rule:</strong> You don't get faster in the gym — you get faster in bed. Training is the stimulus. Recovery is where adaptation happens.</div>
+  <div class="recovery-grid">
+    <div class="recovery-card"><div class="recovery-icon">🌅</div><div class="recovery-title">Morning Sunlight</div><div class="recovery-desc">10 min outside within 30 min of waking. Sets your circadian rhythm, boosts morning cortisol (good cortisol — alertness), and improves sleep quality that night.</div><div class="recovery-time">// 10 min daily</div></div>
+    <div class="recovery-card"><div class="recovery-icon">😴</div><div class="recovery-title">Sleep 9–10 hrs</div><div class="recovery-desc">Growth hormone peaks during deep sleep — literally when muscles grow and CNS resets. Screens off 30 min before bed. Room cool (18°C) and dark.</div><div class="recovery-time">// Non-negotiable at 14</div></div>
+    <div class="recovery-card"><div class="recovery-icon">💧</div><div class="recovery-title">Hydration 3L/day</div><div class="recovery-desc">2% dehydration measurably reduces sprint performance. Urine should be pale yellow. Add electrolyte tablet on two-a-day days.</div><div class="recovery-time">// All day, every day</div></div>
+    <div class="recovery-card"><div class="recovery-icon">🚿</div><div class="recovery-title">Contrast Shower</div><div class="recovery-desc">2 min hot → 30 sec cold. Repeat 3 rounds, end cold. Promotes blood flow cycling and reduces DOMS. Not comfortable — that's the point.</div><div class="recovery-time">// Post-training + Wednesday</div></div>
+    <div class="recovery-card"><div class="recovery-icon">🧘</div><div class="recovery-title">Static Stretching</div><div class="recovery-desc">Hold each 45–60 sec. Priority: hip flexors, hamstrings, calves. Sprint speed is limited by how far your leg can extend behind you.</div><div class="recovery-time">// Daily post-session</div></div>
+    <div class="recovery-card"><div class="recovery-icon">🛁</div><div class="recovery-title">Epsom Salt Bath</div><div class="recovery-desc">400g salts, 15–20 min soak. Magnesium absorbs through skin — reduces muscle cramps and improves sleep quality. Do Sundays before Monday gym.</div><div class="recovery-time">// Sunday + post-competition</div></div>
+    <div class="recovery-card"><div class="recovery-icon">🫁</div><div class="recovery-title">Foam Rolling</div><div class="recovery-desc">Quads → IT band → calves → glutes → thoracic spine. 60 sec each, pause on tender spots. Avoid directly rolling joints or lower back.</div><div class="recovery-time">// Post-training + Wednesday</div></div>
+    <div class="recovery-card"><div class="recovery-icon">📱</div><div class="recovery-title">Visualisation</div><div class="recovery-desc">10 min Sunday: close eyes, run your perfect 100m and 200m in your head. Neural pathways fire the same as real running. Elite athletes do this.</div><div class="recovery-time">// 10 min Sunday</div></div>
+  </div>
+
+  <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--text);margin:32px 0 16px;">WEDNESDAY HOUR-BY-HOUR</div>
+  <div class="recovery-grid">
+    <div class="recovery-card" style="border-top:2px solid var(--green);"><div class="recovery-icon">🌅</div><div class="recovery-title">6:30 AM — Wake Slow</div><div class="recovery-desc">No alarm if possible. Natural light. Drink 500ml water immediately. Set the tone: calm, restoration day.</div></div>
+    <div class="recovery-card" style="border-top:2px solid var(--green);"><div class="recovery-icon">🥣</div><div class="recovery-title">7:30 AM — Recovery Breakfast</div><div class="recovery-desc">High protein + anti-inflammatory. Smoked salmon, eggs, avocado, berries. Omega-3s are priority today.</div></div>
+    <div class="recovery-card" style="border-top:2px solid var(--green);"><div class="recovery-icon">🚶</div><div class="recovery-title">After School — Easy Walk</div><div class="recovery-desc">20–30 min at a chatty pace. Below 120bpm. No sprinting, no gym. Active recovery promotes blood flow without fatigue.</div></div>
+    <div class="recovery-card" style="border-top:2px solid var(--green);"><div class="recovery-icon">🧘</div><div class="recovery-title">30 min — Full Stretch</div><div class="recovery-desc">Hold every position 45–60 seconds. Hip flexors, hamstrings, calves, glutes, thoracic spine. No bouncing.</div></div>
+    <div class="recovery-card" style="border-top:2px solid var(--green);"><div class="recovery-icon">🛁</div><div class="recovery-title">Contrast Shower</div><div class="recovery-desc">3 rounds: 2 min hot → 30 sec cold. End cold. Then foam roll 10 min before dinner.</div></div>
+    <div class="recovery-card" style="border-top:2px solid var(--green);"><div class="recovery-icon">🌙</div><div class="recovery-title">9:00 PM — Bed Protocol</div><div class="recovery-desc">Screens off. Room cool + dark. Cottage cheese snack. Target 9–10 hrs. Tomorrow is a two-a-day — you need this.</div></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════
+     TAB: FOOD SCANNER
+════════════════════════════════════ -->
+
+<div id="tab-food" class="tab-panel">
+  <div class="section-head">
+    <div class="section-eyebrow">// AI-Powered · Anthropic Vision · Auto-logs to daily tracker</div>
+    <div class="section-title">FOOD SCANNER</div>
+  </div>
+
+  <!-- Daily totals live bar -->
+
+  <div class="daily-totals-bar" id="food-daily-totals">
+    <div class="dtb-cell"><div class="dtb-val" id="dtb-cal">0</div><div class="dtb-lbl">Calories Today</div></div>
+    <div class="dtb-cell"><div class="dtb-val" id="dtb-prot">0g</div><div class="dtb-lbl">Protein</div></div>
+    <div class="dtb-cell"><div class="dtb-val" id="dtb-carbs">0g</div><div class="dtb-lbl">Carbs</div></div>
+    <div class="dtb-cell"><div class="dtb-val" id="dtb-fat">0g</div><div class="dtb-lbl">Fat</div></div>
+  </div>
+
+  <div class="food-scanner-wrap">
+    <!-- Upload panel -->
+    <div>
+      <div class="upload-zone" id="upload-zone">
+        <input type="file" id="food-file-input" accept="image/*" capture="environment" onchange="handleFoodImage(event)">
+        <span class="upload-zone-icon" id="upload-icon">📸</span>
+        <div class="upload-zone-title" id="upload-title">Take a Photo or Upload</div>
+        <div class="upload-zone-sub" id="upload-sub">Tap to open camera · or drag a food image here</div>
+      </div>
+      <img id="food-preview" class="food-preview-img" alt="Food preview">
+
+```
+  <!-- Manual entry fallback -->
+  <div style="margin-top:12px;padding:14px;background:var(--panel);border:1px solid var(--border);">
+    <div class="section-eyebrow" style="margin-bottom:8px;">// OR DESCRIBE YOUR MEAL</div>
+    <textarea id="food-text-input" class="profile-notes-textarea" style="min-height:70px;"
+      placeholder="e.g. 200g grilled chicken breast with 1 cup of white rice and broccoli..."></textarea>
+  </div>
+
+  <button class="scan-btn" id="scan-btn" onclick="scanFood()" disabled>
+    <span id="scan-btn-icon">🔍</span>
+    <span id="scan-btn-text">ANALYSE NUTRITION</span>
+  </button>
+  <div class="scan-line" id="scan-line" style="display:none;"></div>
+</div>
+
+<!-- Results panel -->
+<div>
+  <div class="nutrition-result" id="nutrition-result" style="display:none;">
+    <div class="nutrition-result-head">
+      <div class="nutrition-result-title" id="result-food-name">—</div>
+      <span class="badge badge-gym" style="font-size:9px;" id="result-confidence">AI SCAN</span>
+    </div>
+    <div class="nutrition-result-body">
+      <div class="nutrition-macros-grid">
+        <div class="nm-cell"><div class="nm-val" id="r-cal">—</div><div class="nm-lbl">Calories</div></div>
+        <div class="nm-cell"><div class="nm-val" id="r-prot">—</div><div class="nm-lbl">Protein</div></div>
+        <div class="nm-cell"><div class="nm-val" id="r-carbs">—</div><div class="nm-lbl">Carbs</div></div>
+        <div class="nm-cell"><div class="nm-val" id="r-fat">—</div><div class="nm-lbl">Fat</div></div>
+      </div>
+      <ul class="food-breakdown-list" id="food-breakdown"></ul>
+      <div class="food-insight" id="food-insight" style="display:none;">
+        <strong>Sprint Performance Note</strong>
+        <span id="food-insight-text"></span>
+      </div>
+      <button class="add-to-log-btn" onclick="addToFoodLog()">➕ Add to Today's Log</button>
+    </div>
+  </div>
+
+  <!-- Empty state -->
+  <div id="food-empty-state" style="background:var(--panel);border:1px solid var(--border);padding:40px 24px;text-align:center;">
+    <div style="font-size:48px;margin-bottom:12px;">🥗</div>
+    <div style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--text);margin-bottom:6px;">Scan your first meal</div>
+    <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--text3);letter-spacing:2px;">PHOTO OR TEXT → INSTANT BREAKDOWN</div>
+  </div>
+</div>
+```
+
+  </div>
+
+  <!-- Food log -->
+
+  <div class="food-log">
+    <div class="food-log-head">
+      <div class="food-log-title">TODAY'S FOOD LOG</div>
+      <button class="food-log-clear" onclick="clearFoodLog()">Clear All</button>
+    </div>
+    <div id="food-log-entries">
+      <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text3);letter-spacing:2px;padding:20px 0;text-align:center;">NO ENTRIES YET — SCAN A MEAL TO BEGIN</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════
+     TAB: PROFILE
+════════════════════════════════════ -->
+
+<div id="tab-profile" class="tab-panel">
+  <div class="section-head">
+    <div class="section-eyebrow">// Your Athlete Identity</div>
+    <div class="section-title">PROFILE</div>
+  </div>
+
+  <!-- Profile hero -->
+
+  <div class="profile-hero">
+    <div class="profile-avatar" id="profile-avatar-wrap" title="Tap to change photo">
+      <input type="file" id="avatar-input" accept="image/*" onchange="handleAvatarUpload(event)">
+      <img id="avatar-img" alt="Avatar">
+      <span id="avatar-emoji">🏃</span>
+    </div>
+    <div class="profile-name-block">
+      <div class="profile-name" id="profile-name-display">Athlete</div>
+      <input class="profile-name-input" id="profile-name-input" placeholder="Your Name" maxlength="30">
+      <div class="profile-tag" id="profile-tag-display">// Queensland · 14U · Sprint</div>
+      <input class="profile-name-input" id="profile-tag-input" style="font-family:'DM Mono',monospace;font-size:13px;margin-top:4px;" placeholder="// Your tag line">
+      <button class="profile-edit-btn" id="profile-edit-toggle" onclick="toggleProfileEdit()">✏️ Edit Profile</button>
+    </div>
+  </div>
+
+  <!-- Stats grid (editable) -->
+
+  <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--text);margin:24px 0 12px;">ATHLETE STATS</div>
+  <div class="profile-stats-grid" id="profile-stats-grid">
+    <div class="pstat-cell">
+      <div class="pstat-label">Age</div>
+      <input class="pstat-input" id="pstat-age" type="number" placeholder="14" min="10" max="30">
+      <div class="pstat-unit">years</div>
+    </div>
+    <div class="pstat-cell">
+      <div class="pstat-label">Height</div>
+      <input class="pstat-input" id="pstat-height" type="number" placeholder="183" min="100" max="250">
+      <div class="pstat-unit">cm</div>
+    </div>
+    <div class="pstat-cell">
+      <div class="pstat-label">Weight</div>
+      <input class="pstat-input" id="pstat-weight" type="number" placeholder="52" step="0.1" min="30" max="200">
+      <div class="pstat-unit">kg</div>
+    </div>
+    <div class="pstat-cell">
+      <div class="pstat-label">Training Age</div>
+      <input class="pstat-input" id="pstat-training-age" type="number" placeholder="1" min="0" max="20">
+      <div class="pstat-unit">years</div>
+    </div>
+    <div class="pstat-cell">
+      <div class="pstat-label">Calorie Target</div>
+      <input class="pstat-input" id="pstat-cal-target" type="number" placeholder="3200" min="1000" max="6000">
+      <div class="pstat-unit">kcal/day</div>
+    </div>
+    <div class="pstat-cell">
+      <div class="pstat-label">Protein Target</div>
+      <input class="pstat-input" id="pstat-prot-target" type="number" placeholder="170" min="50" max="400">
+      <div class="pstat-unit">g/day</div>
+    </div>
+    <div class="pstat-cell">
+      <div class="pstat-label">Coach</div>
+      <input class="pstat-input" id="pstat-coach" type="text" placeholder="Coach name" style="font-family:'Barlow',sans-serif;font-size:16px;" maxlength="20">
+      <div class="pstat-unit">track coach</div>
+    </div>
+    <div class="pstat-cell">
+      <div class="pstat-label">Club / School</div>
+      <input class="pstat-input" id="pstat-club" type="text" placeholder="QLD Athletics" style="font-family:'Barlow',sans-serif;font-size:16px;" maxlength="20">
+      <div class="pstat-unit">team</div>
+    </div>
+  </div>
+
+  <!-- Performance goals -->
+
+  <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--text);margin:24px 0 12px;">PERFORMANCE GOALS</div>
+  <div class="goals-grid" id="goals-grid"></div>
+
+  <!-- Weekly training log calendar -->
+
+  <div class="profile-training-log">
+    <div class="ptl-title">THIS WEEK'S TRAINING LOG</div>
+    <div class="ptl-week-grid" id="training-log-grid"></div>
+    <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--text3);letter-spacing:2px;margin-top:8px;">TAP A DAY TO MARK AS TRAINED</div>
+  </div>
+
+  <!-- Achievement badges -->
+
+  <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--text);margin:24px 0 12px;">ACHIEVEMENT BADGES</div>
+  <div class="badges-grid" id="badges-grid"></div>
+
+  <!-- Notes -->
+
+  <div style="margin-top:24px;">
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--text);margin-bottom:8px;">COACH / TRAINING NOTES</div>
+    <textarea class="profile-notes-textarea" id="profile-notes" placeholder="Write anything — training notes, goals, what your coach said, thoughts before a race..." oninput="saveProfileNotes()"></textarea>
+  </div>
+
+<button class="profile-save-btn" onclick="saveProfile()">💾 Save Profile</button>
+
+</div>
+
+</div><!-- /page -->
+
+<!-- Toast notification -->
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════════
+
+const WORKOUT_DATA = {
+  mon: {
+    name:"Monday",label:"Upper Body Strength",badge:"gym",color:"blue",
+    icon:"💪",restSec:90,
+    exercises:[
+      {id:"trapbar-mon",emoji:"🏋",name:"Trap Bar Deadlift",note:"Drive floor away — explosive",prescription:"4×5 @65%",sets:4,restSec:120,
+        sets_data:[{kg:"",reps:""},{kg:"",reps:""},{kg:"",reps:""},{kg:"",reps:""}]},
+      {id:"incline-press",emoji:"📐",name:"Incline DB Press",note:"Full ROM — chest to armpit",prescription:"3×8 controlled",sets:3,restSec:90,
+        sets_data:[{kg:"",reps:""},{kg:"",reps:""},{kg:"",reps:""}]},
+      {id:"chinups",emoji:"🤸",name:"Chin-Ups",note:"Dead hang start — scapular packed",prescription:"3×6–8",sets:3,restSec:90,
+        sets_data:[{kg:"BW",reps:""},{kg:"BW",reps:""},{kg:"BW",reps:""}]},
+      {id:"db-row",emoji:"💪",name:"Single-Arm DB Row",note:"Brace core — no rotation",prescription:"3×10 each",sets:3,restSec:75,
+        sets_data:[{kg:"",reps:""},{kg:"",reps:""},{kg:"",reps:""}]},
+      {id:"band-pull",emoji:"🎗",name:"Band Pull-Aparts",note:"Shoulder health — squeeze scaps",prescription:"3×20",sets:3,restSec:45,
+        sets_data:[{kg:"Band",reps:""},{kg:"Band",reps:""},{kg:"Band",reps:""}]},
+      {id:"pallof",emoji:"🧲",name:"Pallof Press",note:"Anti-rotation core",prescription:"3×10 each",sets:3,restSec:60,
+        sets_data:[{kg:"",reps:""},{kg:"",reps:""},{kg:"",reps:""}]},
+    ]
+  },
+  tue: {
+    name:"Tuesday",label:"Power Primer (Pre-Track)",badge:"double",color:"purple",
+    icon:"⚡",restSec:120,
+    exercises:[
+      {id:"hang-clean",emoji:"🏋",name:"Hang Power Clean",note:"Speed is goal — bar feels fast",prescription:"4×3 @50%",sets:4,restSec:150,
+        sets_data:[{kg:"",reps:""},{kg:"",reps:""},{kg:"",reps:""},{kg:"",reps:""}]},
+      {id:"box-jump",emoji:"📦",name:"Box Jumps",note:"Maximal intent — full reset",prescription:"4×4",sets:4,restSec:150,
+        sets_data:[{kg:"BW",reps:""},{kg:"BW",reps:""},{kg:"BW",reps:""},{kg:"BW",reps:""}]},
+      {id:"med-scoop",emoji:"🏐",name:"Med Ball Scoop Throw",note:"Explosive hip snap",prescription:"3×5 5kg",sets:3,restSec:90,
+        sets_data:[{kg:"5kg",reps:""},{kg:"5kg",reps:""},{kg:"5kg",reps:""}]},
+      {id:"banded-march",emoji:"🦵",name:"Banded Hip Flexor March",note:"Drive knee to 90° — drive phase",prescription:"3×8 each",sets:3,restSec:60,
+        sets_data:[{kg:"Band",reps:""},{kg:"Band",reps:""},{kg:"Band",reps:""}]},
+    ]
+  },
+  wed: {
+    name:"Wednesday",label:"Full Rest",badge:"rest",color:"green",
+    icon:"🛌",restSec:0,
+    exercises:[
+      {id:"walk-wed",emoji:"🚶",name:"Easy Walk 20–30 min",note:"Zone 1 — chatty pace",prescription:"1×",sets:1,restSec:0,
+        sets_data:[{kg:"—",reps:"done"}]},
+      {id:"stretch-wed",emoji:"🧘",name:"Full Body Static Stretch",note:"Hold 45–60s each",prescription:"20 min",sets:1,restSec:0,
+        sets_data:[{kg:"—",reps:"done"}]},
+      {id:"foam-wed",emoji:"🫁",name:"Foam Roll Protocol",note:"Quads, IT band, calves, back",prescription:"10 min",sets:1,restSec:0,
+        sets_data:[{kg:"—",reps:"done"}]},
+    ]
+  },
+  thu: {
+    name:"Thursday",label:"Plyos (Pre-Track)",badge:"double",color:"purple",
+    icon:"🦘",restSec:120,
+    exercises:[
+      {id:"hurdle-hops",emoji:"🏃",name:"Hurdle Hops",note:"Stiff ankle — bounce fast",prescription:"4×5 bilateral",sets:4,restSec:120,
+        sets_data:[{kg:"BW",reps:""},{kg:"BW",reps:""},{kg:"BW",reps:""},{kg:"BW",reps:""}]},
+      {id:"sl-bounds",emoji:"🦘",name:"Single-Leg Bounds",note:"Max distance — aggressive arms",prescription:"4×4 each",sets:4,restSec:120,
+        sets_data:[{kg:"BW",reps:""},{kg:"BW",reps:""},{kg:"BW",reps:""},{kg:"BW",reps:""}]},
+      {id:"seated-jump",emoji:"📦",name:"Seated Box Jump",note:"No countermovement — pure power",prescription:"3×4",sets:3,restSec:150,
+        sets_data:[{kg:"BW",reps:""},{kg:"BW",reps:""},{kg:"BW",reps:""}]},
+      {id:"band-sprint",emoji:"💨",name:"Resisted Sprint (Band)",note:"10m — heavy resistance, perfect posture",prescription:"4×10m",sets:4,restSec:180,
+        sets_data:[{kg:"Band",reps:""},{kg:"Band",reps:""},{kg:"Band",reps:""},{kg:"Band",reps:""}]},
+      {id:"pogos",emoji:"🏃",name:"Pogos / Ankle Stiffness",note:"Minimize ground contact",prescription:"3×20m",sets:3,restSec:60,
+        sets_data:[{kg:"BW",reps:""},{kg:"BW",reps:""},{kg:"BW",reps:""}]},
+    ]
+  },
+  fri: {
+    name:"Friday",label:"Lower Body Strength",badge:"gym",color:"blue",
+    icon:"🦵",restSec:120,
+    exercises:[
+      {id:"trapbar-fri",emoji:"🏋",name:"Trap Bar Deadlift",note:"Heavier than Monday — still technical",prescription:"5×4 @70–75%",sets:5,restSec:150,
+        sets_data:[{kg:"",reps:""},{kg:"",reps:""},{kg:"",reps:""},{kg:"",reps:""},{kg:"",reps:""}]},
+      {id:"bss",emoji:"🦵",name:"Bulgarian Split Squat",note:"Rear foot elevated",prescription:"3×8 each",sets:3,restSec:90,
+        sets_data:[{kg:"",reps:""},{kg:"",reps:""},{kg:"",reps:""}]},
+      {id:"nordic",emoji:"🤸",name:"Nordic Hamstring Curl",note:"INJURY PREVENTION — eccentric",prescription:"3×5 slow",sets:3,restSec:120,
+        sets_data:[{kg:"BW",reps:""},{kg:"BW",reps:""},{kg:"BW",reps:""}]},
+      {id:"hip-thrust",emoji:"🍑",name:"Hip Thrust",note:"Full extension — squeeze at top",prescription:"4×10",sets:4,restSec:90,
+        sets_data:[{kg:"",reps:""},{kg:"",reps:""},{kg:"",reps:""},{kg:"",reps:""}]},
+      {id:"calf-sl",emoji:"🦶",name:"Single-Leg Calf Raise",note:"Full ROM — ankle stiffness",prescription:"3×15 each",sets:3,restSec:60,
+        sets_data:[{kg:"BW",reps:""},{kg:"BW",reps:""},{kg:"BW",reps:""}]},
+      {id:"ab-wheel",emoji:"🎯",name:"Ab Wheel Rollout",note:"Neutral spine — don't sag",prescription:"3×8",sets:3,restSec:75,
+        sets_data:[{kg:"BW",reps:""},{kg:"BW",reps:""},{kg:"BW",reps:""}]},
+    ]
+  },
+  sat: {
+    name:"Saturday",label:"Full Body + Aesthetic",badge:"gym",color:"gold",
+    icon:"✨",restSec:90,
+    exercises:[
+      {id:"tb-jump-squat",emoji:"🏋",name:"Trap Bar Jump Squat",note:"Light — MAX jump height",prescription:"4×5 @30%",sets:4,restSec:150,
+        sets_data:[{kg:"",reps:""},{kg:"",reps:""},{kg:"",reps:""},{kg:"",reps:""}]},
+      {id:"pushup-var",emoji:"🤸",name:"Push-Up Variations",note:"Archer→Wide→Close grip",prescription:"4×12",sets:4,restSec:60,
+        sets_data:[{kg:"BW",reps:""},{kg:"BW",reps:""},{kg:"BW",reps:""},{kg:"BW",reps:""}]},
+      {id:"lat-raise",emoji:"💪",name:"DB Lateral Raise",note:"Controlled — no swing",prescription:"3×15",sets:3,restSec:60,
+        sets_data:[{kg:"",reps:""},{kg:"",reps:""},{kg:"",reps:""}]},
+      {id:"goblet",emoji:"🏆",name:"Goblet Squat",note:"Upright torso — full depth",prescription:"3×12",sets:3,restSec:75,
+        sets_data:[{kg:"",reps:""},{kg:"",reps:""},{kg:"",reps:""}]},
+      {id:"curl-press",emoji:"💪",name:"DB Curl + Press Superset",note:"Bicep + shoulder combo",prescription:"3×10",sets:3,restSec:60,
+        sets_data:[{kg:"",reps:""},{kg:"",reps:""},{kg:"",reps:""}]},
+      {id:"farmers",emoji:"🌾",name:"Farmer's Carry",note:"Posture, grip, core",prescription:"3×40m",sets:3,restSec:90,
+        sets_data:[{kg:"",reps:""},{kg:"",reps:""},{kg:"",reps:""}]},
+    ]
+  },
+  sun: {
+    name:"Sunday",label:"Active Recovery",badge:"rest",color:"green",
+    icon:"🌿",restSec:0,
+    exercises:[
+      {id:"walk-sun",emoji:"🚶",name:"Easy Walk/Bike 30 min",note:"Zone 1 — enjoy it",prescription:"1×",sets:1,restSec:0,
+        sets_data:[{kg:"—",reps:"done"}]},
+      {id:"yoga-sun",emoji:"🧘",name:"Yoga / Mobility Flow",note:"Hip flexors + thoracic spine",prescription:"15 min",sets:1,restSec:0,
+        sets_data:[{kg:"—",reps:"done"}]},
+      {id:"viz",emoji:"📱",name:"Visualisation",note:"Perfect 100m + 200m in your mind",prescription:"10 min",sets:1,restSec:0,
+        sets_data:[{kg:"—",reps:"done"}]},
+    ]
+  }
+};
+
+const TRAINING_PLAN = [
+  {day:"MON",label:"Upper Body Strength",badge:"gym",dot:"strength",detail:"Upper body push + pull + core. Trap Bar 4×5 @ 65%. 60 min. Beginner-friendly loads — technique is king."},
+  {day:"TUE",label:"Power + Track (AM+PM)",badge:"double",dot:"double",detail:"AM: 45-min power primer before school. PM: Coach-led track 4–8pm. Highest carb intake day."},
+  {day:"WED",label:"Full Rest",badge:"rest",dot:"rest",detail:"Active recovery only. Walk, foam roll, contrast shower. This is when Tuesday's training becomes fitness."},
+  {day:"THU",label:"Plyos + Track (AM+PM)",badge:"double",dot:"double",detail:"AM: 45-min reactive plyo session. PM: Coach-led track 4–8pm. Second two-a-day. Match Tuesday fuelling."},
+  {day:"FRI",label:"Lower Body Strength",badge:"gym",dot:"strength",detail:"Trap Bar heavy 5×4 @ 70–75%. Nordic curls (injury prevention). Hip thrusts. 60 min."},
+  {day:"SAT",label:"Full Body + Aesthetic",badge:"gym",dot:"strength",detail:"Jump squats + push-up variations + lateral raises + farmer's carries. 90 min. The fun session."},
+  {day:"SUN",label:"Active Recovery",badge:"rest",dot:"rest",detail:"Walk, yoga flow, Epsom bath, visualisation. Also meal prep day — cook Monday/Tuesday lunches."},
+];
+
+const NUTRITION_DAYS = {
+  MON:{name:"Monday",badge:"gym",cal:3050,protein:162,carbs:390,fat:78,
+    meals:[
+      {icon:"🌅",slot:"Breakfast",time:"06:00 AM",name:"Power Oat Bowl",protein:"🥚 Eggs + Dairy · 46g",prot:46,
+        ingr:[["Rolled oats (dry)","80g","5g"],["Whole eggs (scrambled)","3 large","19g"],["Full-fat Greek yoghurt","150g","15g"],["Honey","1 tbsp","—"],["Banana","1 large","1g"],["Whole milk","250ml","8g"]],
+        why:"Eggs provide all 9 essential amino acids. Oats give slow-release energy. Greek yoghurt adds casein for sustained protein across your 60-min gym session.",
+        cal:680,pc:95,fc:16},
+      {icon:"🍱",slot:"Lunch",time:"12:00 PM · School",name:"Chicken & Rice Bowl",protein:"🍗 Chicken Breast · 52g",prot:52,
+        ingr:[["Grilled chicken breast","200g","46g"],["Cooked white rice","1.5 cups","5g"],["Mixed salad greens","handful","—"],["Pumpkin seeds","20g","4g"],["Apple","1 medium","—"]],
+        why:"Chicken breast has the highest protein-to-calorie ratio of any meat. White rice is the best school carb: no bloating, steady energy through afternoon classes.",
+        cal:720,pc:88,fc:14},
+      {icon:"⚡",slot:"Snack",time:"3:30 PM",name:"Tuna Toast + OJ",protein:"🐟 Canned Tuna · 35g",prot:35,
+        ingr:[["Canned tuna in springwater","185g tin","40g"],["Sourdough bread","2 slices","7g"],["Avocado","½","2g"],["Orange juice","250ml","2g"]],
+        why:"Tuna: 26g protein per 100g. Avocado fats support testosterone. OJ gives vitamin C which increases iron absorption from the tuna.",
+        cal:590,pc:62,fc:14},
+      {icon:"🌙",slot:"Dinner",time:"7:00 PM",name:"Salmon Bowl + Sweet Potato",protein:"🐟 Salmon · 46g",prot:46,
+        ingr:[["Salmon fillet","200g","40g"],["Sweet potato (roasted)","200g","4g"],["Basmati rice","1 cup cooked","4g"],["Broccoli","1 cup","4g"],["Cottage cheese (side)","100g","12g"]],
+        why:"Salmon omega-3s reduce overnight muscle inflammation. Cottage cheese is casein — feeds muscles for 6–8 hrs while you sleep.",
+        cal:820,pc:88,fc:24},
+    ]},
+  TUE:{name:"Tuesday",badge:"double",cal:3300,protein:175,carbs:430,fat:80,
+    meals:[
+      {icon:"🌅",slot:"Pre-Gym",time:"05:45 AM",name:"Quick Power Primer",protein:"🥜 PB + Choc Milk · 22g",prot:22,
+        ingr:[["Rice cakes","3 cakes","3g"],["Natural peanut butter","40g","10g"],["Banana","1 large","1g"],["Chocolate milk","300ml","9g"]],
+        why:"Rice cakes + banana digest fast without sitting heavy during power cleans. Chocolate milk has an ideal 3:1 carb-to-protein ratio — better than most sports drinks.",
+        cal:510,pc:72,fc:15},
+      {icon:"💪",slot:"Post-Gym Breakfast",time:"07:30 AM",name:"Recovery Breakfast Mega",protein:"🥚 Eggs + Yoghurt · 54g",prot:54,
+        ingr:[["Whole eggs","4 large","25g"],["Extra egg whites","2 whites","7g"],["Full-fat Greek yoghurt","200g","18g"],["Rolled oats","80g dry","5g"],["Orange juice","250ml","2g"]],
+        why:"30-min post-gym window — muscle cells are maximally sensitive to protein. 54g here triggers muscle protein synthesis hard. You need this before 6 hours of school.",
+        cal:820,pc:95,fc:20},
+      {icon:"🍱",slot:"Lunch",time:"12:00 PM · School",name:"Turkey & Cheese Wraps",protein:"🦃 Turkey + Cheese · 48g",prot:48,
+        ingr:[["Sliced turkey breast","180g","38g"],["Cheese slices (cheddar)","2 slices","8g"],["Large wholegrain wraps","2 wraps","8g"],["Hummus","3 tbsp","4g"],["Apple + cashews","side","5g"]],
+        why:"Turkey is high in zinc — your most important mineral for testosterone and immune function at 14. Cheese adds calcium for bone density under sprint loading.",
+        cal:750,pc:80,fc:22},
+      {icon:"⚡",slot:"Pre-Track Snack",time:"3:15 PM",name:"Sprint Launch Snack",protein:"🐟 Tuna + Bread · 30g",prot:30,
+        ingr:[["Canned tuna","95g tin","22g"],["Sourdough bread","2 slices","7g"],["Banana","1 large","1g"],["Coconut water / sports drink","500ml","—"],["Medjool dates","2 dates","—"]],
+        why:"Eat 90 min before track. Banana + dates + bread are fast carbs that load glycogen. Tuna gives amino acids without heavy fat that slows digestion before sprinting.",
+        cal:520,pc:86,fc:5},
+      {icon:"🌙",slot:"Post-Track Dinner",time:"8:30 PM",name:"Soy Chicken Thigh + Rice",protein:"🍗 Chicken Thigh · 60g",prot:60,
+        ingr:[["Skinless chicken thighs","280g","48g"],["Basmati rice","2 cups","8g"],["Broccoli + capsicum","stir-fried","5g"],["Hard boiled egg","1","6g"],["Cottage cheese","150g","16g"]],
+        why:"After two sessions, this is your biggest replenishment. 2 cups rice fills depleted glycogen. Chicken thighs have oleic acid for overnight testosterone production. Cottage cheese closes the protein window overnight.",
+        cal:900,pc:98,fc:22},
+    ]},
+  WED:{name:"Wednesday",badge:"rest",cal:2750,protein:160,carbs:310,fat:85,
+    meals:[
+      {icon:"🌅",slot:"Breakfast",time:"7:30 AM",name:"Smoked Salmon Scramble",protein:"🐟 Smoked Salmon + Eggs · 48g",prot:48,
+        ingr:[["Smoked salmon","100g","22g"],["Whole eggs","3 large","19g"],["Sourdough toast","2 slices","7g"],["Avocado","½","2g"],["Spinach (wilted)","handful","2g"]],
+        why:"Smoked salmon on rest days is your secret weapon — highest omega-3 density of common proteins, directly suppressing inflammation from Tuesday's two-a-day.",
+        cal:720,pc:55,fc:28},
+      {icon:"🍲",slot:"Lunch",time:"12:30 PM",name:"Lentil & Chicken Soup",protein:"🍗 Chicken + Lentils · 52g",prot:52,
+        ingr:[["Shredded chicken breast","150g","34g"],["Red lentils (cooked)","150g","12g"],["Chicken stock","500ml","3g"],["Diced tomatoes + veg","mixed","2g"],["Turmeric + cumin + garlic","spices","—"]],
+        why:"Turmeric is a natural anti-inflammatory nearly as powerful as ibuprofen for muscle soreness, without side effects. Lentils are high in iron for oxygen transport.",
+        cal:650,pc:72,fc:9},
+      {icon:"🥗",slot:"Snack",time:"3:30 PM",name:"Greek Yoghurt Parfait",protein:"🥛 Yoghurt + Nuts · 28g",prot:28,
+        ingr:[["Full-fat Greek yoghurt","200g","18g"],["Mixed nuts","40g","6g"],["Banana or mango","½ banana","1g"],["Granola (low sugar)","30g","3g"]],
+        why:"Walnuts contain ALA omega-3 that complements fish omega-3s. Greek yoghurt probiotics support gut health — critical for absorbing all your protein.",
+        cal:450,pc:48,fc:18},
+      {icon:"🍝",slot:"Dinner",time:"6:30 PM",name:"Tuna Pasta Bake",protein:"🐟 Tuna + Mozzarella · 55g",prot:55,
+        ingr:[["Canned tuna (2 tins)","370g","80g"],["Pasta (penne)","120g dry","9g"],["Tomato passata","½ jar","3g"],["Mozzarella (melted)","60g","14g"],["Mixed veg","1 cup","3g"]],
+        why:"Wednesday dinner is carb-rich to load glycogen for Thursday's two-a-day. Eating at 6:30pm gives gut 3 hours before 9:30 bedtime — improving sleep quality.",
+        cal:780,pc:84,fc:14},
+    ]},
+  THU:{name:"Thursday",badge:"double",cal:3400,protein:175,carbs:445,fat:78,
+    meals:[
+      {icon:"🌅",slot:"Pre-Gym Primer",time:"05:45 AM",name:"Overnight Oats Jar",protein:"🥛 Yoghurt + Oats · 24g",prot:24,
+        ingr:[["Rolled oats","70g","5g"],["Greek yoghurt","100g","9g"],["Chia seeds","2 tbsp","4g"],["Banana + honey","1 banana","1g"],["Peanut butter","1 tbsp","4g"]],
+        why:"Prep the night before — zero 5:45am stress. Chia seeds expand and slow gastric emptying, giving steady energy across your 45-min plyometric session.",
+        cal:530,pc:74,fc:16},
+      {icon:"💪",slot:"Post-Gym Breakfast",time:"07:30 AM",name:"Omelette + Protein Shake",protein:"🥚 Eggs + Whey · 55g",prot:55,
+        ingr:[["Whole eggs + egg whites","2+4","27g"],["Whey protein in milk","1 scoop + 300ml","38g"],["Spinach + mushroom","fill","2g"],["Whole grain toast","2 slices","7g"]],
+        why:"Thursday plyos are high-impact. Whey protein peaks in blood at 30 min post — fastest absorbing protein available. Egg yolks supply vitamin D for CNS function during afternoon sprinting.",
+        cal:820,pc:88,fc:18},
+      {icon:"🍱",slot:"Lunch",time:"12:00 PM · School",name:"Sushi Boxes + Edamame",protein:"🐟 Tuna Sushi + Edamame · 42g",prot:42,
+        ingr:[["Tuna sushi rolls (6 pcs)","2 packs","20g"],["Edamame (shelled)","150g","11g"],["Hard-boiled eggs","2","13g"],["Seaweed snack pack","1","1g"]],
+        why:"Shop-bought is fine today. Sushi: white rice for carbs, fish for protein. Edamame is a complete plant protein — contains all essential amino acids.",
+        cal:620,pc:75,fc:14},
+      {icon:"⚡",slot:"Pre-Track Snack",time:"3:15 PM",name:"Choc Milk + Banana + Dates",protein:"🥛 Choc Milk · 18g",prot:18,
+        ingr:[["Full fat chocolate milk","400ml","12g"],["Banana","1 large","1g"],["Medjool dates","3 dates","—"],["Rice crackers","10 crackers","2g"]],
+        why:"Simple, fast. Dates absorb in 15 minutes. Chocolate milk is the ideal pre-track drink — beats most sports drinks on protein, carbs, and electrolyte balance.",
+        cal:480,pc:90,fc:8},
+      {icon:"🌙",slot:"Post-Track Dinner",time:"8:30 PM",name:"Teriyaki Salmon + Brown Rice",protein:"🐟 Salmon + Edamame · 62g",prot:62,
+        ingr:[["Salmon fillet","220g","44g"],["Brown rice","1.5 cups cooked","5g"],["Edamame","100g","8g"],["Broccolini + bok choy","2 cups","4g"],["Cottage cheese (before bed)","150g","16g"]],
+        why:"After two sessions Thursday is your body's most catabolic state. Salmon omega-3s combat this. Brown rice gives longer carb release overnight. Edamame's leucine switches on muscle protein synthesis.",
+        cal:950,pc:96,fc:26},
+    ]},
+  FRI:{name:"Friday",badge:"gym",cal:3100,protein:168,carbs:390,fat:82,
+    meals:[
+      {icon:"🥚",slot:"Pre-Gym Breakfast",time:"06:00 AM",name:"Eggs on Toast + Shake",protein:"🥚 Eggs + Whey · 52g",prot:52,
+        ingr:[["Eggs (poached/fried)","3 large","19g"],["Sourdough toast","2 thick slices","7g"],["Whey in milk","1 scoop + 250ml","36g"],["Avocado (smashed)","½","2g"]],
+        why:"Friday = heavy leg day. Protein shake before training ensures blood amino acids are elevated when you start tearing muscle fibres. Avocado potassium prevents cramping on heavy squats.",
+        cal:780,pc:85,fc:22},
+      {icon:"🍱",slot:"Lunch",time:"12:00 PM · School",name:"Chicken Pesto Pasta Salad",protein:"🍗 Chicken + Parmesan · 50g",prot:50,
+        ingr:[["Grilled chicken breast (cold)","180g","41g"],["Pasta (cooked)","100g dry","7g"],["Pesto","2 tbsp","2g"],["Parmesan shavings","20g","4g"],["Pine nuts","20g","4g"]],
+        why:"Pine nuts are high in zinc for testosterone. Parmesan adds calcium + saturated fat for hormone production. Higher fat than usual — supports recovery from heavy lifting.",
+        cal:740,pc:82,fc:24},
+      {icon:"🥤",slot:"Afternoon Snack",time:"3:30 PM",name:"Protein Smoothie",protein:"🥛 Whey + Milk · 40g",prot:40,
+        ingr:[["Whey protein powder","1.5 scoops","40g"],["Full fat milk","350ml","12g"],["Frozen banana","1 whole","1g"],["Peanut butter","2 tbsp","8g"],["Oats (blend in)","30g","3g"]],
+        why:"After heavy leg day, appetite drops — blood flows to repair not digestion. Liquid meals are far easier to get down yet deliver 600+ cal and 60g protein.",
+        cal:640,pc:68,fc:18},
+      {icon:"🌯",slot:"Dinner",time:"7:00 PM",name:"Chicken Burrito Bowl",protein:"🍗 Chicken + Black Beans · 58g",prot:58,
+        ingr:[["Grilled chicken breast","200g","46g"],["Black beans (tinned)","150g","9g"],["Basmati rice","1.5 cups","5g"],["Corn, lettuce, tomato","mixed","2g"],["Greek yoghurt (as sour cream)","3 tbsp","5g"]],
+        why:"Black beans + chicken = complete amino acid profile. Black beans are high in resistant starch which feeds gut bacteria and improves protein absorption across your entire diet.",
+        cal:860,pc:102,fc:22},
+    ]},
+  SAT:{name:"Saturday",badge:"gym",cal:3150,protein:162,carbs:390,fat:85,
+    meals:[
+      {icon:"🍳",slot:"Breakfast",time:"7:30 AM",name:"Big Breakfast Plate",protein:"🥚 Eggs + Turkey Sausages · 52g",prot:52,
+        ingr:[["Whole eggs","3 large","19g"],["Chicken/turkey sausages","3 sausages","18g"],["Baked beans","½ tin","7g"],["Sourdough toast","2 slices","7g"],["OJ","250ml","2g"]],
+        why:"Weekend enjoyment + performance. Turkey sausages over pork = lean protein. Baked beans add plant protein + fibre that feeds gut bacteria. Mushrooms contain ergothioneine protecting muscle cells.",
+        cal:780,pc:88,fc:20},
+      {icon:"🥗",slot:"Post-Gym Lunch",time:"10:30 AM",name:"Chicken & Quinoa Bowl",protein:"🍗 Chicken + Quinoa · 54g",prot:54,
+        ingr:[["Grilled chicken breast","200g","46g"],["Quinoa (cooked)","1 cup","8g"],["Sweet potato cubes","150g","3g"],["Kale or spinach","2 handfuls","4g"],["Tahini dressing","2 tbsp","5g"]],
+        why:"Quinoa is the only grain with all 9 essential amino acids. Tahini is high in calcium and zinc — both depleted by sprint training. Kale is vitamin K for bone density.",
+        cal:780,pc:88,fc:22},
+      {icon:"🫓",slot:"Snack",time:"3:00 PM",name:"Hummus, Pita & Eggs",protein:"🥚 Eggs + Chickpeas · 26g",prot:26,
+        ingr:[["Hummus","100g","8g"],["Whole grain pita","2 pitas","8g"],["Hard boiled eggs","2","13g"],["Carrot + capsicum sticks","raw","2g"]],
+        why:"Hummus from chickpeas: 19% protein + high in folate + manganese supporting energy metabolism. Fibre-rich veggies + protein + complex carb keeps you full without overeating before dinner.",
+        cal:480,pc:62,fc:14},
+      {icon:"🍗",slot:"Dinner",time:"6:30 PM",name:"Lemon Herb Chicken Thighs",protein:"🍗 Chicken Thighs · 52g",prot:52,
+        ingr:[["Skin-on chicken thighs","280g","48g"],["Mashed sweet potato","250g","4g"],["Green beans (steamed)","1 cup","2g"],["Cottage cheese (before bed)","150g","16g"]],
+        why:"Skin-on Saturday night — you've earned the extra fat. The skin adds monounsaturated fat for overnight hormone production. Sweet potato mash fills glycogen and is rich in beta-carotene reducing oxidative damage.",
+        cal:860,pc:88,fc:26},
+    ]},
+  SUN:{name:"Sunday",badge:"rest",cal:2700,protein:155,carbs:300,fat:90,
+    meals:[
+      {icon:"🥑",slot:"Brunch",time:"9:30 AM",name:"Salmon Avo Toast + Eggs",protein:"🐟 Smoked Salmon + Eggs · 52g",prot:52,
+        ingr:[["Smoked salmon","120g","26g"],["Poached eggs","2 large","13g"],["Sourdough toast","2 thick slices","7g"],["Avocado","1 whole","4g"],["Full fat milk flat white","300ml milk","10g"]],
+        why:"Sunday brunch is luxury + performance. Salmon + avocado + eggs = trifecta of omega-3s, monounsaturated fats, and complete protein. Capers contain quercetin — one of the best sport anti-inflammatories.",
+        cal:850,pc:70,fc:30},
+      {icon:"🧀",slot:"Snack",time:"2:30 PM",name:"Cottage Cheese & Fruit",protein:"🧀 Cottage Cheese · 26g",prot:26,
+        ingr:[["Full-fat cottage cheese","250g","27g"],["Mango or pineapple","1 cup","1g"],["Walnuts (crushed)","30g","4g"],["Honey","1 tsp","—"]],
+        why:"Pineapple contains bromelain — an enzyme proven to reduce muscle soreness and speed tendon repair. Perfect timing the day before Monday's gym session.",
+        cal:440,pc:38,fc:16},
+      {icon:"🍗",slot:"Dinner + Meal Prep",time:"6:00 PM",name:"Sheet Pan Chicken + Chickpeas",protein:"🍗 Chicken + Chickpeas · 58g",prot:58,
+        ingr:[["Chicken thighs (bone-in)","320g","52g"],["Chickpeas (tin, roasted)","200g","10g"],["Roast potato + pumpkin + capsicum","400g mixed","5g"],["Greek yoghurt (dip)","100g","9g"]],
+        why:"Make double — reserve half for Monday's school lunch. Roasted chickpeas get crispy and add 10g plant protein per 100g cooked. One pan = minimal effort, maximum return.",
+        cal:820,pc:80,fc:26},
+    ]},
+};
+
+const DRILLS = [
+  {num:"01",name:"A-Skip",desc:"High knee drive with rhythmic arm swing. Foot strikes directly under hip, not in front. 2×20m build, then 2×30m faster.",tags:["4×30m","warm-up","mechanics"]},
+  {num:"02",name:"B-Skip",desc:"A-skip plus pawback extension. Extend leg forward then claw back before ground contact. Mimics the sprint stride cycle.",tags:["4×30m","mechanics","stride"]},
+  {num:"03",name:"Wall Drill",desc:"Hands against wall at 45°. Alternate knee drives at 100% speed. Feel the piston action of the drive phase.",tags:["3×10s","drive phase","CNS"]},
+  {num:"04",name:"Falling Start",desc:"Stand tall, fall forward from ankles (not waist) until you MUST step. First step is a sprint step. Builds forward lean reflex.",tags:["6×15m","start mechanics","lean"]},
+  {num:"05",name:"3-Point Start × 10m",desc:"Crouch start, drive for 10m only. Are you upright by step 4? You shouldn't be — hold low until 15m. Film yourself from the side.",tags:["5×10m","4min rest","MAX effort"]},
+  {num:"06",name:"Block Start × 20m",desc:"Focus solely on first 3 steps — aggressive push, not a pull. Chin tucked, eyes 3m ahead on the track.",tags:["4×20m","5min rest","95–100%"]},
+  {num:"07",name:"30m Fly Sprint",desc:"Walk 30m, then hit a pre-built 30m sprint zone at MAX velocity. Not about the start — about reaching and holding top speed.",tags:["3×30m fly","6min rest","MAXIMAL"]},
+  {num:"08",name:"Wicket Runs",desc:"Cones 1.2m apart for 20m. Sprint through at controlled speed focusing on consistent stride rhythm. Don't overstride.",tags:["4×20m","stride length","rhythm"]},
+  {num:"09",name:"Ins & Outs",desc:"20m easy → 20m HARD → 20m easy → 20m HARD. Teaches speed switching and relaxation between bursts. Fast but loose.",tags:["3×80m","5min rest","relaxation"]},
+  {num:"10",name:"Resisted Sled Sprint",desc:"Light load (5–8kg max). Sprint 20m. Load should not slow you by more than 10%. Builds drive mechanics under resistance.",tags:["4×20m","5kg load","drive power"]},
+];
+
+const SPEED_EXERCISES = [
+  {title:"🏋 Deficit Deadlift",why:"Standing on a 2–4cm plate increases the range of motion, building more glute and hamstring strength through the drive zone — exactly what fires in your first 20m.",rx:"3×4 @ 60% · weekly"},
+  {title:"🦵 Reactive Split Squat Jump",why:"Drop into a split squat then JUMP as high as possible, switching legs mid-air. Trains rate of force development — how fast your muscles produce power, not just how much.",rx:"3×5 each leg · pre-track"},
+  {title:"🎯 Glute-Ham Raise",why:"The hamstrings do two things in sprinting: extend the hip and flex the knee simultaneously. GHRs are the only exercise that trains both at once. Elite sprint coaches call it mandatory.",rx:"3×6 eccentric · Friday"},
+  {title:"⚡ Trap Bar Jump to Sprint",why:"Jump off the trap bar then immediately accelerate into a 10m sprint. Teaches your CNS to link maximum power production directly to sprint mechanics.",rx:"4×(jump+10m) · Saturday"},
+  {title:"🦶 Seated Calf Raise (Heavy)",why:"The Achilles tendon stores and releases elastic energy with every stride. Heavy seated calf raises specifically load the soleus — the part responsible for this spring-like mechanism.",rx:"4×12 · any session"},
+  {title:"🏃 Single-Leg Romanian Deadlift",why:"At 6ft, any leg length imbalance is magnified over 100m. SL-RDLs expose and fix hip stability weakness on your weaker side, preventing compensations that leak speed.",rx:"3×8 each · Friday"},
+  {title:"💨 Ankle Hops (Stiff Leg)",why:"Ground contact time is a key limiter for 200m runners. Stiff-ankle hops train the reflex arc that minimises this contact time — the difference between bouncing vs sinking into the ground.",rx:"3×20 hops · pre-track warm-up"},
+  {title:"🤸 Hip Flexor Strength (Band)",why:"At 6ft, weak hip flexors limit your stride frequency. Standing banded knee drives build the specific flexor strength needed to cycle your legs faster in the 60–100m zone of your race.",rx:"3×10 each · any day"},
+];
+
+const GYM_PRS = [
+  "Trap Bar Deadlift","Incline DB Press","Chin-Ups (max reps)",
+  "Hip Thrust","Bulgarian Split Squat","Hang Power Clean",
+  "Goblet Squat","Farmer's Carry (total)","DB Lateral Raise",
+];
+
+// ═══════════════════════════════════════════
+// STATE (localStorage)
+// ═══════════════════════════════════════════
+function getState(key, def) {
+  try { const v = localStorage.getItem('sprintos_'+key); return v ? JSON.parse(v) : def; }
+  catch(e) { return def; }
+}
+function setState(key, val) {
+  try { localStorage.setItem('sprintos_'+key, JSON.stringify(val)); } catch(e) {}
+}
+
+// ═══════════════════════════════════════════
+// THEME
+// ═══════════════════════════════════════════
+function toggleTheme() {
+  const html = document.documentElement;
+  const isDark = html.dataset.theme === 'dark';
+  html.dataset.theme = isDark ? 'light' : 'dark';
+  document.getElementById('theme-icon').textContent = isDark ? '🌙' : '☀️';
+  document.getElementById('theme-label').textContent = isDark ? 'Dark Mode' : 'Light Mode';
+  setState('theme', html.dataset.theme);
+}
+function initTheme() {
+  const t = getState('theme', 'dark');
+  document.documentElement.dataset.theme = t;
+  document.getElementById('theme-icon').textContent = t === 'dark' ? '☀️' : '🌙';
+  document.getElementById('theme-label').textContent = t === 'dark' ? 'Light Mode' : 'Dark Mode';
+}
+
+// ═══════════════════════════════════════════
+// TAB NAV
+// ═══════════════════════════════════════════
+function showTab(id) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  event.target.classList.add('active');
+  window.scrollTo({top:document.querySelector('.main-nav').offsetTop - 10, behavior:'smooth'});
+}
+
+// ═══════════════════════════════════════════
+// TOAST
+// ═══════════════════════════════════════════
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ═══════════════════════════════════════════
+// DASHBOARD
+// ═══════════════════════════════════════════
+const MACROS = [
+  {name:"Protein",target:170,color:"var(--green)",key:"protein"},
+  {name:"Carbs",target:420,color:"var(--blue)",key:"carbs"},
+  {name:"Fats",target:80,color:"var(--orange)",key:"fat"},
+  {name:"Calories",target:3200,color:"var(--gold)",key:"cal"},
+];
+
+function initWater() {
+  const container = document.getElementById('water-glasses');
+  const filled = getState('water_filled', 0);
+  container.innerHTML = '';
+  for(let i = 0; i < 8; i++) {
+    const btn = document.createElement('button');
+    btn.className = 'glass-btn' + (i < filled ? ' filled' : '');
+    btn.innerHTML = i < filled ? '💧' : '🫙';
+    btn.title = `Glass ${i+1}`;
+    btn.onclick = () => toggleWater(i+1);
+    container.appendChild(btn);
+  }
+  document.getElementById('water-count').textContent = filled;
+}
+function toggleWater(n) {
+  const filled = getState('water_filled', 0);
+  setState('water_filled', filled === n ? n-1 : n);
+  initWater();
+  if(n === 8) showToast('🎉 Hydration goal hit! 3L done!');
+}
+function resetWater() { setState('water_filled', 0); initWater(); showToast('Water tracker reset'); }
+
+function initMacros() {
+  const container = document.getElementById('macro-bars');
+  container.innerHTML = '';
+  MACROS.forEach(m => {
+    const cur = getState('macro_'+m.key, 0);
+    const pct = Math.min(100, Math.round(cur/m.target*100));
+    container.innerHTML += `
+      <div class="macro-row">
+        <div class="macro-row-top">
+          <span class="macro-name">${m.name}</span>
+          <span class="macro-val">${cur}/${m.target}${m.key==='cal'?'kcal':'g'}</span>
+        </div>
+        <div class="macro-bar-bg"><div class="macro-bar-fill" style="width:${pct}%;background:${m.color};"></div></div>
+        <div class="macro-input-row">
+          <input type="number" class="macro-num-input" id="macro-inp-${m.key}" placeholder="+g" min="0" max="2000">
+          <button class="macro-add-btn" onclick="addMacro('${m.key}')">+ Add</button>
+          <button class="macro-add-btn" onclick="resetMacro('${m.key}')">↺</button>
+        </div>
+      </div>`;
+  });
+}
+function addMacro(key) {
+  const inp = document.getElementById('macro-inp-'+key);
+  const v = parseFloat(inp.value) || 0;
+  if(v <= 0) return;
+  const cur = getState('macro_'+key, 0);
+  setState('macro_'+key, cur + v);
+  inp.value = '';
+  initMacros();
+  showToast(`✅ +${v} ${key === 'cal' ? 'kcal' : 'g'} logged!`);
+}
+function resetMacro(key) { setState('macro_'+key, 0); initMacros(); }
+
+function updateSleep(val) {
+  document.getElementById('sleep-val').textContent = parseFloat(val).toFixed(1)+'h';
+  setState('sleep', val);
+  if(val >= 9) showToast('💪 Great sleep! Recovery optimised.');
+}
+function setMood(btn, val) {
+  document.querySelectorAll('#mood-grid .mood-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  setState('mood', val);
+  showToast('Mood logged: '+val);
+}
+function setSoreness(btn, val) {
+  btn.parentElement.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  setState('soreness', val);
+}
+
+function initTodaySchedule() {
+  const days = ['sun','mon','tue','wed','thu','fri','sat'];
+  const d = new Date();
+  const dayKey = days[d.getDay()];
+  const plan = {
+    mon:{title:"💪 Upper Body Gym",desc:"06:30–07:30 AM Gym session + school. Focus on technique on trap bar. High protein day.",badge:"gym"},
+    tue:{title:"⚡ Power Gym + 🏃 Track",desc:"05:45 AM Power primer, then school, then track 4–8PM with coach. TWO-A-DAY. Highest calorie day.",badge:"double"},
+    wed:{title:"🛌 Full Rest Day",desc:"Active recovery only. Walk, foam roll, contrast shower, stretch. Sleep 9+ hours tonight.",badge:"rest"},
+    thu:{title:"🦘 Plyos Gym + 🏃 Track",desc:"06:30 AM Plyo session, then school, then track 4–8PM with coach. Second two-a-day.",badge:"double"},
+    fri:{title:"🦵 Lower Body Gym",desc:"06:30–07:30 AM Lower body strength. Heaviest trap bar day. High protein + carbs.",badge:"gym"},
+    sat:{title:"✨ Full Body + Aesthetic",desc:"08:00–09:30 AM 90-min full body session. Fun session — jump squats, lateral raises, farmer's carries.",badge:"gym"},
+    sun:{title:"🌿 Active Recovery",desc:"Easy walk, yoga flow, Epsom bath, visualisation. MEAL PREP day — cook lunches for Mon/Tue.",badge:"rest"},
+  };
+  const info = plan[dayKey];
+  const badgeMap = {gym:"badge-gym",double:"badge-double",rest:"badge-rest"};
+  document.getElementById('today-day-badge').innerHTML = `<span class="badge ${badgeMap[info.badge]}">${dayKey.toUpperCase()}</span>`;
+  document.getElementById('today-schedule').innerHTML = `<strong style="font-family:'Syne',sans-serif;font-size:16px;">${info.title}</strong><br>${info.desc}`;
+
+  // week progress
+  const dayNum = d.getDay() === 0 ? 7 : d.getDay();
+  const pct = Math.round(dayNum/7*100);
+  document.getElementById('week-progress-bar').style.width = pct+'%';
+  document.getElementById('week-progress-text').textContent = `Day ${dayNum} of 7`;
+}
+
+// ═══════════════════════════════════════════
+// WORKOUT TRACKER
+// ═══════════════════════════════════════════
+const DAYS_ORDER = ['mon','tue','wed','thu','fri','sat','sun'];
+let activeWorkoutDay = 'mon';
+let restTimerInterval = null;
+
+function getWeekKey() {
+  const d = new Date();
+  const start = new Date(d.getFullYear(), 0, 1);
+  const week = Math.ceil(((d - start) / 86400000 + start.getDay() + 1) / 7);
+  return `${d.getFullYear()}_W${week}`;
+}
+
+function getSetsDone(dayKey, exId) {
+  const wk = getWeekKey();
+  return getState(`sets_${wk}_${dayKey}_${exId}`, []);
+}
+function saveSetDone(dayKey, exId, setIndex, data) {
+  const wk = getWeekKey();
+  const done = getSetsDone(dayKey, exId);
+  done[setIndex] = data;
+  setState(`sets_${wk}_${dayKey}_${exId}`, done);
+}
+function isSetDone(dayKey, exId, setIndex) {
+  const done = getSetsDone(dayKey, exId);
+  return !!done[setIndex];
+}
+
+function buildWorkoutDayTab(dayKey) {
+  const d = WORKOUT_DATA[dayKey];
+  const btn = document.createElement('button');
+  btn.className = 'day-sel-btn' + (dayKey === activeWorkoutDay ? ' active' : '');
+  btn.textContent = d.name;
+  btn.onclick = () => switchWorkoutDay(dayKey);
+  return btn;
+}
+
+function buildWorkoutDayPanel(dayKey) {
+  const d = WORKOUT_DATA[dayKey];
+  const panel = document.createElement('div');
+  panel.className = 'workout-day-panel' + (dayKey === activeWorkoutDay ? ' active' : '');
+  panel.id = `wdp-${dayKey}`;
+
+  let html = `<div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
+    <span style="font-size:32px;">${d.icon}</span>
+    <div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--text);">${d.name.toUpperCase()} — ${d.label}</div>
+      <span class="badge badge-${d.badge}">${d.badge.toUpperCase()}</span>
+    </div>
+  </div>`;
+
+  d.exercises.forEach((ex, ei) => {
+    const totalDone = ex.sets_data.filter((_,si) => isSetDone(dayKey, ex.id, si)).length;
+    html += `
+    <div class="exercise-tracker" id="et-${dayKey}-${ei}">
+      <div class="ex-header" onclick="toggleEx(this,'${dayKey}',${ei})">
+        <div class="ex-header-left">
+          <span class="ex-emoji">${ex.emoji}</span>
+          <div class="ex-title-block">
+            <div class="ex-name">${ex.name}</div>
+            <div class="ex-sub">${ex.note} · ${ex.prescription}</div>
+          </div>
+        </div>
+        <div class="ex-header-right">
+          <div class="ex-sets-done">${totalDone}/${ex.sets}</div>
+          <span class="ex-chevron">▼</span>
+        </div>
+      </div>
+      <div class="ex-body" id="eb-${dayKey}-${ei}">
+        <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;padding-top:8px;">
+          SET &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WEIGHT &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; REPS &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ✓
+        </div>
+        <div class="sets-grid" id="sg-${dayKey}-${ei}">`;
+
+    ex.sets_data.forEach((s, si) => {
+      const done = isSetDone(dayKey, ex.id, si);
+      const savedSet = getSetsDone(dayKey, ex.id)[si] || {};
+      html += `
+          <div class="set-row" id="sr-${dayKey}-${ei}-${si}">
+            <div class="set-num">${si+1}</div>
+            <input class="set-input" type="text" placeholder="${s.kg||'kg'}" value="${savedSet.kg||s.kg||''}" 
+              id="kg-${dayKey}-${ei}-${si}" ${done?'disabled':''}>
+            <input class="set-input" type="text" placeholder="${s.reps||'reps'}" value="${savedSet.reps||s.reps||''}" 
+              id="rp-${dayKey}-${ei}-${si}" ${done?'disabled':''}>
+            <button class="set-complete-btn ${done?'done':''}" 
+              id="scb-${dayKey}-${ei}-${si}"
+              onclick="completeSet('${dayKey}',${ei},${si},'${ex.id}',${ex.restSec})">
+              ${done?'✅':'○'}
+            </button>
+          </div>`;
+    });
+
+    html += `</div>
+        <div class="rest-timer" id="rt-${dayKey}-${ei}">
+          <div>
+            <div class="rest-timer-label">REST TIMER</div>
+            <div class="rest-timer-time" id="rtd-${dayKey}-${ei}">--</div>
+          </div>
+          <button class="rest-skip" onclick="skipRest('${dayKey}',${ei})">Skip ▶</button>
+        </div>`;
+
+    // PR section for lifts with kg
+    if(!['walk-wed','stretch-wed','foam-wed','walk-sun','yoga-sun','viz'].includes(ex.id)) {
+      const prVal = getState(`gym_pr_${ex.id}`, '—');
+      html += `
+        <div class="pr-in-workout">
+          <div>
+            <div class="pr-in-workout-label">LIFT PR</div>
+            <div class="pr-current" id="wpr-${ex.id}">${prVal}</div>
+          </div>
+          <button class="pr-set-btn" onclick="setWorkoutPR('${ex.id}','${dayKey}',${ei})">Set New PR 🏆</button>
+        </div>`;
+    }
+
+    html += `</div></div>`;
+  });
+
+  panel.innerHTML = html;
+  return panel;
+}
+
+function toggleEx(header, dayKey, ei) {
+  header.classList.toggle('open');
+  document.getElementById(`eb-${dayKey}-${ei}`).classList.toggle('open');
+}
+
+function completeSet(dayKey, ei, si, exId, restSec) {
+  const kgEl = document.getElementById(`kg-${dayKey}-${ei}-${si}`);
+  const rpEl = document.getElementById(`rp-${dayKey}-${ei}-${si}`);
+  const btnEl = document.getElementById(`scb-${dayKey}-${ei}-${si}`);
+  const done = isSetDone(dayKey, exId, si);
+
+  if(!done) {
+    // Mark as done
+    saveSetDone(dayKey, exId, si, {kg: kgEl.value, reps: rpEl.value, time: Date.now()});
+    btnEl.classList.add('done');
+    btnEl.textContent = '✅';
+    kgEl.disabled = true;
+    rpEl.disabled = true;
+    showToast(`✅ Set ${si+1} logged!`);
+
+    // Update count
+    const ex = WORKOUT_DATA[dayKey].exercises[ei];
+    const totalDone = ex.sets_data.filter((_,s) => isSetDone(dayKey, exId, s)).length + 1;
+    document.querySelector(`#et-${dayKey}-${ei} .ex-sets-done`).textContent = `${Math.min(totalDone, ex.sets)}/${ex.sets}`;
+
+    // Start rest timer
+    if(restSec > 0) startRestTimer(dayKey, ei, restSec);
+  } else {
+    // Undo
+    const done = getSetsDone(dayKey, exId);
+    done[si] = null;
+    setState(`sets_${getWeekKey()}_${dayKey}_${exId}`, done);
+    btnEl.classList.remove('done');
+    btnEl.textContent = '○';
+    kgEl.disabled = false;
+    rpEl.disabled = false;
+    const ex = WORKOUT_DATA[dayKey].exercises[ei];
+    const totalDone = ex.sets_data.filter((_,s) => isSetDone(dayKey, exId, s)).length;
+    document.querySelector(`#et-${dayKey}-${ei} .ex-sets-done`).textContent = `${totalDone}/${ex.sets}`;
+  }
+}
+
+let currentTimerEl = null;
+function startRestTimer(dayKey, ei, seconds) {
+  if(restTimerInterval) clearInterval(restTimerInterval);
+  const timerDiv = document.getElementById(`rt-${dayKey}-${ei}`);
+  const timerDisplay = document.getElementById(`rtd-${dayKey}-${ei}`);
+  if(!timerDiv) return;
+  timerDiv.classList.add('active');
+  currentTimerEl = {div: timerDiv, display: timerDisplay, dayKey, ei};
+  let remaining = seconds;
+  timerDisplay.textContent = formatTime(remaining);
+  restTimerInterval = setInterval(() => {
+    remaining--;
+    timerDisplay.textContent = formatTime(remaining);
+    if(remaining <= 0) {
+      clearInterval(restTimerInterval);
+      timerDiv.classList.remove('active');
+      showToast('⏱ Rest complete — next set!');
+    }
+  }, 1000);
+}
+function skipRest(dayKey, ei) {
+  if(restTimerInterval) clearInterval(restTimerInterval);
+  const timerDiv = document.getElementById(`rt-${dayKey}-${ei}`);
+  if(timerDiv) timerDiv.classList.remove('active');
+}
+function formatTime(s) {
+  const m = Math.floor(s/60);
+  const sec = s % 60;
+  return `${m}:${sec.toString().padStart(2,'0')}`;
+}
+
+function setWorkoutPR(exId, dayKey, ei) {
+  const kgEl = document.getElementById(`kg-${dayKey}-${ei}-0`);
+  const val = kgEl ? kgEl.value : '';
+  if(!val || val === '—' || val === 'BW' || val === 'Band') {
+    const v = prompt(`Enter new PR for ${exId} (kg):`);
+    if(!v) return;
+    setState(`gym_pr_${exId}`, v+'kg');
+  } else {
+    setState(`gym_pr_${exId}`, val+'kg');
+  }
+  const prEl = document.getElementById(`wpr-${exId}`);
+  if(prEl) prEl.textContent = getState(`gym_pr_${exId}`, '—');
+  showToast('🏆 New PR saved!');
+  renderGymPRs();
+}
+
+function switchWorkoutDay(dayKey) {
+  activeWorkoutDay = dayKey;
+  document.querySelectorAll('.workout-day-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.day-sel-btn').forEach(b => b.classList.remove('active'));
+  const panel = document.getElementById(`wdp-${dayKey}`);
+  if(panel) panel.classList.add('active');
+  const tabs = document.getElementById('workout-day-tabs');
+  Array.from(tabs.children).forEach((btn, i) => {
+    if(DAYS_ORDER[i] === dayKey) btn.classList.add('active');
+  });
+}
+
+function initWorkout() {
+  const tabsContainer = document.getElementById('workout-day-tabs');
+  const daysContainer = document.getElementById('workout-days-container');
+  DAYS_ORDER.forEach(dk => {
+    tabsContainer.appendChild(buildWorkoutDayTab(dk));
+    daysContainer.appendChild(buildWorkoutDayPanel(dk));
+  });
+}
+
+// ═══════════════════════════════════════════
+// TRAINING PLAN
+// ═══════════════════════════════════════════
+let activeTrainingDay = 0;
+
+function initTrainingPlan() {
+  const overview = document.getElementById('week-overview-cells');
+  const details = document.getElementById('training-day-details');
+  const dayDetails = [
+    {exercises:[
+      {emoji:"🏋",name:"Trap Bar Deadlift",note:"Drive floor away",rx:"4×5 @65%",pill:"mod"},
+      {emoji:"📐",name:"Incline DB Press",note:"Full ROM — chest stretch",rx:"3×8 controlled",pill:"mod"},
+      {emoji:"🤸",name:"Chin-Ups",note:"Dead hang start",rx:"3×6–8",pill:"mod"},
+      {emoji:"💪",name:"Single-Arm DB Row",note:"No rotation",rx:"3×10 each",pill:"mod"},
+      {emoji:"🎗",name:"Band Pull-Aparts",note:"Shoulder health",rx:"3×20",pill:"low"},
+      {emoji:"🧲",name:"Pallof Press",note:"Anti-rotation core",rx:"3×10",pill:"low"},
+    ]},
+    {exercises:[
+      {emoji:"🏋",name:"Hang Power Clean",note:"Speed = goal",rx:"4×3 @50%",pill:"high"},
+      {emoji:"📦",name:"Box Jumps",note:"Full reset between reps",rx:"4×4",pill:"high"},
+      {emoji:"🏐",name:"Med Ball Scoop Throw",note:"Explosive hip snap",rx:"3×5",pill:"high"},
+      {emoji:"🦵",name:"Banded Hip Flexor March",note:"Drive knee to 90°",rx:"3×8 each",pill:"mod"},
+    ]},
+    {exercises:[
+      {emoji:"🚶",name:"Easy Walk 20–30 min",note:"Zone 1 only",rx:"continuous",pill:"low"},
+      {emoji:"🧘",name:"Full Body Stretch",note:"Hold 45–60s each",rx:"20 min",pill:"low"},
+      {emoji:"🫁",name:"Foam Roll Protocol",note:"Quads, IT band, calves",rx:"10 min",pill:"low"},
+      {emoji:"🚿",name:"Contrast Shower",note:"2min hot → 30s cold × 3",rx:"3 rounds",pill:"low"},
+    ]},
+    {exercises:[
+      {emoji:"🏃",name:"Hurdle Hops",note:"Stiff ankle — bounce fast",rx:"4×5",pill:"high"},
+      {emoji:"🦘",name:"Single-Leg Bounds",note:"Max distance — arms",rx:"4×4 each",pill:"high"},
+      {emoji:"📦",name:"Seated Box Jump",note:"No countermovement",rx:"3×4",pill:"high"},
+      {emoji:"💨",name:"Resisted Sprint (Band)",note:"10m — heavy band",rx:"4×10m",pill:"high"},
+      {emoji:"🏃",name:"Pogos / Ankle Stiffness",note:"Minimize contact time",rx:"3×20m",pill:"mod"},
+    ]},
+    {exercises:[
+      {emoji:"🏋",name:"Trap Bar Deadlift",note:"Heavier than Monday",rx:"5×4 @70–75%",pill:"high"},
+      {emoji:"🦵",name:"Bulgarian Split Squat",note:"Rear foot elevated",rx:"3×8 each",pill:"high"},
+      {emoji:"🤸",name:"Nordic Hamstring Curl",note:"INJURY PREVENTION",rx:"3×5 slow",pill:"mod"},
+      {emoji:"🍑",name:"Hip Thrust",note:"Full extension at top",rx:"4×10",pill:"mod"},
+      {emoji:"🦶",name:"Single-Leg Calf Raise",note:"Full ROM",rx:"3×15 each",pill:"low"},
+      {emoji:"🎯",name:"Ab Wheel Rollout",note:"Neutral spine",rx:"3×8",pill:"mod"},
+    ]},
+    {exercises:[
+      {emoji:"🏋",name:"Trap Bar Jump Squat",note:"MAX height every rep",rx:"4×5 @30%",pill:"high"},
+      {emoji:"🤸",name:"Push-Up Variations",note:"Archer→Wide→Close",rx:"4×12",pill:"mod"},
+      {emoji:"💪",name:"DB Lateral Raise",note:"No swing — controlled",rx:"3×15",pill:"mod"},
+      {emoji:"🏆",name:"Goblet Squat",note:"Upright torso",rx:"3×12",pill:"mod"},
+      {emoji:"💪",name:"DB Curl + Press",note:"Superset",rx:"3×10",pill:"mod"},
+      {emoji:"🌾",name:"Farmer's Carry",note:"Posture + grip + core",rx:"3×40m",pill:"mod"},
+    ]},
+    {exercises:[
+      {emoji:"🚶",name:"Walk or Light Bike",note:"20–40 min chatty pace",rx:"continuous",pill:"low"},
+      {emoji:"🧘",name:"Yoga / Mobility Flow",note:"Hip flexors + thoracic",rx:"15 min",pill:"low"},
+      {emoji:"🛁",name:"Epsom Salt Bath",note:"400g salts, 15–20 min",rx:"1×",pill:"low"},
+      {emoji:"📱",name:"Visualisation",note:"Perfect 100m + 200m",rx:"10 min",pill:"low"},
+    ]},
+  ];
+
+  TRAINING_PLAN.forEach((day, i) => {
+    const cell = document.createElement('div');
+    cell.className = 'week-day-cell' + (i === activeTrainingDay ? ' active' : '');
+    cell.onclick = () => switchTrainingDay(i);
+    cell.innerHTML = `<div class="wdc-name">${day.day}</div><div class="wdc-type">${day.label.split(' ').slice(0,2).join(' ')}</div><div class="wdc-dot ${day.dot}"></div>`;
+    overview.appendChild(cell);
+
+    const dd = document.createElement('div');
+    dd.className = 'training-day-detail' + (i === activeTrainingDay ? ' active' : '');
+    dd.id = `tdd-${i}`;
+    dd.innerHTML = `
+      <div class="flex-row" style="margin-bottom:16px;flex-wrap:wrap;gap:8px;">
+        <span style="font-family:'Bebas Neue',sans-serif;font-size:32px;">${day.day} — ${day.label}</span>
+        <span class="badge badge-${day.badge}">${day.badge.toUpperCase()}</span>
+      </div>
+      <div class="coach-note">${day.detail}</div>
+      ${dayDetails[i].exercises.map(e => `
+        <div class="exercise-plan-card">
+          <div class="epc-head">
+            <div class="epc-left">
+              <span class="epc-emoji">${e.emoji}</span>
+              <div><div class="epc-name">${e.name}</div><div class="epc-note">${e.note}</div></div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <span class="intensity-pill pill-${e.pill}">${e.pill.toUpperCase()}</span>
+              <div class="epc-prescription">${e.rx}</div>
+            </div>
+          </div>
+        </div>`).join('')}`;
+    details.appendChild(dd);
+  });
+}
+
+function switchTrainingDay(i) {
+  activeTrainingDay = i;
+  document.querySelectorAll('.week-day-cell').forEach((c,j) => c.classList.toggle('active', j===i));
+  document.querySelectorAll('.training-day-detail').forEach(d => d.classList.remove('active'));
+  document.getElementById(`tdd-${i}`).classList.add('active');
+}
+
+// ═══════════════════════════════════════════
+// NUTRITION
+// ═══════════════════════════════════════════
+const NUTR_DAYS = ['MON','TUE','WED','THU','FRI','SAT','SUN'];
+let activeDietDay = 'MON';
+
+function initNutrition() {
+  const nav = document.getElementById('nutrition-day-nav');
+  const container = document.getElementById('nutrition-day-container');
+  NUTR_DAYS.forEach(dk => {
+    const btn = document.createElement('button');
+    btn.className = 'day-nav-btn' + (dk === activeDietDay ? ' active' : '');
+    btn.textContent = dk;
+    btn.onclick = (e) => switchDietDay(dk, e.target);
+    nav.appendChild(btn);
+    const panel = buildNutritionPanel(dk);
+    container.appendChild(panel);
+  });
+}
+
+function buildNutritionPanel(dk) {
+  const data = NUTRITION_DAYS[dk];
+  const div = document.createElement('div');
+  div.id = `np-${dk}`;
+  div.style.display = dk === activeDietDay ? 'block' : 'none';
+
+  const badgeClass = {gym:'badge-gym',double:'badge-double',rest:'badge-rest'}[data.badge];
+  let html = `
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap;">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:32px;color:var(--text);">${data.name.toUpperCase()}</div>
+      <span class="badge ${badgeClass}">${data.badge.toUpperCase()}</span>
+    </div>
+    <div class="day-macro-summary">
+      <div class="dms-cell"><div class="dms-val">${data.cal}</div><div class="dms-lbl">Calories</div></div>
+      <div class="dms-cell"><div class="dms-val">${data.protein}g</div><div class="dms-lbl">Protein</div></div>
+      <div class="dms-cell"><div class="dms-val">${data.carbs}g</div><div class="dms-lbl">Carbs</div></div>
+      <div class="dms-cell"><div class="dms-val">${data.fat}g</div><div class="dms-lbl">Fats</div></div>
+    </div>`;
+
+  data.meals.forEach(m => {
+    html += `
+    <div class="meal-card">
+      <div class="meal-head">
+        <span class="meal-icon">${m.icon}</span>
+        <div>
+          <div class="meal-slot-lbl">${m.slot} · ${m.time}</div>
+          <div class="meal-name-title">${m.name}</div>
+        </div>
+        <div class="meal-protein-badge">${m.prot}g protein</div>
+      </div>
+      <div class="meal-body">
+        <ul class="meal-ingr">
+          ${m.ingr.map(i => `<li><span>${i[0]}</span><span class="ingr-amt">${i[1]}</span><span class="ingr-p">${i[2]}</span></li>`).join('')}
+        </ul>
+        <div class="meal-why"><strong>Why this works</strong>${m.why}</div>
+        <div class="meal-totals">
+          <span class="mtag">~${m.cal} cal</span>
+          <span class="mtag">${m.prot}g P</span>
+          <span class="mtag">${m.pc}g C</span>
+          <span class="mtag">${m.fc}g F</span>
+        </div>
+      </div>
+    </div>`;
+  });
+
+  div.innerHTML = html;
+  return div;
+}
+
+function switchDietDay(dk, btn) {
+  activeDietDay = dk;
+  NUTR_DAYS.forEach(d => {
+    const p = document.getElementById(`np-${d}`);
+    if(p) p.style.display = d === dk ? 'block' : 'none';
+  });
+  document.querySelectorAll('.day-nav-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// ═══════════════════════════════════════════
+// TRACK DRILLS
+// ═══════════════════════════════════════════
+function initDrills() {
+  const grid = document.getElementById('drill-grid');
+  DRILLS.forEach(d => {
+    const card = document.createElement('div');
+    card.className = 'drill-card';
+    card.innerHTML = `
+      <div class="drill-num-bg">${d.num}</div>
+      <div class="drill-title">⚡ ${d.name}</div>
+      <div class="drill-desc">${d.desc}</div>
+      <div class="drill-tags">${d.tags.map(t => `<span class="drill-tag">${t}</span>`).join('')}</div>`;
+    grid.appendChild(card);
+  });
+
+  const sg = document.getElementById('speed-grid');
+  SPEED_EXERCISES.forEach(e => {
+    const card = document.createElement('div');
+    card.className = 'speed-card';
+    card.innerHTML = `<div class="speed-card-title">${e.title}</div><div class="speed-card-why">${e.why}</div><div class="speed-card-rx">// ${e.rx}</div>`;
+    sg.appendChild(card);
+  });
+}
+
+// ═══════════════════════════════════════════
+// PR TRACKER
+// ═══════════════════════════════════════════
+function initSprintPRs() {
+  const container = document.getElementById('sprint-pr-grid');
+  [
+    {dist:"100m",key:"100m",current:"12.50",target:"11.50",unit:"s"},
+    {dist:"200m",key:"200m",current:"25.99",target:"22.00",unit:"s"},
+  ].forEach(event => {
+    const history = getState(`sprint_pr_${event.key}`, []);
+    const bestEntry = history.reduce((best, e) => (!best || parseFloat(e.time) < parseFloat(best.time)) ? e : best, null);
+    const displayCurrent = bestEntry ? bestEntry.time+'s' : event.current+'s';
+
+    // Update hero
+    if(event.key === '100m') document.getElementById('hero-100m').textContent = displayCurrent;
+    if(event.key === '200m') document.getElementById('hero-200m').textContent = displayCurrent;
+
+    const card = document.createElement('div');
+    card.className = 'pr-card';
+    card.id = `sprint-pr-card-${event.key}`;
+    card.innerHTML = `
+      <div class="pr-card-head">
+        <div>
+          <div class="pr-distance">${event.dist}</div>
+          <div class="pr-current-lbl">CURRENT BEST</div>
+        </div>
+        <div style="margin-left:auto;text-align:right;">
+          <div class="pr-current-time" id="sprint-cur-${event.key}">${displayCurrent}</div>
+          <div class="pr-current-lbl">TARGET: ${event.target}s</div>
+        </div>
+      </div>
+      <div class="pr-log-form">
+        <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--text3);letter-spacing:2px;text-transform:uppercase;">LOG NEW PR</div>
+        <div class="pr-form-row">
+          <input class="pr-input" type="number" step="0.01" placeholder="${event.current}" id="sprint-inp-time-${event.key}">
+          <input class="pr-input" type="text" placeholder="2026" id="sprint-inp-year-${event.key}" style="max-width:80px;">
+          <input class="pr-input" type="text" placeholder="Notes (e.g. Nationals)" id="sprint-inp-note-${event.key}">
+          <button class="pr-submit" onclick="logSprintPR('${event.key}')">Save PR 🏆</button>
+        </div>
+      </div>
+      <div class="pr-history" id="sprint-hist-${event.key}">
+        <div class="pr-history-title">PR HISTORY</div>
+        ${renderSprintHistory(event.key)}
+      </div>`;
+    container.appendChild(card);
+  });
+}
+
+function renderSprintHistory(key) {
+  const history = getState(`sprint_pr_${key}`, []);
+  if(!history.length) return '<div style="font-size:13px;color:var(--text3);font-family:\'DM Mono\',monospace;">No PRs logged yet. Set your first!</div>';
+  const sorted = [...history].sort((a,b) => parseFloat(a.time)-parseFloat(b.time));
+  const best = sorted[0]?.time;
+  return history.slice().reverse().map((e,i) => {
+    const isBest = e.time === best;
+    const chip = isBest ? '<span class="pr-chip better">🏆 PB</span>' : '';
+    return `<div class="pr-entry">
+      <div><div class="pr-entry-time ${isBest?'pr-entry-best':''}">${e.time}s ${chip}</div><div class="pr-entry-meta">${e.year} ${e.note?'· '+e.note:''}</div></div>
+      <button class="pr-del" onclick="deleteSprintPR('${key}',${history.length-1-i})" title="Delete">✕</button>
+    </div>`;
+  }).join('');
+}
+
+function logSprintPR(key) {
+  const time = document.getElementById(`sprint-inp-time-${key}`).value;
+  const year = document.getElementById(`sprint-inp-year-${key}`).value || new Date().getFullYear();
+  const note = document.getElementById(`sprint-inp-note-${key}`).value;
+  if(!time) return showToast('Enter a time first!');
+  const history = getState(`sprint_pr_${key}`, []);
+  history.push({time: parseFloat(time).toFixed(2), year, note, logged: new Date().toISOString()});
+  setState(`sprint_pr_${key}`, history);
+  document.getElementById(`sprint-inp-time-${key}`).value = '';
+  document.getElementById(`sprint-inp-year-${key}`).value = '';
+  document.getElementById(`sprint-inp-note-${key}`).value = '';
+  document.getElementById(`sprint-hist-${key}`).innerHTML = '<div class="pr-history-title">PR HISTORY</div>' + renderSprintHistory(key);
+  // Update best display
+  const sorted = history.sort((a,b) => parseFloat(a.time)-parseFloat(b.time));
+  const best = sorted[0]?.time;
+  document.getElementById(`sprint-cur-${key}`).textContent = best+'s';
+  if(key === '100m') document.getElementById('hero-100m').textContent = best+'s';
+  if(key === '200m') document.getElementById('hero-200m').textContent = best+'s';
+  showToast('🏆 New PR saved: '+time+'s!');
+}
+
+function deleteSprintPR(key, index) {
+  const history = getState(`sprint_pr_${key}`, []);
+  history.splice(index, 1);
+  setState(`sprint_pr_${key}`, history);
+  document.getElementById(`sprint-hist-${key}`).innerHTML = '<div class="pr-history-title">PR HISTORY</div>' + renderSprintHistory(key);
+  showToast('Entry deleted');
+}
+
+function renderGymPRs() {
+  const container = document.getElementById('gym-pr-grid');
+  container.innerHTML = '';
+  GYM_PRS.forEach(ex => {
+    const key = ex.toLowerCase().replace(/[^a-z0-9]/g,'-');
+    const val = getState(`gym_pr_lift-${key}`, '—');
+    const card = document.createElement('div');
+    card.className = 'gym-pr-card';
+    card.innerHTML = `
+      <div class="gym-pr-ex">${ex}</div>
+      <div class="gym-pr-val" id="gpr-${key}">${val}</div>
+      <div class="gym-pr-unit">Current PR</div>
+      <div class="gym-pr-input-row">
+        <input class="gym-pr-num" type="number" step="0.5" placeholder="kg" id="gpr-inp-${key}">
+        <button class="gym-pr-save" onclick="saveGymPR('${key}','${ex}')">Save 🏆</button>
+      </div>`;
+    container.appendChild(card);
+  });
+}
+
+function saveGymPR(key, name) {
+  const inp = document.getElementById(`gpr-inp-${key}`);
+  const val = inp.value;
+  if(!val) return;
+  setState(`gym_pr_lift-${key}`, val+'kg');
+  document.getElementById(`gpr-${key}`).textContent = val+'kg';
+  inp.value = '';
+  showToast(`🏆 ${name} PR: ${val}kg!`);
+}
+
+// ═══════════════════════════════════════════
+// INIT ALL
+// ═══════════════════════════════════════════
+function init() {
+  initTheme();
+  initWater();
+  initMacros();
+  initTodaySchedule();
+  // Restore sleep
+  const sl = getState('sleep', 8);
+  document.getElementById('sleep-slider').value = sl;
+  updateSleep(sl);
+  // Restore mood
+  const mood = getState('mood', '');
+  if(mood) document.querySelectorAll('#mood-grid .mood-btn').forEach(b => { if(b.textContent.includes(mood.split(' ')[1]||mood)) b.classList.add('active'); });
+
+  initWorkout();
+  initTrainingPlan();
+  initNutrition();
+  initDrills();
+  initSprintPRs();
+  renderGymPRs();
+  FoodScanner.init();
+  Profile.init();
+}
+
+// Auto-reset water/macros daily
+function checkDailyReset() {
+  const lastDay = getState('last_day', '');
+  const today = new Date().toDateString();
+  if(lastDay !== today) {
+    setState('water_filled', 0);
+    setState('macro_protein', 0);
+    setState('macro_carbs', 0);
+    setState('macro_fat', 0);
+    setState('macro_cal', 0);
+    setState('last_day', today);
+  }
+}
+
+checkDailyReset();
+document.addEventListener('DOMContentLoaded', init);
+
+// ═══════════════════════════════════════════
+// MODULE: FOOD SCANNER
+// Uses Anthropic Claude vision API to analyse food images/text
+// ═══════════════════════════════════════════
+
+const FoodScanner = (() => {
+  let currentResult = null;
+  let currentImageB64 = null;
+
+  // ── Drag & drop support ──
+  function initDragDrop() {
+    const zone = document.getElementById('upload-zone');
+    if (!zone) return;
+    zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('dragover'); });
+    zone.addEventListener('dragleave', () => zone.classList.remove('dragover'));
+    zone.addEventListener('drop', e => {
+      e.preventDefault();
+      zone.classList.remove('dragover');
+      const file = e.dataTransfer.files[0];
+      if (file && file.type.startsWith('image/')) processImageFile(file);
+    });
+  }
+
+  // ── Process uploaded image ──
+  function handleFoodImage(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    processImageFile(file);
+  }
+  window.handleFoodImage = handleFoodImage;
+
+  function processImageFile(file) {
+    const reader = new FileReader();
+    reader.onload = e => {
+      const dataUrl = e.target.result;
+      currentImageB64 = dataUrl.split(',')[1];
+      // Show preview
+      const preview = document.getElementById('food-preview');
+      preview.src = dataUrl;
+      preview.style.display = 'block';
+      // Update upload zone
+      document.getElementById('upload-icon').textContent = '✅';
+      document.getElementById('upload-title').textContent = 'Image ready';
+      document.getElementById('upload-sub').textContent = file.name;
+      enableScanBtn();
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function enableScanBtn() {
+    const btn = document.getElementById('scan-btn');
+    const hasImage = !!currentImageB64;
+    const hasText = document.getElementById('food-text-input')?.value?.trim().length > 5;
+    if (btn) btn.disabled = !(hasImage || hasText);
+  }
+
+  // ── Main scan function ──
+  async function scanFood() {
+    const textInput = document.getElementById('food-text-input')?.value?.trim();
+    const hasImage = !!currentImageB64;
+    const hasText = textInput && textInput.length > 3;
+    if (!hasImage && !hasText) return;
+
+    // UI: loading state
+    const btn = document.getElementById('scan-btn');
+    btn.disabled = true;
+    btn.classList.add('loading');
+    document.getElementById('scan-btn-icon').textContent = '⏳';
+    document.getElementById('scan-btn-text').textContent = 'ANALYSING...';
+    document.getElementById('scan-line').style.display = 'block';
+    document.getElementById('food-empty-state').style.display = 'none';
+    document.getElementById('nutrition-result').style.display = 'none';
+
+    try {
+      // Build message content
+      const msgContent = [];
+
+      if (hasImage) {
+        msgContent.push({
+          type: 'image',
+          source: { type: 'base64', media_type: 'image/jpeg', data: currentImageB64 }
+        });
+      }
+
+      const promptText = hasImage
+        ? `You are a sports nutrition AI for a 14-year-old elite Queensland sprinter (52kg, training for 100m nationals). Analyse this food image and provide a detailed nutritional breakdown.
+
+${hasText ? 'Additional context: ' + textInput : ''}
+
+Respond ONLY in valid JSON, no markdown, no backticks:
+{
+  "foodName": "descriptive meal name",
+  "servingSize": "estimated portion",
+  "calories": 000,
+  "protein": 00,
+  "carbs": 00,
+  "fat": 00,
+  "fiber": 0,
+  "sugar": 0,
+  "sodium": 000,
+  "breakdown": [
+    {"item": "food item name", "amount": "portion", "calories": 00, "protein": 0, "carbs": 0, "fat": 0}
+  ],
+  "sprintInsight": "1-2 sentence note on how this specific meal helps or affects sprint training and recovery",
+  "confidence": "high/medium/low"
+}`
+        : `You are a sports nutrition AI for a 14-year-old elite Queensland sprinter (52kg, training for 100m nationals). The athlete has described their meal: "${textInput}"
+
+Provide a detailed nutritional breakdown. Respond ONLY in valid JSON, no markdown, no backticks:
+{
+  "foodName": "descriptive meal name",
+  "servingSize": "estimated portion",
+  "calories": 000,
+  "protein": 00,
+  "carbs": 00,
+  "fat": 00,
+  "fiber": 0,
+  "sugar": 0,
+  "sodium": 000,
+  "breakdown": [
+    {"item": "food item name", "amount": "portion", "calories": 00, "protein": 0, "carbs": 0, "fat": 0}
+  ],
+  "sprintInsight": "1-2 sentence note on how this specific meal helps or affects sprint training and recovery",
+  "confidence": "high/medium/low"
+}`;
+
+      msgContent.push({ type: 'text', text: promptText });
+
+      const response = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 1000,
+          messages: [{ role: 'user', content: msgContent }]
+        })
+      });
+
+      const data = await response.json();
+      const rawText = data.content?.map(c => c.text || '').join('');
+
+      // Parse JSON safely
+      let result;
+      try {
+        const cleaned = rawText.replace(/```json|```/g, '').trim();
+        result = JSON.parse(cleaned);
+      } catch (e) {
+        throw new Error('Could not parse nutrition data. Please try again.');
+      }
+
+      currentResult = result;
+      renderResult(result);
+
+    } catch (err) {
+      showToast('❌ Scan failed: ' + (err.message || 'Try again'));
+      document.getElementById('food-empty-state').style.display = 'block';
+    } finally {
+      btn.disabled = false;
+      btn.classList.remove('loading');
+      document.getElementById('scan-btn-icon').textContent = '🔍';
+      document.getElementById('scan-btn-text').textContent = 'ANALYSE NUTRITION';
+      document.getElementById('scan-line').style.display = 'none';
+    }
+  }
+  window.scanFood = scanFood;
+
+  function renderResult(r) {
+    document.getElementById('result-food-name').textContent = r.foodName || 'Scanned Meal';
+    document.getElementById('result-confidence').textContent = `${(r.confidence||'').toUpperCase()} CONFIDENCE`;
+    document.getElementById('r-cal').textContent = r.calories ?? '—';
+    document.getElementById('r-prot').textContent = (r.protein ?? '—') + 'g';
+    document.getElementById('r-carbs').textContent = (r.carbs ?? '—') + 'g';
+    document.getElementById('r-fat').textContent = (r.fat ?? '—') + 'g';
+
+    // Breakdown list
+    const bkList = document.getElementById('food-breakdown');
+    bkList.innerHTML = '';
+    const extras = [
+      { label: 'Fiber', val: r.fiber + 'g' },
+      { label: 'Sugar', val: r.sugar + 'g' },
+      { label: 'Sodium', val: r.sodium + 'mg' },
+      { label: 'Serving', val: r.servingSize || '—' },
+    ];
+    extras.forEach(e => {
+      bkList.innerHTML += `<li class="fbl-item"><span class="fbl-name">${e.label}</span><span class="fbl-val">${e.val}</span></li>`;
+    });
+    if (r.breakdown?.length) {
+      bkList.innerHTML += `<li class="fbl-item" style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:2px;padding-top:10px;">INDIVIDUAL ITEMS</li>`;
+      r.breakdown.forEach(item => {
+        bkList.innerHTML += `<li class="fbl-item">
+          <span class="fbl-name">${item.item} <span style="color:var(--text3);font-size:11px;">${item.amount}</span></span>
+          <span class="fbl-val">${item.calories}cal · ${item.protein}g P</span>
+        </li>`;
+      });
+    }
+
+    // Sprint insight
+    if (r.sprintInsight) {
+      document.getElementById('food-insight').style.display = 'block';
+      document.getElementById('food-insight-text').textContent = r.sprintInsight;
+    }
+
+    document.getElementById('nutrition-result').style.display = 'block';
+    showToast('✅ Nutritional scan complete!');
+  }
+
+  // ── Add to food log ──
+  function addToFoodLog() {
+    if (!currentResult) return;
+    const log = getState('food_log_' + new Date().toDateString(), []);
+    const entry = {
+      id: Date.now(),
+      name: currentResult.foodName,
+      calories: currentResult.calories,
+      protein: currentResult.protein,
+      carbs: currentResult.carbs,
+      fat: currentResult.fat,
+      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    };
+    log.push(entry);
+    setState('food_log_' + new Date().toDateString(), log);
+    renderFoodLog();
+    updateDailyTotals();
+    showToast('➕ Added to food log!');
+  }
+  window.addToFoodLog = addToFoodLog;
+
+  function renderFoodLog() {
+    const log = getState('food_log_' + new Date().toDateString(), []);
+    const container = document.getElementById('food-log-entries');
+    if (!container) return;
+    if (!log.length) {
+      container.innerHTML = `<div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text3);letter-spacing:2px;padding:20px 0;text-align:center;">NO ENTRIES YET — SCAN A MEAL TO BEGIN</div>`;
+      return;
+    }
+    container.innerHTML = log.map((e, i) => `
+      <div class="food-log-entry">
+        <div>
+          <div class="fle-name">${e.name}</div>
+          <div class="fle-time">${e.time}</div>
+        </div>
+        <div class="fle-cals">${e.calories}</div>
+        <div class="fle-prot">${e.protein}g P</div>
+        <button class="fle-del" onclick="FoodScanner.deleteFoodEntry(${i})" title="Remove">✕</button>
+      </div>`).join('');
+  }
+
+  function deleteFoodEntry(index) {
+    const log = getState('food_log_' + new Date().toDateString(), []);
+    log.splice(index, 1);
+    setState('food_log_' + new Date().toDateString(), log);
+    renderFoodLog();
+    updateDailyTotals();
+    showToast('Entry removed');
+  }
+
+  function updateDailyTotals() {
+    const log = getState('food_log_' + new Date().toDateString(), []);
+    const totals = log.reduce((acc, e) => ({
+      cal: acc.cal + (e.calories || 0),
+      prot: acc.prot + (e.protein || 0),
+      carbs: acc.carbs + (e.carbs || 0),
+      fat: acc.fat + (e.fat || 0)
+    }), { cal: 0, prot: 0, carbs: 0, fat: 0 });
+    const el = id => document.getElementById(id);
+    if (el('dtb-cal')) el('dtb-cal').textContent = totals.cal;
+    if (el('dtb-prot')) el('dtb-prot').textContent = totals.prot + 'g';
+    if (el('dtb-carbs')) el('dtb-carbs').textContent = totals.carbs + 'g';
+    if (el('dtb-fat')) el('dtb-fat').textContent = totals.fat + 'g';
+  }
+
+  function clearFoodLog() {
+    if (!confirm('Clear today\'s food log?')) return;
+    setState('food_log_' + new Date().toDateString(), []);
+    renderFoodLog();
+    updateDailyTotals();
+    showToast('Food log cleared');
+  }
+  window.clearFoodLog = clearFoodLog;
+
+  // ── Text input enable ──
+  function initTextInput() {
+    const ta = document.getElementById('food-text-input');
+    if (ta) ta.addEventListener('input', enableScanBtn);
+  }
+
+  function init() {
+    initDragDrop();
+    initTextInput();
+    renderFoodLog();
+    updateDailyTotals();
+  }
+
+  return { init, deleteFoodEntry, updateDailyTotals };
+})();
+
+// ═══════════════════════════════════════════
+// MODULE: PROFILE
+// Persistent athlete profile with stats, goals, badges, training log
+// ═══════════════════════════════════════════
+
+const Profile = (() => {
+  let isEditing = false;
+
+  const BADGES = [
+    { id: 'first_pr', icon: '🏆', label: 'First PR Logged', check: () => getState('sprint_pr_100m', []).length > 0 },
+    { id: 'week_complete', icon: '✅', label: 'Full Week Trained', check: () => getState('profile_week_log', []).filter(Boolean).length >= 5 },
+    { id: 'food_logged', icon: '📸', label: 'First Food Scan', check: () => getState('food_log_' + new Date().toDateString(), []).length > 0 },
+    { id: 'hydration', icon: '💧', label: 'Hydration Goal Hit', check: () => getState('water_filled', 0) >= 8 },
+    { id: 'two_a_day', icon: '⚡', label: 'Two-A-Day Complete', check: () => {
+      const d = new Date().getDay();
+      return (d === 2 || d === 4); // Tue or Thu
+    }},
+    { id: 'sub_12', icon: '🚀', label: 'Sub-12.00 (100m)', check: () => {
+      const prs = getState('sprint_pr_100m', []);
+      return prs.some(p => parseFloat(p.time) < 12.0);
+    }},
+    { id: 'nationals', icon: '🇦🇺', label: 'Nationals Qualifier', check: () => {
+      const prs = getState('sprint_pr_100m', []);
+      return prs.some(p => parseFloat(p.time) < 11.6);
+    }},
+    { id: 'pr_streak', icon: '🔥', label: '3 PRs This Month', check: () => {
+      const prs = getState('sprint_pr_100m', []);
+      const now = new Date();
+      const month = now.getMonth();
+      const year = now.getFullYear();
+      const monthPRs = prs.filter(p => {
+        const d = new Date(p.logged);
+        return d.getMonth() === month && d.getFullYear() === year;
+      });
+      return monthPRs.length >= 3;
+    }},
+  ];
+
+  function load() {
+    const p = getState('profile_data', {});
+    const el = id => document.getElementById(id);
+    if (el('profile-name-display')) el('profile-name-display').textContent = p.name || 'Athlete';
+    if (el('profile-name-input')) el('profile-name-input').value = p.name || '';
+    if (el('profile-tag-display')) el('profile-tag-display').textContent = p.tag || '// Queensland · 14U · Sprint';
+    if (el('profile-tag-input')) el('profile-tag-input').value = p.tag || '';
+    // Stats
+    ['age','height','weight','training-age','cal-target','prot-target','coach','club'].forEach(k => {
+      const inp = el('pstat-' + k);
+      if (inp) inp.value = p[k] || '';
+    });
+    // Avatar
+    if (p.avatar) {
+      const img = el('avatar-img');
+      if (img) { img.src = p.avatar; img.style.display = 'block'; }
+      const em = el('avatar-emoji');
+      if (em) em.style.display = 'none';
+    }
+    // Notes
+    const notes = el('profile-notes');
+    if (notes) notes.value = getState('profile_notes', '');
+  }
+
+  function save() {
+    const el = id => document.getElementById(id);
+    const p = {
+      name: el('profile-name-input')?.value || 'Athlete',
+      tag: el('profile-tag-input')?.value || '// Queensland · 14U · Sprint',
+    };
+    ['age','height','weight','training-age','cal-target','prot-target','coach','club'].forEach(k => {
+      const inp = el('pstat-' + k);
+      if (inp) p[k] = inp.value;
+    });
+    // Preserve avatar
+    const existing = getState('profile_data', {});
+    if (existing.avatar) p.avatar = existing.avatar;
+    setState('profile_data', p);
+    // Update display
+    if (el('profile-name-display')) el('profile-name-display').textContent = p.name;
+    if (el('profile-tag-display')) el('profile-tag-display').textContent = p.tag;
+    showToast('✅ Profile saved!');
+    toggleEdit(false);
+  }
+  window.saveProfile = save;
+
+  function toggleProfileEdit() {
+    isEditing = !isEditing;
+    toggleEdit(isEditing);
+  }
+  window.toggleProfileEdit = toggleProfileEdit;
+
+  function toggleEdit(on) {
+    isEditing = on;
+    const el = id => document.getElementById(id);
+    const displays = ['profile-name-display','profile-tag-display'];
+    const inputs = ['profile-name-input','profile-tag-input'];
+    displays.forEach(id => { if (el(id)) el(id).style.display = on ? 'none' : 'block'; });
+    inputs.forEach(id => { if (el(id)) el(id).style.display = on ? 'block' : 'none'; });
+    const btn = el('profile-edit-toggle');
+    if (btn) btn.textContent = on ? '✓ Done Editing' : '✏️ Edit Profile';
+  }
+
+  function saveNotes() {
+    const notes = document.getElementById('profile-notes');
+    if (notes) setState('profile_notes', notes.value);
+  }
+  window.saveProfileNotes = saveNotes;
+
+  function handleAvatarUpload(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = e => {
+      const data = getState('profile_data', {});
+      data.avatar = e.target.result;
+      setState('profile_data', data);
+      const img = document.getElementById('avatar-img');
+      if (img) { img.src = e.target.result; img.style.display = 'block'; }
+      const em = document.getElementById('avatar-emoji');
+      if (em) em.style.display = 'none';
+      showToast('📸 Profile photo updated!');
+    };
+    reader.readAsDataURL(file);
+  }
+  window.handleAvatarUpload = handleAvatarUpload;
+
+  function renderGoals() {
+    const container = document.getElementById('goals-grid');
+    if (!container) return;
+    const goals = [
+      { label: '100m Current', key: 'sprint_pr_100m', current: () => {
+        const h = getState('sprint_pr_100m', []);
+        return h.length ? Math.min(...h.map(p => parseFloat(p.time))).toFixed(2) + 's' : '12.50s';
+      }, target: '11.50s', currentNum: () => {
+        const h = getState('sprint_pr_100m', []);
+        return h.length ? Math.min(...h.map(p => parseFloat(p.time))) : 12.50;
+      }, targetNum: 11.50, lower: true },
+      { label: '200m Current', key: 'sprint_pr_200m', current: () => {
+        const h = getState('sprint_pr_200m', []);
+        return h.length ? Math.min(...h.map(p => parseFloat(p.time))).toFixed(2) + 's' : '25.99s';
+      }, target: '22.00s', currentNum: () => {
+        const h = getState('sprint_pr_200m', []);
+        return h.length ? Math.min(...h.map(p => parseFloat(p.time))) : 25.99;
+      }, targetNum: 22.00, lower: true },
+      { label: 'Bodyweight', current: () => getState('profile_data', {})['weight'] + 'kg' || '52kg',
+        target: '58kg', currentNum: () => parseFloat(getState('profile_data', {})['weight'] || 52), targetNum: 58, lower: false },
+      { label: 'Daily Protein', current: () => {
+        const log = getState('food_log_' + new Date().toDateString(), []);
+        const tot = log.reduce((a, e) => a + (e.protein || 0), 0);
+        return tot + 'g';
+      }, target: '170g', currentNum: () => {
+        const log = getState('food_log_' + new Date().toDateString(), []);
+        return log.reduce((a, e) => a + (e.protein || 0), 0);
+      }, targetNum: 170, lower: false },
+    ];
+
+    container.innerHTML = goals.map(g => {
+      const cur = g.currentNum();
+      const tgt = g.targetNum;
+      let pct;
+      if (g.lower) {
+        // For times, lower is better. Progress = how close to target from starting point
+        const start = g.label.includes('100m') ? 12.50 : 25.99;
+        pct = Math.min(100, Math.max(0, Math.round((start - cur) / (start - tgt) * 100)));
+      } else {
+        pct = Math.min(100, Math.round(cur / tgt * 100));
+      }
+      return `<div class="goal-card">
+        <div class="goal-card-title">${g.label}</div>
+        <div class="goal-val-row">
+          <div class="goal-current">${g.current()}</div>
+          <div class="goal-arrow">→</div>
+          <div class="goal-target">${g.target}</div>
+        </div>
+        <div class="goal-progress-bg"><div class="goal-progress-fill" style="width:${pct}%;"></div></div>
+        <div class="goal-pct">${pct}% TO GOAL</div>
+      </div>`;
+    }).join('');
+  }
+
+  function renderWeekLog() {
+    const container = document.getElementById('training-log-grid');
+    if (!container) return;
+    const days = ['MON','TUE','WED','THU','FRI','SAT','SUN'];
+    const log = getState('profile_week_log', Array(7).fill(false));
+    container.innerHTML = days.map((d, i) => `
+      <div class="ptl-day ${log[i] ? 'logged' : ''}" onclick="Profile.toggleWeekDay(${i})">
+        <span>${d}</span>
+        ${!log[i] ? '<div class="ptl-dot"></div>' : ''}
+      </div>`).join('');
+  }
+
+  function toggleWeekDay(i) {
+    const log = getState('profile_week_log', Array(7).fill(false));
+    log[i] = !log[i];
+    setState('profile_week_log', log);
+    renderWeekLog();
+    renderBadges();
+  }
+
+  function renderBadges() {
+    const container = document.getElementById('badges-grid');
+    if (!container) return;
+    container.innerHTML = BADGES.map(b => {
+      const earned = b.check();
+      return `<div class="athlete-badge ${earned ? 'earned' : ''}">
+        <span class="badge-icon">${b.icon}</span>
+        <span>${b.label}</span>
+        ${earned ? '' : '<span style="opacity:0.3;margin-left:auto;font-size:10px;">LOCKED</span>'}
+      </div>`;
+    }).join('');
+  }
+
+  function init() {
+    load();
+    renderGoals();
+    renderWeekLog();
+    renderBadges();
+  }
+
+  return { init, toggleWeekDay, renderBadges, renderGoals };
+})();
+
+// ── Expose scanner text input enable globally ──
+document.addEventListener('DOMContentLoaded', () => {
+  const ta = document.getElementById('food-text-input');
+  if (ta) ta.addEventListener('input', () => {
+    const btn = document.getElementById('scan-btn');
+    if (btn) btn.disabled = ta.value.trim().length < 4 && !window._hasImg;
+  });
+});
+
+</script>
+
+</body>
+</html>

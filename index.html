@@ -1,0 +1,1012 @@
+import { useState, useEffect, useRef } from “react”;
+
+// ─── DATA ────────────────────────────────────────────────────────────────────
+
+const WORKOUT_PLAN = {
+Monday: {
+label: “Upper Strength”,
+color: “#C9A84C”,
+exercises: [
+{ id: “bp”, name: “Bench Press”, sets: 4, reps: “5”, category: “pr” },
+{ id: “lpd”, name: “Lat Pulldown”, sets: 3, reps: “8” },
+{ id: “sr”, name: “Seated Row”, sets: 3, reps: “10” },
+{ id: “dips”, name: “Dips”, sets: 3, reps: “6–10”, category: “pr” },
+{ id: “tpd”, name: “Triceps Pushdown”, sets: 2, reps: “10” },
+{ id: “hlr”, name: “Hanging Leg Raises”, sets: 3, reps: “10” },
+{ id: “wc”, name: “Wrist Curls”, sets: 2, reps: “15” },
+],
+},
+Tuesday: {
+label: “Lower Strength”,
+color: “#A8C5DA”,
+exercises: [
+{ id: “tbdl”, name: “Trap Bar Deadlift”, sets: 4, reps: “5”, category: “pr” },
+{ id: “rdl”, name: “RDL”, sets: 3, reps: “6”, category: “pr” },
+{ id: “le”, name: “Leg Extension”, sets: 3, reps: “10” },
+{ id: “hc”, name: “Hamstring Curl”, sets: 3, reps: “10” },
+{ id: “scr”, name: “Seated Calf Raise”, sets: 3, reps: “15” },
+{ id: “plank”, name: “Plank”, sets: 3, reps: “45s” },
+],
+},
+Wednesday: { label: “Rest & Recovery”, color: “#7EC8A4”, exercises: [] },
+Thursday: {
+label: “Explosive / Athletic”,
+color: “#E8A87C”,
+exercises: [
+{ id: “pc”, name: “Power Clean”, sets: 4, reps: “3”, category: “pr” },
+{ id: “bj”, name: “Box Jumps”, sets: 4, reps: “3” },
+{ id: “kbs”, name: “Kettlebell Swings”, sets: 3, reps: “10” },
+{ id: “sp”, name: “Sled Push”, sets: 4, reps: “1 round” },
+{ id: “bpu”, name: “Band Push-ups”, sets: 3, reps: “6” },
+{ id: “rt”, name: “Russian Twists”, sets: 3, reps: “15” },
+],
+},
+Friday: {
+label: “Upper Hypertrophy”,
+color: “#C9A84C”,
+exercises: [
+{ id: “idb”, name: “Incline DB Press”, sets: 3, reps: “8”, category: “pr” },
+{ id: “lpd2”, name: “Lat Pulldown”, sets: 3, reps: “10” },
+{ id: “sr2”, name: “Seated Row”, sets: 3, reps: “10” },
+{ id: “lr”, name: “Lateral Raises”, sets: 3, reps: “12” },
+{ id: “bc”, name: “Biceps Curls”, sets: 3, reps: “10” },
+{ id: “tpd2”, name: “Triceps Pushdown”, sets: 3, reps: “10” },
+{ id: “hkr”, name: “Hanging Knee Raises”, sets: 3, reps: “10” },
+],
+},
+Saturday: {
+label: “Lower + Explosive”,
+color: “#E8A87C”,
+exercises: [
+{ id: “hxs”, name: “Hex Squat”, sets: 4, reps: “6”, category: “pr” },
+{ id: “rdl2”, name: “RDL”, sets: 3, reps: “8” },
+{ id: “brj”, name: “Broad Jumps”, sets: 3, reps: “5” },
+{ id: “slj”, name: “Single-leg Jumps”, sets: 3, reps: “4” },
+{ id: “waj”, name: “Weighted Ankle Jumps”, sets: 3, reps: “10” },
+{ id: “sp2”, name: “Sled Push”, sets: 3, reps: “1 round” },
+{ id: “sidep”, name: “Side Plank”, sets: 3, reps: “30s” },
+{ id: “dh”, name: “Dead Hangs”, sets: 2, reps: “max” },
+],
+},
+Sunday: { label: “Rest”, color: “#7EC8A4”, exercises: [] },
+};
+
+const DAYS = [“Monday”, “Tuesday”, “Wednesday”, “Thursday”, “Friday”, “Saturday”, “Sunday”];
+
+const MEAL_PLAN = {
+Monday: {
+calories: 2450,
+protein: 95,
+meals: [
+{ name: “Breakfast”, items: [“3 scrambled eggs (18g protein)”, “250ml whole milk (8g)”, “2 slices wholegrain toast”] },
+{ name: “Lunch”, items: [“150g grilled chicken breast (35g protein)”, “150g white rice”, “Mixed salad with olive oil”] },
+{ name: “Snack”, items: [“Greek yogurt 150g (13g protein)”, “Handful of almonds”] },
+{ name: “Dinner”, items: [“150g salmon fillet (30g protein)”, “200g sweet potato”, “Steamed broccoli”] },
+],
+},
+Tuesday: {
+calories: 2550,
+protein: 98,
+meals: [
+{ name: “Breakfast”, items: [“4 eggs omelette (24g protein)”, “200ml milk (7g)”, “Oats 60g”] },
+{ name: “Lunch”, items: [“160g chicken thighs (36g protein)”, “Rice 150g”, “Roasted veg”] },
+{ name: “Snack”, items: [“Cottage cheese 100g (11g protein)”, “Banana”] },
+{ name: “Dinner”, items: [“150g beef mince (32g protein)”, “Pasta 200g”, “Tomato sauce”] },
+],
+},
+Wednesday: {
+calories: 2300,
+protein: 90,
+meals: [
+{ name: “Breakfast”, items: [“3 eggs (18g protein)”, “Greek yogurt 150g (13g)”] },
+{ name: “Lunch”, items: [“Tuna sandwich (28g protein)”, “Salad”] },
+{ name: “Snack”, items: [“Protein shake (25g protein)”] },
+{ name: “Dinner”, items: [“150g chicken (35g protein)”, “Rice”, “Vegetables”] },
+],
+},
+Thursday: {
+calories: 2600,
+protein: 100,
+meals: [
+{ name: “Breakfast”, items: [“4 eggs (24g protein)”, “Milk 250ml (8g)”, “Oats”] },
+{ name: “Lunch”, items: [“180g chicken (40g protein)”, “Rice 150g”, “Salad”] },
+{ name: “Snack”, items: [“Greek yogurt (13g)”, “Almonds”] },
+{ name: “Dinner”, items: [“160g fish (32g protein)”, “Pasta”, “Greens”] },
+],
+},
+Friday: {
+calories: 2500,
+protein: 96,
+meals: [
+{ name: “Breakfast”, items: [“3 eggs (18g)”, “Milk 250ml (8g)”, “Wholegrain toast”] },
+{ name: “Lunch”, items: [“150g chicken (35g protein)”, “Rice”, “Cucumber”] },
+{ name: “Snack”, items: [“Cottage cheese 100g (11g)”, “Apple”] },
+{ name: “Dinner”, items: [“150g beef (30g protein)”, “Sweet potato”, “Broccoli”] },
+],
+},
+Saturday: {
+calories: 2600,
+protein: 100,
+meals: [
+{ name: “Breakfast”, items: [“4 eggs (24g)”, “200ml milk (7g)”, “Porridge”] },
+{ name: “Lunch”, items: [“180g chicken (40g)”, “Rice”, “Roasted veg”] },
+{ name: “Snack”, items: [“Protein shake (25g)”] },
+{ name: “Dinner”, items: [“160g salmon (32g)”, “Pasta”, “Salad”] },
+],
+},
+Sunday: {
+calories: 2300,
+protein: 90,
+meals: [
+{ name: “Breakfast”, items: [“3 eggs (18g)”, “Milk”, “Fruit”] },
+{ name: “Lunch”, items: [“Chicken wrap (32g protein)”, “Salad”] },
+{ name: “Snack”, items: [“Greek yogurt (13g)”, “Nuts”] },
+{ name: “Dinner”, items: [“150g fish (30g protein)”, “Rice”, “Vegetables”] },
+],
+},
+};
+
+const TRACK_DRILLS = [
+“A-Skips”, “B-Skips”, “High Knees”, “Butt Kicks”, “Carioca”, “Straight-leg Bounds”,
+“Ankle Pops”, “Power Skips”, “Wall Drills”, “Wicket Runs”,
+];
+
+const SPEED_EXERCISES = [
+{ name: “Sled Push”, benefit: “Drive phase power” },
+{ name: “Power Clean”, benefit: “Triple extension” },
+{ name: “Box Jumps”, benefit: “Reactive strength” },
+{ name: “Broad Jumps”, benefit: “Horizontal power” },
+{ name: “Kettlebell Swings”, benefit: “Hip explosiveness” },
+{ name: “Band Push-ups”, benefit: “Upper body drive” },
+{ name: “Single-leg Jumps”, benefit: “Asymmetric power” },
+{ name: “Trap Bar Deadlift”, benefit: “Peak force output” },
+];
+
+const RECOVERY_ROUTINE = [
+{ name: “Foam Rolling”, duration: “10 min”, icon: “🔄” },
+{ name: “Hip Flexor Stretch”, duration: “2×30s each”, icon: “🦵” },
+{ name: “Hamstring Stretch”, duration: “2×30s”, icon: “🧘” },
+{ name: “Thoracic Rotation”, duration: “10 reps”, icon: “🔁” },
+{ name: “Band Pull-Aparts”, duration: “3×15”, icon: “💪” },
+{ name: “Light Walking”, duration: “20–30 min”, icon: “🚶” },
+{ name: “Cold Shower”, duration: “2–3 min”, icon: “🚿” },
+{ name: “Sleep 9–10hrs”, duration: “Priority”, icon: “😴” },
+];
+
+const PR_LIFTS = [
+“Bench Press”, “Squat / Hex Squat”, “Deadlift / Trap Bar Deadlift”,
+“RDL”, “Pull-ups”, “Dips”, “Shoulder Press”, “Power Clean”, “Incline Bench”,
+];
+
+// ─── STORAGE HELPERS ─────────────────────────────────────────────────────────
+
+const save = (key, val) => { try { localStorage.setItem(key, JSON.stringify(val)); } catch {} };
+const load = (key, def) => { try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : def; } catch { return def; } };
+
+// ─── MAIN APP ─────────────────────────────────────────────────────────────────
+
+function useLiveClock() {
+const [now, setNow] = useState(new Date());
+useEffect(() => {
+const id = setInterval(() => setNow(new Date()), 1000);
+return () => clearInterval(id);
+}, []);
+return now;
+}
+
+export default function App() {
+const [dark, setDark] = useState(() => load(“dark”, true));
+const [tab, setTab] = useState(“dashboard”);
+const [today] = useState(() => DAYS[new Date().getDay() === 0 ? 6 : new Date().getDay() - 1]);
+const now = useLiveClock();
+
+useEffect(() => { save(“dark”, dark); }, [dark]);
+
+const d = dark ? DARK : LIGHT;
+
+return (
+<div style={{ …styles.root, background: d.bg, color: d.text, fontFamily: “‘DM Sans’, ‘Helvetica Neue’, sans-serif”, minHeight: “100vh” }}>
+<style>{`@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Bebas+Neue&display=swap'); * { box-sizing: border-box; margin: 0; padding: 0; } ::-webkit-scrollbar { width: 0; } input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; } input[type=range] { accent-color: #C9A84C; } @keyframes fadeUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } } @keyframes pulse { 0%,100% { transform:scale(1); } 50% { transform:scale(1.04); } } @keyframes glow { 0%,100% { box-shadow: 0 0 8px #C9A84C44; } 50% { box-shadow: 0 0 20px #C9A84C88; } } .fade-up { animation: fadeUp 0.35s ease both; } .gold-glow { animation: glow 2s ease infinite; }`}</style>
+
+```
+  {/* HEADER */}
+  <header style={{ ...styles.header, background: d.card, borderBottom: `1px solid ${d.border}` }}>
+    <div style={styles.headerLeft}>
+      <span style={{ fontFamily: "'Bebas Neue'", fontSize: 22, letterSpacing: 2, color: GOLD }}>APEX</span>
+      <span style={{ fontSize: 11, color: d.muted, marginLeft: 8, letterSpacing: 1 }}>ATHLETE</span>
+    </div>
+    <div style={styles.headerCenter}>
+      <div style={{ fontSize: 13, fontWeight: 700, color: d.text, letterSpacing: 0.3 }}>
+        {now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" })}
+      </div>
+      <div style={{ fontSize: 10, color: d.muted, letterSpacing: 0.5 }}>
+        {now.toLocaleDateString([], { weekday: "short", day: "numeric", month: "short", year: "numeric" }).toUpperCase()}
+      </div>
+    </div>
+    <button onClick={() => setDark(p => !p)} style={{ ...styles.iconBtn, background: d.surface, color: d.text }}>
+      {dark ? "☀️" : "🌙"}
+    </button>
+  </header>
+
+  {/* PROFILE BANNER */}
+  <ProfileBanner d={d} />
+
+  {/* NAV */}
+  <nav style={{ ...styles.nav, background: d.card, borderBottom: `1px solid ${d.border}` }}>
+    {[
+      { id: "dashboard", icon: "⚡", label: "Today" },
+      { id: "workout", icon: "💪", label: "Workout" },
+      { id: "prs", icon: "🏆", label: "PRs" },
+      { id: "plan", icon: "📋", label: "Plan" },
+      { id: "meals", icon: "🍽️", label: "Meals" },
+      { id: "sprint", icon: "🏃", label: "Sprint" },
+      { id: "recovery", icon: "🧘", label: "Recovery" },
+    ].map(t => (
+      <button key={t.id} onClick={() => setTab(t.id)}
+        style={{ ...styles.navBtn, color: tab === t.id ? GOLD : d.muted, borderBottom: tab === t.id ? `2px solid ${GOLD}` : "2px solid transparent" }}>
+        <span style={{ fontSize: 16 }}>{t.icon}</span>
+        <span style={{ fontSize: 10, marginTop: 2 }}>{t.label}</span>
+      </button>
+    ))}
+  </nav>
+
+  {/* CONTENT */}
+  <main style={styles.main}>
+    {tab === "dashboard" && <Dashboard d={d} today={today} />}
+    {tab === "workout" && <WorkoutTracker d={d} today={today} />}
+    {tab === "prs" && <PRTracker d={d} />}
+    {tab === "plan" && <TrainingPlan d={d} today={today} />}
+    {tab === "meals" && <MealPlan d={d} today={today} />}
+    {tab === "sprint" && <SprintSection d={d} />}
+    {tab === "recovery" && <RecoveryTab d={d} />}
+  </main>
+</div>
+```
+
+);
+}
+
+// ─── PROFILE BANNER ──────────────────────────────────────────────────────────
+
+function ProfileBanner({ d }) {
+const pbs = load(“sprintPRs”, { “100m”: { time: “12.50”, year: 2024 }, “200m”: { time: “25.99”, year: 2024 } });
+return (
+<div style={{ background: `linear-gradient(135deg, ${d.card} 0%, ${d.surface} 100%)`, padding: “12px 16px”, borderBottom: `1px solid ${d.border}` }}>
+<div style={{ display: “flex”, alignItems: “center”, gap: 16 }}>
+<div style={{ width: 44, height: 44, borderRadius: “50%”, background: `linear-gradient(135deg, ${GOLD}, #8B6914)`, display: “flex”, alignItems: “center”, justifyContent: “center”, fontSize: 20, flexShrink: 0 }}>⚡</div>
+<div style={{ flex: 1 }}>
+<div style={{ fontWeight: 700, fontSize: 15, letterSpacing: 0.5 }}>Hybrid Athlete</div>
+<div style={{ fontSize: 11, color: d.muted }}>Age 14 · 183cm · 52kg</div>
+</div>
+<div style={{ display: “flex”, gap: 12 }}>
+{[{ label: “100m PB”, val: pbs[“100m”]?.time || “12.50s” }, { label: “200m PB”, val: pbs[“200m”]?.time || “25.99s” }].map(stat => (
+<div key={stat.label} style={{ textAlign: “center”, background: d.surface, borderRadius: 10, padding: “6px 10px”, border: `1px solid ${GOLD}33` }}>
+<div style={{ fontSize: 13, fontWeight: 700, color: GOLD }}>{stat.val}</div>
+<div style={{ fontSize: 9, color: d.muted, letterSpacing: 0.5 }}>{stat.label}</div>
+</div>
+))}
+</div>
+</div>
+</div>
+);
+}
+
+// ─── DASHBOARD ────────────────────────────────────────────────────────────────
+
+function Dashboard({ d, today }) {
+const todayKey = new Date().toDateString();
+const [water, setWater] = useState(() => { const s = load(“water”, {}); return s.date === todayKey ? s.count : 0; });
+const [macros, setMacros] = useState(() => load(“macros_” + todayKey, { protein: 0, carbs: 0, fats: 0, calories: 0 }));
+const [showMacroForm, setShowMacroForm] = useState(false);
+const [macroInput, setMacroInput] = useState({ protein: “”, carbs: “”, fats: “”, calories: “” });
+const [sleep, setSleep] = useState(() => load(“sleep_” + todayKey, 8));
+const [energy, setEnergy] = useState(() => load(“energy_” + todayKey, 3));
+const [soreness, setSoreness] = useState(() => load(“soreness_” + todayKey, 2));
+
+useEffect(() => { save(“water”, { date: todayKey, count: water }); }, [water]);
+useEffect(() => { save(“macros_” + todayKey, macros); }, [macros]);
+useEffect(() => { save(“sleep_” + todayKey, sleep); }, [sleep]);
+useEffect(() => { save(“energy_” + todayKey, energy); }, [energy]);
+useEffect(() => { save(“soreness_” + todayKey, soreness); }, [soreness]);
+
+const addMacros = () => {
+setMacros(p => ({
+protein: p.protein + (Number(macroInput.protein) || 0),
+carbs: p.carbs + (Number(macroInput.carbs) || 0),
+fats: p.fats + (Number(macroInput.fats) || 0),
+calories: p.calories + (Number(macroInput.calories) || 0),
+}));
+setMacroInput({ protein: “”, carbs: “”, fats: “”, calories: “” });
+setShowMacroForm(false);
+};
+
+const workout = WORKOUT_PLAN[today];
+
+return (
+<div className="fade-up" style={styles.section}>
+{/* Today’s Schedule */}
+<Card d={d} title="📅 Today's Session">
+<div style={{ display: “flex”, alignItems: “center”, gap: 12 }}>
+<div style={{ width: 8, height: 8, borderRadius: “50%”, background: workout.color, flexShrink: 0 }} />
+<div>
+<div style={{ fontWeight: 600, fontSize: 15 }}>{today} — {workout.label}</div>
+<div style={{ fontSize: 12, color: d.muted, marginTop: 2 }}>
+{workout.exercises.length > 0 ? `${workout.exercises.length} exercises planned` : “Rest & recover today”}
+</div>
+</div>
+</div>
+{workout.exercises.length > 0 && (
+<div style={{ marginTop: 10, display: “flex”, flexWrap: “wrap”, gap: 6 }}>
+{workout.exercises.map(e => (
+<span key={e.id} style={{ fontSize: 11, background: d.surface, borderRadius: 20, padding: “3px 10px”, color: d.muted }}>{e.name}</span>
+))}
+</div>
+)}
+</Card>
+
+```
+  {/* Water Tracker */}
+  <Card d={d} title="💧 Hydration">
+    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+      <div>
+        <span style={{ fontFamily: "'Bebas Neue'", fontSize: 42, color: GOLD, lineHeight: 1 }}>{water}</span>
+        <span style={{ fontSize: 13, color: d.muted, marginLeft: 4 }}>/ 8 glasses</span>
+      </div>
+      <div style={{ display: "flex", gap: 8 }}>
+        <button onClick={() => setWater(p => Math.max(0, p - 1))}
+          style={{ ...styles.circleBtn, background: d.surface, color: d.muted }}>−</button>
+        <button onClick={() => setWater(p => p + 1)}
+          style={{ ...styles.circleBtn, background: GOLD, color: "#000" }}>+</button>
+      </div>
+    </div>
+    <div style={{ marginTop: 10, display: "flex", gap: 6 }}>
+      {Array.from({ length: 8 }).map((_, i) => (
+        <div key={i} style={{ flex: 1, height: 6, borderRadius: 3, background: i < water ? "#3B9EFF" : d.surface, transition: "background 0.3s" }} />
+      ))}
+    </div>
+    <div style={{ fontSize: 11, color: d.muted, marginTop: 6 }}>{water >= 8 ? "✅ Daily goal reached!" : `${8 - water} more to go`}</div>
+  </Card>
+
+  {/* Macro Tracker */}
+  <Card d={d} title="🥗 Nutrition">
+    {[
+      { label: "Protein", val: macros.protein, max: 100, color: "#E8A87C" },
+      { label: "Carbs", val: macros.carbs, max: 300, color: "#A8C5DA" },
+      { label: "Fats", val: macros.fats, max: 90, color: GOLD },
+      { label: "Calories", val: macros.calories, max: 2500, color: "#7EC8A4" },
+    ].map(m => (
+      <div key={m.label} style={{ marginBottom: 10 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12, marginBottom: 4 }}>
+          <span style={{ color: d.muted }}>{m.label}</span>
+          <span style={{ fontWeight: 600, color: m.color }}>{m.val}{m.label === "Calories" ? " kcal" : "g"} / {m.max}{m.label === "Calories" ? " kcal" : "g"}</span>
+        </div>
+        <div style={{ height: 6, borderRadius: 3, background: d.surface }}>
+          <div style={{ height: "100%", borderRadius: 3, width: `${Math.min(100, (m.val / m.max) * 100)}%`, background: m.color, transition: "width 0.5s ease" }} />
+        </div>
+      </div>
+    ))}
+    {showMacroForm ? (
+      <div style={{ marginTop: 10, background: d.surface, borderRadius: 12, padding: 12 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 8 }}>
+          {["protein", "carbs", "fats", "calories"].map(k => (
+            <input key={k} type="number" placeholder={k.charAt(0).toUpperCase() + k.slice(1)}
+              value={macroInput[k]} onChange={e => setMacroInput(p => ({ ...p, [k]: e.target.value }))}
+              style={{ ...styles.input, background: d.card, color: d.text, border: `1px solid ${d.border}` }} />
+          ))}
+        </div>
+        <div style={{ display: "flex", gap: 8 }}>
+          <button onClick={addMacros} style={{ ...styles.btn, flex: 1, background: GOLD, color: "#000" }}>Add</button>
+          <button onClick={() => setShowMacroForm(false)} style={{ ...styles.btn, flex: 1, background: d.surface, color: d.muted }}>Cancel</button>
+        </div>
+      </div>
+    ) : (
+      <button onClick={() => setShowMacroForm(true)} style={{ ...styles.btn, marginTop: 10, background: d.surface, color: d.text, width: "100%" }}>+ Log Food</button>
+    )}
+  </Card>
+
+  {/* Recovery */}
+  <Card d={d} title="😴 Recovery">
+    <div style={{ marginBottom: 16 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12, marginBottom: 6 }}>
+        <span style={{ color: d.muted }}>Sleep</span>
+        <span style={{ fontWeight: 600, color: GOLD }}>{sleep} hrs</span>
+      </div>
+      <input type="range" min={4} max={12} step={0.5} value={sleep} onChange={e => setSleep(Number(e.target.value))} style={{ width: "100%" }} />
+    </div>
+    <div style={{ marginBottom: 16 }}>
+      <div style={{ fontSize: 12, color: d.muted, marginBottom: 8 }}>Energy Level</div>
+      <div style={{ display: "flex", gap: 8 }}>
+        {["Low", "OK", "Good", "High", "Peak"].map((l, i) => (
+          <button key={l} onClick={() => setEnergy(i + 1)}
+            style={{ flex: 1, padding: "6px 0", borderRadius: 8, border: "none", cursor: "pointer", fontSize: 10, fontWeight: 600, transition: "all 0.2s",
+              background: energy === i + 1 ? GOLD : d.surface, color: energy === i + 1 ? "#000" : d.muted }}>
+            {l}
+          </button>
+        ))}
+      </div>
+    </div>
+    <div>
+      <div style={{ fontSize: 12, color: d.muted, marginBottom: 8 }}>Muscle Soreness</div>
+      <div style={{ display: "flex", gap: 8 }}>
+        {[1, 2, 3, 4, 5].map(i => (
+          <button key={i} onClick={() => setSoreness(i)}
+            style={{ flex: 1, padding: "6px 0", borderRadius: 8, border: "none", cursor: "pointer", fontSize: 14, transition: "all 0.2s",
+              background: soreness >= i ? "#E87C7C" : d.surface, opacity: soreness >= i ? 1 : 0.5 }}>
+            🔥
+          </button>
+        ))}
+      </div>
+    </div>
+  </Card>
+</div>
+```
+
+);
+}
+
+// ─── WORKOUT TRACKER ──────────────────────────────────────────────────────────
+
+function WorkoutTracker({ d, today }) {
+const [selectedDay, setSelectedDay] = useState(today);
+const [setData, setSetData] = useState(() => load(“setData”, {}));
+const [timer, setTimer] = useState(null);
+const [timerLeft, setTimerLeft] = useState(0);
+const timerRef = useRef(null);
+
+useEffect(() => { save(“setData”, setData); }, [setData]);
+
+useEffect(() => {
+if (timerLeft > 0) {
+timerRef.current = setTimeout(() => setTimerLeft(p => p - 1), 1000);
+} else {
+clearTimeout(timerRef.current);
+}
+return () => clearTimeout(timerRef.current);
+}, [timerLeft]);
+
+const workout = WORKOUT_PLAN[selectedDay];
+
+const toggleSet = (exId, setIdx) => {
+const key = `${selectedDay}_${exId}_${setIdx}`;
+const wasComplete = setData[key]?.complete;
+setSetData(p => ({ …p, [key]: { …p[key], complete: !wasComplete } }));
+if (!wasComplete) { setTimerLeft(90); setTimer(key); }
+};
+
+const updateField = (exId, setIdx, field, val) => {
+const key = `${selectedDay}_${exId}_${setIdx}`;
+setSetData(p => ({ …p, [key]: { …p[key], [field]: val } }));
+};
+
+const savePR = (ex) => {
+const prs = load(“gymPRs”, {});
+const sets = Array.from({ length: ex.sets }, (_, i) => {
+const key = `${selectedDay}_${ex.id}_${i}`;
+return { weight: Number(setData[key]?.weight || 0), reps: Number(setData[key]?.reps || 0) };
+}).filter(s => s.weight > 0);
+if (sets.length === 0) return;
+const best = sets.reduce((a, b) => (a.weight > b.weight ? a : b));
+const existing = prs[ex.name];
+if (!existing || best.weight > existing.weight) {
+save(“gymPRs”, { …prs, [ex.name]: { …best, date: new Date().toLocaleDateString() } });
+alert(`🏆 New PR saved: ${ex.name} — ${best.weight}kg × ${best.reps} reps`);
+} else {
+alert(`Current best: ${existing.weight}kg. Log heavier to update!`);
+}
+};
+
+return (
+<div className="fade-up" style={styles.section}>
+{/* Day Selector */}
+<div style={{ display: “flex”, gap: 6, overflowX: “auto”, paddingBottom: 4 }}>
+{DAYS.map(day => (
+<button key={day} onClick={() => setSelectedDay(day)}
+style={{ flexShrink: 0, padding: “6px 12px”, borderRadius: 20, border: “none”, cursor: “pointer”, fontSize: 11, fontWeight: 600, transition: “all 0.2s”,
+background: selectedDay === day ? GOLD : d.surface, color: selectedDay === day ? “#000” : d.muted }}>
+{day.slice(0, 3)}
+</button>
+))}
+</div>
+
+```
+  {/* Rest Timer */}
+  {timerLeft > 0 && (
+    <div style={{ background: `linear-gradient(135deg, #C9A84C22, #C9A84C11)`, border: `1px solid ${GOLD}44`, borderRadius: 16, padding: "12px 16px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+      <div>
+        <div style={{ fontSize: 11, color: d.muted }}>REST TIMER</div>
+        <div style={{ fontFamily: "'Bebas Neue'", fontSize: 36, color: GOLD, lineHeight: 1 }}>{Math.floor(timerLeft / 60)}:{String(timerLeft % 60).padStart(2, "0")}</div>
+      </div>
+      <button onClick={() => setTimerLeft(0)} style={{ ...styles.btn, background: d.surface, color: d.muted, fontSize: 11 }}>Skip</button>
+    </div>
+  )}
+
+  <div style={{ background: d.surface, borderRadius: 12, padding: "8px 12px" }}>
+    <div style={{ fontFamily: "'Bebas Neue'", fontSize: 20, letterSpacing: 2, color: workout.color }}>{workout.label}</div>
+    <div style={{ fontSize: 12, color: d.muted }}>{selectedDay}</div>
+  </div>
+
+  {workout.exercises.length === 0 ? (
+    <Card d={d}>
+      <div style={{ textAlign: "center", padding: "24px 0" }}>
+        <div style={{ fontSize: 40, marginBottom: 8 }}>🌿</div>
+        <div style={{ fontWeight: 600, fontSize: 16 }}>Rest Day</div>
+        <div style={{ fontSize: 13, color: d.muted, marginTop: 4 }}>Recovery is where gains are made.</div>
+      </div>
+    </Card>
+  ) : workout.exercises.map(ex => {
+    const completedSets = Array.from({ length: ex.sets }, (_, i) => setData[`${selectedDay}_${ex.id}_${i}`]?.complete).filter(Boolean).length;
+    return (
+      <div key={ex.id} style={{ background: d.card, borderRadius: 16, padding: 16, border: `1px solid ${d.border}` }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
+          <div>
+            <div style={{ fontWeight: 600, fontSize: 15 }}>{ex.name}</div>
+            <div style={{ fontSize: 11, color: d.muted }}>{ex.sets} sets × {ex.reps} reps</div>
+          </div>
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <span style={{ fontSize: 11, color: GOLD }}>{completedSets}/{ex.sets}</span>
+            {ex.category === "pr" && (
+              <button onClick={() => savePR(ex)}
+                style={{ fontSize: 10, padding: "3px 8px", borderRadius: 10, border: `1px solid ${GOLD}`, background: "transparent", color: GOLD, cursor: "pointer" }}>
+                Save PR
+              </button>
+            )}
+          </div>
+        </div>
+        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+          {Array.from({ length: ex.sets }).map((_, i) => {
+            const key = `${selectedDay}_${ex.id}_${i}`;
+            const data = setData[key] || {};
+            return (
+              <div key={i} style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                <button onClick={() => toggleSet(ex.id, i)}
+                  style={{ width: 28, height: 28, borderRadius: "50%", border: `2px solid ${data.complete ? GOLD : d.border}`, background: data.complete ? GOLD : "transparent", cursor: "pointer", flexShrink: 0, fontSize: 14, display: "flex", alignItems: "center", justifyContent: "center", transition: "all 0.25s" }}>
+                  {data.complete ? "✓" : ""}
+                </button>
+                <span style={{ fontSize: 12, color: d.muted, width: 40 }}>Set {i + 1}</span>
+                <input type="number" placeholder="kg" value={data.weight || ""} onChange={e => updateField(ex.id, i, "weight", e.target.value)}
+                  style={{ ...styles.input, flex: 1, background: d.surface, color: d.text, border: `1px solid ${d.border}` }} />
+                <input type="number" placeholder="reps" value={data.reps || ""} onChange={e => updateField(ex.id, i, "reps", e.target.value)}
+                  style={{ ...styles.input, flex: 1, background: d.surface, color: d.text, border: `1px solid ${d.border}` }} />
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    );
+  })}
+</div>
+```
+
+);
+}
+
+// ─── PR TRACKER ───────────────────────────────────────────────────────────────
+
+function PRTracker({ d }) {
+const [sprintPRs, setSprintPRs] = useState(() => load(“sprintPRs”, { “100m”: null, “200m”: null }));
+const [sprintHistory, setSprintHistory] = useState(() => load(“sprintHistory”, []));
+const [gymPRs, setGymPRs] = useState(() => load(“gymPRs”, {}));
+const [sprintInput, setSprintInput] = useState({ event: “100m”, time: “”, year: new Date().getFullYear(), notes: “” });
+const [showSprintForm, setShowSprintForm] = useState(false);
+
+const addSprintPR = () => {
+if (!sprintInput.time) return;
+const entry = { …sprintInput, date: new Date().toLocaleDateString() };
+const history = […sprintHistory, entry];
+setSprintHistory(history);
+save(“sprintHistory”, history);
+const current = sprintPRs[sprintInput.event];
+if (!current || parseFloat(sprintInput.time) < parseFloat(current.time)) {
+const updated = { …sprintPRs, [sprintInput.event]: entry };
+setSprintPRs(updated);
+save(“sprintPRs”, updated);
+}
+setSprintInput({ event: “100m”, time: “”, year: new Date().getFullYear(), notes: “” });
+setShowSprintForm(false);
+};
+
+return (
+<div className="fade-up" style={styles.section}>
+{/* Sprint PRs */}
+<Card d={d} title="⚡ Sprint Records">
+<div style={{ display: “flex”, gap: 12, marginBottom: 16 }}>
+{[“100m”, “200m”].map(event => {
+const pb = sprintPRs[event];
+return (
+<div key={event} className=“gold-glow” style={{ flex: 1, background: `linear-gradient(135deg, ${GOLD}22, ${GOLD}11)`, border: `1px solid ${GOLD}55`, borderRadius: 16, padding: “14px 12px”, textAlign: “center” }}>
+<div style={{ fontSize: 11, color: d.muted, letterSpacing: 1 }}>{event} PB</div>
+<div style={{ fontFamily: “‘Bebas Neue’”, fontSize: 36, color: GOLD, lineHeight: 1.1 }}>{pb ? pb.time + “s” : “—”}</div>
+{pb && <div style={{ fontSize: 10, color: d.muted, marginTop: 2 }}>{pb.year}</div>}
+</div>
+);
+})}
+</div>
+
+```
+    {showSprintForm ? (
+      <div style={{ background: d.surface, borderRadius: 12, padding: 12 }}>
+        <div style={{ display: "flex", gap: 8, marginBottom: 8 }}>
+          {["100m", "200m"].map(e => (
+            <button key={e} onClick={() => setSprintInput(p => ({ ...p, event: e }))}
+              style={{ flex: 1, padding: "6px", borderRadius: 8, border: "none", cursor: "pointer", background: sprintInput.event === e ? GOLD : d.card, color: sprintInput.event === e ? "#000" : d.muted, fontSize: 13, fontWeight: 600 }}>
+              {e}
+            </button>
+          ))}
+        </div>
+        <input type="text" placeholder="Time (e.g. 12.45)" value={sprintInput.time} onChange={e => setSprintInput(p => ({ ...p, time: e.target.value }))}
+          style={{ ...styles.input, width: "100%", background: d.card, color: d.text, border: `1px solid ${d.border}`, marginBottom: 8 }} />
+        <input type="number" placeholder="Year" value={sprintInput.year} onChange={e => setSprintInput(p => ({ ...p, year: e.target.value }))}
+          style={{ ...styles.input, width: "100%", background: d.card, color: d.text, border: `1px solid ${d.border}`, marginBottom: 8 }} />
+        <input type="text" placeholder="Notes (optional)" value={sprintInput.notes} onChange={e => setSprintInput(p => ({ ...p, notes: e.target.value }))}
+          style={{ ...styles.input, width: "100%", background: d.card, color: d.text, border: `1px solid ${d.border}`, marginBottom: 8 }} />
+        <div style={{ display: "flex", gap: 8 }}>
+          <button onClick={addSprintPR} style={{ ...styles.btn, flex: 1, background: GOLD, color: "#000" }}>Save</button>
+          <button onClick={() => setShowSprintForm(false)} style={{ ...styles.btn, flex: 1, background: d.surface, color: d.muted }}>Cancel</button>
+        </div>
+      </div>
+    ) : (
+      <button onClick={() => setShowSprintForm(true)} style={{ ...styles.btn, width: "100%", background: d.surface, color: d.text }}>+ Log Sprint Time</button>
+    )}
+
+    {sprintHistory.length > 0 && (
+      <div style={{ marginTop: 14 }}>
+        <div style={{ fontSize: 11, color: d.muted, letterSpacing: 1, marginBottom: 8 }}>HISTORY</div>
+        {[...sprintHistory].reverse().slice(0, 6).map((entry, i) => {
+          const isPB = sprintPRs[entry.event]?.time === entry.time;
+          return (
+            <div key={i} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 0", borderBottom: `1px solid ${d.border}` }}>
+              <div>
+                <span style={{ fontWeight: 600, fontSize: 13 }}>{entry.event}</span>
+                {isPB && <span style={{ marginLeft: 6, fontSize: 10, color: GOLD, background: `${GOLD}22`, padding: "1px 6px", borderRadius: 10 }}>PB</span>}
+                {entry.notes && <div style={{ fontSize: 11, color: d.muted }}>{entry.notes}</div>}
+              </div>
+              <div style={{ textAlign: "right" }}>
+                <div style={{ fontWeight: 700, color: isPB ? GOLD : d.text }}>{entry.time}s</div>
+                <div style={{ fontSize: 10, color: d.muted }}>{entry.year}</div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    )}
+  </Card>
+
+  {/* Gym PRs */}
+  <Card d={d} title="🏋️ Gym Records">
+    {PR_LIFTS.map(lift => {
+      const pr = gymPRs[lift];
+      return (
+        <div key={lift} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 0", borderBottom: `1px solid ${d.border}` }}>
+          <div style={{ fontSize: 13 }}>{lift}</div>
+          <div style={{ textAlign: "right" }}>
+            {pr ? (
+              <>
+                <span style={{ fontWeight: 700, color: GOLD }}>{pr.weight}kg</span>
+                <span style={{ fontSize: 11, color: d.muted, marginLeft: 4 }}>× {pr.reps}</span>
+                <div style={{ fontSize: 10, color: d.muted }}>{pr.date}</div>
+              </>
+            ) : <span style={{ fontSize: 12, color: d.muted }}>Not set</span>}
+          </div>
+        </div>
+      );
+    })}
+  </Card>
+</div>
+```
+
+);
+}
+
+// ─── TRAINING PLAN ────────────────────────────────────────────────────────────
+
+function TrainingPlan({ d, today }) {
+const [expanded, setExpanded] = useState(today);
+
+return (
+<div className="fade-up" style={styles.section}>
+<div style={{ fontSize: 11, color: d.muted, letterSpacing: 1, marginBottom: 4 }}>WEEKLY PROGRAMME</div>
+{DAYS.filter(day => WORKOUT_PLAN[day].exercises.length > 0).map(day => {
+const workout = WORKOUT_PLAN[day];
+const isToday = day === today;
+const open = expanded === day;
+return (
+<div key={day} style={{ background: d.card, borderRadius: 16, border: `1px solid ${isToday ? GOLD + "66" : d.border}`, overflow: “hidden” }}>
+<button onClick={() => setExpanded(open ? null : day)} style={{ width: “100%”, padding: “14px 16px”, background: “transparent”, border: “none”, cursor: “pointer”, display: “flex”, justifyContent: “space-between”, alignItems: “center” }}>
+<div style={{ display: “flex”, alignItems: “center”, gap: 10 }}>
+<div style={{ width: 8, height: 8, borderRadius: “50%”, background: workout.color, flexShrink: 0 }} />
+<div style={{ textAlign: “left” }}>
+<div style={{ fontWeight: 600, fontSize: 14, color: d.text }}>{day}</div>
+<div style={{ fontSize: 11, color: d.muted }}>{workout.label}</div>
+</div>
+</div>
+<div style={{ display: “flex”, alignItems: “center”, gap: 8 }}>
+{isToday && <span style={{ fontSize: 10, color: GOLD, background: `${GOLD}22`, padding: “2px 8px”, borderRadius: 10 }}>TODAY</span>}
+<span style={{ color: d.muted, fontSize: 14 }}>{open ? “▲” : “▼”}</span>
+</div>
+</button>
+{open && (
+<div style={{ padding: “0 16px 14px” }}>
+{workout.exercises.map((ex, i) => (
+<div key={i} style={{ display: “flex”, justifyContent: “space-between”, padding: “7px 0”, borderBottom: i < workout.exercises.length - 1 ? `1px solid ${d.border}` : “none” }}>
+<span style={{ fontSize: 13 }}>{ex.name}</span>
+<span style={{ fontSize: 12, color: GOLD, fontWeight: 600 }}>{ex.sets}×{ex.reps}</span>
+</div>
+))}
+</div>
+)}
+</div>
+);
+})}
+</div>
+);
+}
+
+// ─── MEAL PLAN ────────────────────────────────────────────────────────────────
+
+function MealPlan({ d, today }) {
+const [selectedDay, setSelectedDay] = useState(today);
+const plan = MEAL_PLAN[selectedDay];
+
+return (
+<div className="fade-up" style={styles.section}>
+<div style={{ display: “flex”, gap: 6, overflowX: “auto”, paddingBottom: 4 }}>
+{DAYS.map(day => (
+<button key={day} onClick={() => setSelectedDay(day)}
+style={{ flexShrink: 0, padding: “6px 12px”, borderRadius: 20, border: “none”, cursor: “pointer”, fontSize: 11, fontWeight: 600, transition: “all 0.2s”,
+background: selectedDay === day ? GOLD : d.surface, color: selectedDay === day ? “#000” : d.muted }}>
+{day.slice(0, 3)}
+</button>
+))}
+</div>
+
+```
+  <div style={{ display: "flex", gap: 10 }}>
+    <div style={{ flex: 1, background: d.card, borderRadius: 14, padding: 14, textAlign: "center", border: `1px solid ${d.border}` }}>
+      <div style={{ fontFamily: "'Bebas Neue'", fontSize: 28, color: GOLD }}>{plan.calories}</div>
+      <div style={{ fontSize: 11, color: d.muted }}>kcal target</div>
+    </div>
+    <div style={{ flex: 1, background: d.card, borderRadius: 14, padding: 14, textAlign: "center", border: `1px solid ${d.border}` }}>
+      <div style={{ fontFamily: "'Bebas Neue'", fontSize: 28, color: "#E8A87C" }}>{plan.protein}g</div>
+      <div style={{ fontSize: 11, color: d.muted }}>protein</div>
+    </div>
+  </div>
+
+  {plan.meals.map((meal, i) => (
+    <div key={i} style={{ background: d.card, borderRadius: 16, padding: "14px 16px", border: `1px solid ${d.border}` }}>
+      <div style={{ fontWeight: 600, fontSize: 14, marginBottom: 8, color: GOLD }}>{meal.name}</div>
+      {meal.items.map((item, j) => (
+        <div key={j} style={{ fontSize: 13, color: d.muted, padding: "3px 0", display: "flex", alignItems: "center", gap: 6 }}>
+          <span style={{ color: d.text, opacity: 0.3 }}>·</span> {item}
+        </div>
+      ))}
+    </div>
+  ))}
+</div>
+```
+
+);
+}
+
+// ─── SPRINT SECTION ───────────────────────────────────────────────────────────
+
+function SprintSection({ d }) {
+const [sprintTargets, setSprintTargets] = useState(() => load(“sprintTargets”, {
+“100m”: { current: “12.63”, target: “12.20” },
+“200m”: { current: “—”, target: “25.50” },
+}));
+const [editing, setEditing] = useState(null); // “100m” | “200m” | null
+const [editBuf, setEditBuf] = useState({});
+const sprintPRs = load(“sprintPRs”, { “100m”: { time: “12.50” }, “200m”: { time: “25.99” } });
+
+const startEdit = (event) => {
+setEditBuf({ current: sprintTargets[event].current, target: sprintTargets[event].target });
+setEditing(event);
+};
+
+const saveEdit = () => {
+const updated = { …sprintTargets, [editing]: { current: editBuf.current, target: editBuf.target } };
+setSprintTargets(updated);
+save(“sprintTargets”, updated);
+setEditing(null);
+};
+
+return (
+<div className="fade-up" style={styles.section}>
+<Card d={d} title="🏃 Track Drills">
+<div style={{ display: “grid”, gridTemplateColumns: “1fr 1fr”, gap: 8 }}>
+{TRACK_DRILLS.map((drill, i) => (
+<div key={i} style={{ background: d.surface, borderRadius: 10, padding: “10px 12px” }}>
+<div style={{ fontWeight: 600, fontSize: 13 }}>{drill}</div>
+<div style={{ fontSize: 11, color: d.muted, marginTop: 2 }}>Warm-up drill</div>
+</div>
+))}
+</div>
+</Card>
+
+```
+  <Card d={d} title="⚡ Speed Gym Work">
+    {SPEED_EXERCISES.map((ex, i) => (
+      <div key={i} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 0", borderBottom: i < SPEED_EXERCISES.length - 1 ? `1px solid ${d.border}` : "none" }}>
+        <span style={{ fontWeight: 600, fontSize: 13 }}>{ex.name}</span>
+        <span style={{ fontSize: 11, color: d.muted, textAlign: "right" }}>{ex.benefit}</span>
+      </div>
+    ))}
+  </Card>
+
+  <Card d={d} title="📊 Sprint Targets">
+    <div style={{ fontSize: 11, color: d.muted, marginBottom: 12 }}>Tap ✏️ to update your current time or next goal</div>
+    <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+      {["100m", "200m"].map(event => {
+        const row = sprintTargets[event];
+        const pb = sprintPRs[event]?.time || "—";
+        const isEditing = editing === event;
+        return (
+          <div key={event} style={{ background: d.surface, borderRadius: 14, padding: 14, border: isEditing ? `1px solid ${GOLD}66` : `1px solid transparent`, transition: "border 0.2s" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+              <div style={{ fontFamily: "'Bebas Neue'", fontSize: 20, color: GOLD }}>{event}</div>
+              {isEditing ? (
+                <div style={{ display: "flex", gap: 6 }}>
+                  <button onClick={saveEdit} style={{ ...styles.btn, background: GOLD, color: "#000", padding: "4px 12px", fontSize: 11 }}>Save</button>
+                  <button onClick={() => setEditing(null)} style={{ ...styles.btn, background: d.card, color: d.muted, padding: "4px 10px", fontSize: 11 }}>Cancel</button>
+                </div>
+              ) : (
+                <button onClick={() => startEdit(event)} style={{ background: "transparent", border: `1px solid ${d.border}`, borderRadius: 8, padding: "4px 10px", cursor: "pointer", fontSize: 11, color: d.muted, fontFamily: "inherit" }}>✏️ Edit</button>
+              )}
+            </div>
+            <div style={{ display: "flex", gap: 10 }}>
+              {/* CURRENT */}
+              <div style={{ flex: 1, background: d.card, borderRadius: 10, padding: "10px 8px", textAlign: "center" }}>
+                <div style={{ fontSize: 9, color: d.muted, letterSpacing: 1, marginBottom: 4 }}>CURRENT</div>
+                {isEditing ? (
+                  <input type="text" value={editBuf.current} onChange={e => setEditBuf(p => ({ ...p, current: e.target.value }))}
+                    placeholder="e.g. 12.63"
+                    style={{ ...styles.input, width: "100%", textAlign: "center", padding: "4px 6px", fontSize: 13, fontWeight: 700, background: d.surface, color: d.text, border: `1px solid ${GOLD}66` }} />
+                ) : (
+                  <div style={{ fontWeight: 700, fontSize: 15 }}>{row.current}{row.current !== "—" ? "s" : ""}</div>
+                )}
+              </div>
+              {/* PB */}
+              <div style={{ flex: 1, background: `${GOLD}11`, borderRadius: 10, padding: "10px 8px", textAlign: "center", border: `1px solid ${GOLD}33` }}>
+                <div style={{ fontSize: 9, color: d.muted, letterSpacing: 1, marginBottom: 4 }}>PB</div>
+                <div style={{ fontWeight: 700, fontSize: 15, color: GOLD }}>{pb}{pb !== "—" ? "s" : ""}</div>
+              </div>
+              {/* TARGET */}
+              <div style={{ flex: 1, background: "#7EC8A411", borderRadius: 10, padding: "10px 8px", textAlign: "center", border: "1px solid #7EC8A433" }}>
+                <div style={{ fontSize: 9, color: d.muted, letterSpacing: 1, marginBottom: 4 }}>GOAL</div>
+                {isEditing ? (
+                  <input type="text" value={editBuf.target} onChange={e => setEditBuf(p => ({ ...p, target: e.target.value }))}
+                    placeholder="e.g. 12.10"
+                    style={{ ...styles.input, width: "100%", textAlign: "center", padding: "4px 6px", fontSize: 13, fontWeight: 700, background: d.surface, color: "#7EC8A4", border: "1px solid #7EC8A466" }} />
+                ) : (
+                  <div style={{ fontWeight: 700, fontSize: 15, color: "#7EC8A4" }}>{row.target}{row.target !== "—" ? "s" : ""}</div>
+                )}
+              </div>
+            </div>
+            {/* Progress bar */}
+            {!isEditing && row.current !== "—" && row.target !== "—" && (() => {
+              const start = parseFloat(row.current);
+              const goal = parseFloat(row.target);
+              const pbVal = parseFloat(pb);
+              const range = start - goal;
+              const progress = range > 0 ? Math.max(0, Math.min(100, ((start - pbVal) / range) * 100)) : 0;
+              return (
+                <div style={{ marginTop: 10 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", fontSize: 10, color: d.muted, marginBottom: 4 }}>
+                    <span>Progress to goal</span><span style={{ color: GOLD }}>{Math.round(progress)}%</span>
+                  </div>
+                  <div style={{ height: 4, borderRadius: 2, background: d.card }}>
+                    <div style={{ height: "100%", borderRadius: 2, width: `${progress}%`, background: `linear-gradient(90deg, ${GOLD}, #7EC8A4)`, transition: "width 0.6s ease" }} />
+                  </div>
+                </div>
+              );
+            })()}
+          </div>
+        );
+      })}
+    </div>
+  </Card>
+</div>
+```
+
+);
+}
+
+// ─── RECOVERY TAB ─────────────────────────────────────────────────────────────
+
+function RecoveryTab({ d }) {
+const [checked, setChecked] = useState(() => load(“recoveryChecked_” + new Date().toDateString(), {}));
+const toggle = (i) => { const u = { …checked, [i]: !checked[i] }; setChecked(u); save(“recoveryChecked_” + new Date().toDateString(), u); };
+
+return (
+<div className="fade-up" style={styles.section}>
+<Card d={d} title="🌿 Wednesday Recovery Protocol">
+{RECOVERY_ROUTINE.map((item, i) => (
+<div key={i} onClick={() => toggle(i)} style={{ display: “flex”, alignItems: “center”, gap: 12, padding: “10px 0”, borderBottom: i < RECOVERY_ROUTINE.length - 1 ? `1px solid ${d.border}` : “none”, cursor: “pointer” }}>
+<div style={{ width: 28, height: 28, borderRadius: “50%”, border: `2px solid ${checked[i] ? GOLD : d.border}`, background: checked[i] ? GOLD : “transparent”, display: “flex”, alignItems: “center”, justifyContent: “center”, flexShrink: 0, transition: “all 0.25s” }}>
+{checked[i] && <span style={{ fontSize: 12 }}>✓</span>}
+</div>
+<span style={{ fontSize: 22, flexShrink: 0 }}>{item.icon}</span>
+<div style={{ flex: 1 }}>
+<div style={{ fontWeight: 600, fontSize: 13, textDecoration: checked[i] ? “line-through” : “none”, color: checked[i] ? d.muted : d.text }}>{item.name}</div>
+<div style={{ fontSize: 11, color: d.muted }}>{item.duration}</div>
+</div>
+</div>
+))}
+<div style={{ marginTop: 12, fontSize: 12, color: d.muted, textAlign: “center” }}>
+{Object.values(checked).filter(Boolean).length}/{RECOVERY_ROUTINE.length} completed
+</div>
+</Card>
+
+```
+  <Card d={d} title="💧 Daily Reminders">
+    {[
+      { icon: "💧", text: "Drink 2L+ water daily", time: "All day" },
+      { icon: "😴", text: "Aim for 9–10 hrs sleep", time: "9:30 PM" },
+      { icon: "🥗", text: "Hit 90–100g protein", time: "Track meals" },
+      { icon: "🧘", text: "Stretch post-session", time: "Post workout" },
+      { icon: "📵", text: "No screens 30min before bed", time: "9:00 PM" },
+    ].map((r, i) => (
+      <div key={i} style={{ display: "flex", gap: 10, padding: "8px 0", borderBottom: i < 4 ? `1px solid ${d.border}` : "none", alignItems: "center" }}>
+        <span style={{ fontSize: 20 }}>{r.icon}</span>
+        <div style={{ flex: 1 }}>
+          <div style={{ fontSize: 13 }}>{r.text}</div>
+          <div style={{ fontSize: 11, color: d.muted }}>{r.time}</div>
+        </div>
+      </div>
+    ))}
+  </Card>
+</div>
+```
+
+);
+}
+
+// ─── SHARED COMPONENTS ────────────────────────────────────────────────────────
+
+function Card({ d, title, children }) {
+return (
+<div style={{ background: d.card, borderRadius: 20, padding: “16px”, border: `1px solid ${d.border}` }}>
+{title && <div style={{ fontWeight: 700, fontSize: 13, letterSpacing: 0.5, marginBottom: 14, color: d.text }}>{title}</div>}
+{children}
+</div>
+);
+}
+
+// ─── THEME ────────────────────────────────────────────────────────────────────
+
+const GOLD = “#C9A84C”;
+
+const DARK = {
+bg: “#0A0A0A”,
+card: “#111111”,
+surface: “#1A1A1A”,
+text: “#F0EDE8”,
+muted: “#666”,
+border: “#222”,
+};
+
+const LIGHT = {
+bg: “#F5F3EF”,
+card: “#FFFFFF”,
+surface: “#F0EDE8”,
+text: “#0A0A0A”,
+muted: “#888”,
+border: “#E8E4DC”,
+};
+
+// ─── STYLES ───────────────────────────────────────────────────────────────────
+
+const styles = {
+root: { maxWidth: 480, margin: “0 auto”, minHeight: “100vh” },
+header: { display: “flex”, alignItems: “center”, justifyContent: “space-between”, padding: “12px 16px”, position: “sticky”, top: 0, zIndex: 100 },
+headerLeft: { display: “flex”, alignItems: “baseline” },
+headerCenter: { flex: 1, textAlign: “center” },
+nav: { display: “flex”, overflowX: “auto”, position: “sticky”, top: 57, zIndex: 99 },
+navBtn: { flex: 1, minWidth: 48, padding: “8px 4px”, background: “transparent”, border: “none”, cursor: “pointer”, display: “flex”, flexDirection: “column”, alignItems: “center”, gap: 1, transition: “all 0.2s”, fontFamily: “inherit” },
+main: { padding: “16px” },
+section: { display: “flex”, flexDirection: “column”, gap: 14 },
+input: { padding: “8px 10px”, borderRadius: 10, fontSize: 13, outline: “none”, fontFamily: “inherit” },
+btn: { padding: “9px 14px”, borderRadius: 12, border: “none”, cursor: “pointer”, fontSize: 12, fontWeight: 600, fontFamily: “inherit”, transition: “all 0.2s” },
+circleBtn: { width: 36, height: 36, borderRadius: “50%”, border: “none”, cursor: “pointer”, fontSize: 18, fontWeight: 700, display: “flex”, alignItems: “center”, justifyContent: “center” },
+iconBtn: { width: 36, height: 36, borderRadius: 10, border: “none”, cursor: “pointer”, fontSize: 16, display: “flex”, alignItems: “center”, justifyContent: “center” },
+};
